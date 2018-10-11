@@ -20,7 +20,7 @@ module.exports = function validateLogin(data) {
   }
 
   return {
-    errors,
+    errors, //obiekt
     isValid: isEmpty(errors)
   };
 };
