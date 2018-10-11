@@ -18,7 +18,6 @@ app.use(bodyParser.json());
 //Map global promieses
 mongoose.Promise = global.Promise;
 //Mongoose connect
-
 mongoose
   .connect(
     keys.getDbConnectionString(),
