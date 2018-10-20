@@ -1,21 +1,22 @@
 const Validator = require("validator");
 const isEmpty = require("./is-empty");
 
-module.exports = function validateLogin(data) {
+module.exports = function validateLogin(arg) {
   let errors = {};
 
-  data.email = !isEmpty(data.email) ? data.email : "";
-  data.password = !isEmpty(data.password) ? data.password : "";
+  //Wykorzystanie is-empty.js
+  arg.email = !isEmpty(arg.email) ? arg.email : "";
+  arg.password = !isEmpty(arg.password) ? arg.password : "";
 
-  if (!Validator.isEmail(data.email)) {
+  if (!Validator.isEmail(arg.email)) {
     errors.email = "Email jest błędny";
   }
 
-  if (Validator.isEmpty(data.email)) {
+  if (Validator.isEmpty(arg.email)) {
     errors.email = "Należy podac adres email";
   }
 
-  if (Validator.isEmpty(data.password)) {
+  if (Validator.isEmpty(arg.password)) {
     errors.password = "Należy podac hasło";
   }
 

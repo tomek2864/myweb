@@ -12,6 +12,12 @@ const validateRegister = require("../../validator/register");
 
 const User = require("../../models/User");
 
+//Sprawdzenie users route
+// @route   GET api/users/test
+// @desc    Tests users route
+// @access  Public
+router.get("/test", (req, res) => res.json({ msg: "Users works" }));
+
 // @route GET api/users/register
 // @desc Register user
 // @access Public
@@ -40,13 +46,13 @@ router.post("/register", (req, res) => {
         password: req.body.password
       });
 
-      //hash the password, generate salt
+      //hash hasla, generate salt
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
           newUser.password = hash;
           newUser
-            .save()
+            .save() // zapis do db
             .then(user => res.json(user))
             .catch(err => console.log(err));
         });
@@ -69,13 +75,13 @@ router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  // Find user by email
+  // Przeszukanie bazy maili
   User.findOne({ email: req.body.email }).then(user => {
     if (!user) {
       errors.user = "Nie ma takiego użytkownika";
       return res.status(404).json(errors);
     }
-    //Check password
+    //Sprawdzanie hasla przez bcrypt
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         //Uzytkownik sprawdzony
@@ -86,11 +92,11 @@ router.post("/login", (req, res) => {
         jwt.sign(
           payload,
           keys.secretOrKey,
-          { expiresIn: 3600 },
+          { expiresIn: 3600 }, // ustawiony czas zycia tokenu
           (err, token) => {
             res.json({
               success: true,
-              token: "Bearer " + token
+              token: "Bearer " + token // Utworzenie tokenu
             });
           }
         );
