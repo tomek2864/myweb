@@ -14,10 +14,10 @@ module.exports = function validateRegister(arg) {
   }
 
   if (Validator.isEmpty(arg.name)) {
-    errors.name = "Pole Name jest wymagane";
+    errors.name = "Nazwa użytkownika jest wymagana";
   }
   if (Validator.isEmpty(arg.email)) {
-    errors.email = "Pole email jest wymagane";
+    errors.email = "Email jest wymagany";
   }
   if (!Validator.isEmail(arg.email)) {
     errors.email = "Email jest błędny";
