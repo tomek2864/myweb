@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -17,8 +18,9 @@ import {
   MuiThemeProvider,
   createMuiTheme
 } from "@material-ui/core/styles";
-import axios from "axios";
 import classnames from "classnames";
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
 
 const styles = theme => ({
   layout: {
@@ -125,6 +127,13 @@ class Register extends Component {
     };
   }
 
+  // utworzenie lifecycle metod, wywołanie kiedy komponent odbierze nowe propertis
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors }); //jeśli jest bład to ustawiamy go w stanie komponentu
+    }
+  }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -138,15 +147,13 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-    axios
-      .post("/api/users/register", newUser)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+    this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
     const { classes } = this.props;
     const { errors } = this.state; // to samo co | errors = this.state.errors
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -303,7 +310,18 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Register);
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withStyles(styles)(withRouter(Register)));

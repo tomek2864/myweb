@@ -6,6 +6,7 @@ const initialState = {};
 
 const middleware = [thunk];
 
+//tworzymy obiekt store, reducer(funkcja callback). Podczas tworzenia store Redux rejestruje funkcje reducer. Wywolana zostanie przez obiekt store w momencie rozgloszenia akcji
 const store = createStore(
   rootReducer,
   initialState,
