@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import classNames from "classnames";
+import { loginUser } from "../../actions/authActions";
 import {
   Avatar,
   Button,
@@ -10,7 +13,8 @@ import {
   Input,
   InputLabel,
   Typography,
-  Paper
+  Paper,
+  FormHelperText
 } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/LockOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -92,9 +96,18 @@ const styles = theme => ({
   },
   cssFocused: {},
   cssUnderline: {
+    borderBottom: "2px solid white",
     "&:after": {
       borderBottomColor: "#242249"
     }
+  },
+  cssUnderlineErrorState: {
+    "&:after": {
+      borderBottomColor: "#ff0000"
+    }
+  },
+  formHelperText: {
+    color: "#ff0000"
   }
 });
 
@@ -108,19 +121,37 @@ class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = e => {
     e.preventDefault();
-    const logUser = {
+    const userData = {
       email: this.state.email,
       password: this.state.password
     };
-    console.log(logUser);
+
+    this.props.loginUser(userData);
   };
 
   render() {
+    const { errors } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
@@ -132,7 +163,7 @@ class Login extends Component {
             </Avatar>
             <Typography variant="headline">Logowanie</Typography>
             <form className={classes.form}>
-              <FormControl margin="normal" required fullWidth>
+              <FormControl margin="normal" fullWidth>
                 <InputLabel
                   classes={{
                     root: classes.cssLabel,
@@ -149,12 +180,20 @@ class Login extends Component {
                   value={this.state.email}
                   onChange={this.onChange}
                   autoFocus
-                  classes={{
-                    underline: classes.cssUnderline
-                  }}
+                  className={classNames(classes.cssUnderline, {
+                    [classes.cssUnderlineErrorState]: errors.email
+                  })}
                 />
+                {errors.email && (
+                  <FormHelperText
+                    className={classes.formHelperText}
+                    id="email-error"
+                  >
+                    {errors.email}
+                  </FormHelperText>
+                )}
               </FormControl>
-              <FormControl margin="normal" required fullWidth>
+              <FormControl margin="normal" fullWidth>
                 <InputLabel
                   classes={{
                     root: classes.cssLabel,
@@ -171,10 +210,18 @@ class Login extends Component {
                   value={this.state.password}
                   onChange={this.onChange}
                   autoComplete="current-password"
-                  classes={{
-                    underline: classes.cssUnderline
-                  }}
+                  className={classNames(classes.cssUnderline, {
+                    [classes.cssUnderlineErrorState]: errors.password
+                  })}
                 />
+                {errors.password && (
+                  <FormHelperText
+                    className={classes.formHelperText}
+                    id="password-error"
+                  >
+                    {errors.password}
+                  </FormHelperText>
+                )}
               </FormControl>
               <FormControlLabel
                 control={
@@ -210,4 +257,18 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Login);
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(withStyles(styles)(Login));

@@ -18,7 +18,7 @@ import {
   MuiThemeProvider,
   createMuiTheme
 } from "@material-ui/core/styles";
-import classnames from "classnames";
+import classNames from "classnames";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 
@@ -116,8 +116,8 @@ const theme = createMuiTheme({
 });
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: "",
       email: "",
@@ -182,7 +182,7 @@ class Register extends Component {
                     value={this.state.name}
                     onChange={this.onChange}
                     autoFocus //kursor w text formie
-                    className={classnames(classes.cssUnderline, {
+                    className={classNames(classes.cssUnderline, {
                       [classes.cssUnderlineErrorState]: errors.name
                     })}
                   />
@@ -214,7 +214,7 @@ class Register extends Component {
                     autoComplete="email"
                     value={this.state.email} //wymagany jest event zmiany text formu
                     onChange={this.onChange}
-                    className={classnames(classes.cssUnderline, {
+                    className={classNames(classes.cssUnderline, {
                       [classes.cssUnderlineErrorState]: errors.email
                     })}
                   />
@@ -246,7 +246,7 @@ class Register extends Component {
                     autoComplete="current-password"
                     value={this.state.password}
                     onChange={this.onChange}
-                    className={classnames(classes.cssUnderline, {
+                    className={classNames(classes.cssUnderline, {
                       [classes.cssUnderlineErrorState]: errors.password
                     })}
                   />
@@ -278,7 +278,7 @@ class Register extends Component {
                     autoComplete="current-password2"
                     value={this.state.password2}
                     onChange={this.onChange}
-                    className={classnames(classes.cssUnderline, {
+                    className={classNames(classes.cssUnderline, {
                       [classes.cssUnderlineErrorState]: errors.password2
                     })}
                   />

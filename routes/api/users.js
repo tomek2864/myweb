@@ -76,9 +76,9 @@ router.post("/login", (req, res) => {
   const password = req.body.password;
 
   // Przeszukanie bazy maili
-  User.findOne({ email: req.body.email }).then(user => {
+  User.findOne({ email }).then(user => {
     if (!user) {
-      errors.user = "Nie ma takiego użytkownika";
+      errors.email = "Nie ma takiego użytkownika";
       return res.status(404).json(errors);
     }
     //Sprawdzanie hasla przez bcrypt
