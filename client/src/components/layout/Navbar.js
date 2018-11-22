@@ -19,6 +19,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
 
 const styles = theme => ({
   root: {
@@ -104,12 +106,16 @@ const styles = theme => ({
   }
 });
 
-class PrimarySearchAppBar extends React.Component {
+class Navbar extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
     mobileMoreAnchorE2: null
   };
+  onLogoutClick(e) {
+    e.preventDefault();
+    this.props.logoutUser();
+  }
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -143,6 +149,67 @@ class PrimarySearchAppBar extends React.Component {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const isMobileMenuNavbarOpen = Boolean(mobileMoreAnchorE2);
 
+    const { isAuthenticated, user } = this.props.auth;
+
+    const authLinksButtons = (
+      <div>
+        <Button
+          className={classes.buttonNav}
+          component={Link}
+          to="/dashboard"
+          color="inherit"
+        >
+          Dashboard
+        </Button>
+      </div>
+    );
+
+    const guestLinksButtons = (
+      <div>
+        <Button
+          className={classes.buttonNav}
+          component={Link}
+          to="/login"
+          color="inherit"
+        >
+          Login
+        </Button>
+        <Button
+          className={classes.buttonNav}
+          component={Link}
+          to="/register"
+          color="inherit"
+        >
+          Rejestracja
+        </Button>
+      </div>
+    );
+
+    const authLinksIconButton = (
+      <div>
+        <IconButton color="inherit">
+          <Badge badgeContent={4} color="secondary">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <IconButton color="inherit">
+          <Badge badgeContent={17} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <IconButton
+          aria-owns={isMenuOpen ? "material-appbar" : undefined}
+          aria-haspopup="true"
+          onClick={this.handleProfileMenuOpen}
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+      </div>
+    );
+
+    const guestLinksIconButtons = <div />;
+
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -153,6 +220,7 @@ class PrimarySearchAppBar extends React.Component {
       >
         <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={this.onLogoutClick.bind(this)}>Wyloguj</MenuItem>
       </Menu>
     );
 
@@ -256,46 +324,14 @@ class PrimarySearchAppBar extends React.Component {
                     justify="space-between"
                     alignItems="stretch"
                   >
-                    <Button
-                      className={classes.buttonNav}
-                      component={Link}
-                      to="/login"
-                      color="inherit"
-                    >
-                      Login
-                    </Button>
-                    <Button
-                      className={classes.buttonNav}
-                      component={Link}
-                      to="/register"
-                      color="inherit"
-                    >
-                      Rejestracja
-                    </Button>
+                    {isAuthenticated ? authLinksButtons : guestLinksButtons}
                     <Button className={classes.buttonNav} color="inherit">
                       Kontakt
                     </Button>
                   </Grid>
                 </Grid>
               </Toolbar>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? "material-appbar" : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              {isAuthenticated ? authLinksIconButton : guestLinksIconButtons}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
@@ -316,8 +352,20 @@ class PrimarySearchAppBar extends React.Component {
   }
 }
 
-PrimarySearchAppBar.propTypes = {
+Navbar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+Navbar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(PrimarySearchAppBar);
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(withStyles(styles)(Navbar));

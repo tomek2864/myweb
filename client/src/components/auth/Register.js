@@ -127,8 +127,17 @@ class Register extends Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
   // utworzenie lifecycle metod, wywołanie kiedy komponent odbierze nowe propertis
   componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors }); //jeśli jest bład to ustawiamy go w stanie komponentu
     }
