@@ -112,6 +112,9 @@ const theme = createMuiTheme({
     primary: {
       main: "#3f50b5"
     }
+  },
+  typography: {
+    useNextVariants: true
   }
 });
 
@@ -177,8 +180,8 @@ class Register extends Component {
                 <MuiThemeProvider theme={theme}>
                   <InputLabel
                     classes={{
-                      root: classes.cssLabel,
-                      focused: classes.cssFocused
+                      root: classes.cssLabel
+                      //focused: classes.cssFocused
                     }}
                     htmlFor="name"
                   >
@@ -210,8 +213,8 @@ class Register extends Component {
                 <MuiThemeProvider theme={theme}>
                   <InputLabel
                     classes={{
-                      root: classes.cssLabel,
-                      focused: classes.cssFocused
+                      root: classes.cssLabel
+                      //focused: classes.cssFocused
                     }}
                     htmlFor="email"
                   >
@@ -241,8 +244,8 @@ class Register extends Component {
                 <MuiThemeProvider theme={theme}>
                   <InputLabel
                     classes={{
-                      root: classes.cssLabel,
-                      focused: classes.cssFocused
+                      root: classes.cssLabel
+                      //focused: classes.cssFocused
                     }}
                     htmlFor="password"
                   >
@@ -273,8 +276,8 @@ class Register extends Component {
                 <MuiThemeProvider theme={theme}>
                   <InputLabel
                     classes={{
-                      root: classes.cssLabel,
-                      focused: classes.cssFocused
+                      root: classes.cssLabel
+                      //focused: classes.cssFocused
                     }}
                     htmlFor="password2"
                   >

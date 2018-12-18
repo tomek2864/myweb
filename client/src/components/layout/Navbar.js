@@ -21,6 +21,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { clearCurrentProfile } from "../../actions/profileActions";
 
 const styles = theme => ({
   root: {
@@ -114,7 +115,9 @@ class Navbar extends React.Component {
   };
   onLogoutClick(e) {
     e.preventDefault();
+    this.handleMobileMenuClose();
     this.props.logoutUser();
+    this.props.clearCurrentProfile();
   }
 
   handleProfileMenuOpen = event => {
@@ -151,6 +154,7 @@ class Navbar extends React.Component {
 
     const { isAuthenticated, user } = this.props.auth;
 
+    //Menu przyciski zwykle
     const authLinksButtons = (
       <div>
         <Button
@@ -163,7 +167,6 @@ class Navbar extends React.Component {
         </Button>
       </div>
     );
-
     const guestLinksButtons = (
       <div>
         <Button
@@ -183,6 +186,38 @@ class Navbar extends React.Component {
           Rejestracja
         </Button>
       </div>
+    );
+
+    //Menu przyciski chowane dla wersji mobilnej
+    const authLinkButtonsMobile = (
+      <Menu
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+        open={isMobileMenuNavbarOpen}
+        onClose={this.handleMobileMenuNavbarClose}
+      >
+        <MenuItem>
+          <Link to="/contact">Kontakt</Link>
+        </MenuItem>
+      </Menu>
+    );
+    const guestLinksButtonsMobile = (
+      <Menu
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+        open={isMobileMenuNavbarOpen}
+        onClose={this.handleMobileMenuNavbarClose}
+      >
+        <MenuItem>
+          <Link to="/login">Logowanie</Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to="/register">Rejestracja</Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to="/contact">Kontakt</Link>
+        </MenuItem>
+      </Menu>
     );
 
     const authLinksIconButton = (
@@ -210,6 +245,39 @@ class Navbar extends React.Component {
 
     const guestLinksIconButtons = <div />;
 
+    const authLinksIconButtonMobile = (
+      <IconButton
+        aria-haspopup="true"
+        onClick={this.handleMobileMenuOpen}
+        color="inherit"
+      >
+        <MoreIcon />
+      </IconButton>
+    );
+
+    const guestLinksIconButtonsMobile = <div />;
+
+    const authLinkControlMobile = (
+      <Menu
+        anchorEl={mobileMoreAnchorEl}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        open={isMobileMenuOpen}
+        onClose={this.handleMobileMenuClose}
+      >
+        <MenuItem>
+          <p>Dashboard</p>
+        </MenuItem>
+        <MenuItem onClick={this.handleProfileMenuOpen}>
+          <IconButton color="inherit">
+            <AccountCircle />
+          </IconButton>
+          <p>Profile</p>
+        </MenuItem>
+        <MenuItem onClick={this.onLogoutClick.bind(this)}>Wyloguj</MenuItem>
+      </Menu>
+    );
+
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -224,70 +292,11 @@ class Navbar extends React.Component {
       </Menu>
     );
 
-    const renderMobileMenu = (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        open={isMobileMenuOpen}
-        onClose={this.handleMobileMenuClose}
-      >
-        <MenuItem>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <p>Messages</p>
-        </MenuItem>
-        <MenuItem>
-          <IconButton color="inherit">
-            <Badge badgeContent={11} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
-      </Menu>
-    );
+    const renderMobileMenu = isAuthenticated ? authLinkControlMobile : false;
 
-    const renderMobileNavbarMenu = (
-      <Menu
-        anchorOrigin={{ vertical: "top", horizontal: "left" }}
-        transformOrigin={{ vertical: "top", horizontal: "left" }}
-        open={isMobileMenuNavbarOpen}
-        onClose={this.handleMobileMenuNavbarClose}
-      >
-        <MenuItem>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <p>O mnie</p>
-        </MenuItem>
-        <MenuItem>
-          <IconButton color="inherit">
-            <Badge badgeContent={11} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Projekty</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Kontakt</p>
-        </MenuItem>
-      </Menu>
-    );
+    const renderMobileNavbarMenu = isAuthenticated
+      ? authLinkButtonsMobile
+      : guestLinksButtonsMobile;
 
     return (
       <div className={classes.root}>
@@ -334,13 +343,9 @@ class Navbar extends React.Component {
               {isAuthenticated ? authLinksIconButton : guestLinksIconButtons}
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton
-                aria-haspopup="true"
-                onClick={this.handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
+              {isAuthenticated
+                ? authLinksIconButtonMobile
+                : guestLinksIconButtonsMobile}
             </div>
           </Toolbar>
         </AppBar>
@@ -367,5 +372,5 @@ Navbar.propTypes = {
 
 export default connect(
   mapStateToProps,
-  { logoutUser }
+  { logoutUser, clearCurrentProfile }
 )(withStyles(styles)(Navbar));

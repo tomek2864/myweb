@@ -17,7 +17,11 @@ import {
   FormHelperText
 } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/LockOutlined";
-import withStyles from "@material-ui/core/styles/withStyles";
+import {
+  withStyles,
+  MuiThemeProvider,
+  createMuiTheme
+} from "@material-ui/core/styles";
 
 const styles = theme => ({
   checkbox: {
@@ -111,6 +115,14 @@ const styles = theme => ({
   }
 });
 
+//Migracja do typography, od wersji v4.0.0 i będzie juz starej wersji
+//https://material-ui.com/style/typography/#migration-to-typography-v2
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  }
+});
+
 class Login extends Component {
   constructor() {
     super();
@@ -166,8 +178,8 @@ class Login extends Component {
               <FormControl margin="normal" fullWidth>
                 <InputLabel
                   classes={{
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused
+                    root: classes.cssLabel
+                    //focused: classes.cssFocused
                   }}
                   htmlFor="email"
                 >
@@ -196,8 +208,8 @@ class Login extends Component {
               <FormControl margin="normal" fullWidth>
                 <InputLabel
                   classes={{
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused
+                    root: classes.cssLabel
+                    //focused: classes.cssFocused
                   }}
                   htmlFor="password"
                 >

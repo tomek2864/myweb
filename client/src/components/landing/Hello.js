@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import { Typography, MenuItem, Button, Icon } from "@material-ui/core/";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 
 const styles = theme => ({
   root: {
@@ -27,13 +28,21 @@ class Hello extends Component {
         <Paper className={classes.root} elevation={1}>
           <Typography className={classes.text} variant="h3">
             Witaj! <br />
-            Nazywam się Tomasz Sobczak{" "}
-            <i
-              className="fab fa-linkedin "
-              component={Link}
-              path="https://www.linkedin.com/in/tomaszsobczak7/"
-            />
+            Nazywam się Tomasz Sobczak
             <br />
+            <Button
+              href="https://www.linkedin.com/in/tomaszsobczak7/"
+              style={{
+                backgroundColor: "#5cb85c",
+                color: "black"
+              }}
+            >
+              <i
+                component={Link}
+                target="_blank"
+                className="fab fa-linkedin "
+              />
+            </Button>
             Zajmuje się elektroniką <br />
             oraz tworzeniem oprogramowania.
           </Typography>
