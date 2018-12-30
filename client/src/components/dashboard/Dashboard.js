@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../actions/profileActions";
-import Spinner from "../common/Spinner";
+import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
+import ProfileActions from "../dashboard/ProfileActions";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -16,7 +17,7 @@ import { Link } from "react-router-dom";
 
 const styles = {
   card: {
-    maxWidth: 400,
+    maxWidth: 600,
     marginBottom: 25,
     marginTop: 25,
     marginLeft: "auto",
@@ -38,6 +39,11 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
   }
+
+  onDeleteClick = e => {
+    this.props.deleteAccount();
+  };
+
   render() {
     const { classes } = this.props;
     const { user } = this.props.auth;
@@ -48,7 +54,24 @@ class Dashboard extends Component {
     } else {
       //Sprawdzenie czy zalogowany uzytkownik ma utworzony profil
       if (Object.keys(profile).length > 0) {
-        dashContent = <h4>TODO: Wuświetlanie profiu</h4>;
+        dashContent = (
+          <div>
+            <p>
+              Witaj <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+            </p>
+            <ProfileActions />
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              className={classes.submit}
+              onClick={this.onDeleteClick}
+            >
+              Usuń konto
+              <DeleteIcon className={classes.rightIcon} />
+            </Button>
+          </div>
+        );
       } else {
         //Uzytkownik nie posiada profilu
         dashContent = (
@@ -83,6 +106,7 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
@@ -95,5 +119,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteAccount }
 )(withStyles(styles)(Dashboard));

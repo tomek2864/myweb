@@ -18,8 +18,8 @@ import {
 } from "@material-ui/core";
 
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
-
-import { createProfile } from "../../actions/profileActions";
+import { createProfile, getCurrentProfile } from "../../actions/profileActions";
+import isEmpty from "../../validation/is-empty";
 
 const styles = theme => ({
   layout: {
@@ -105,6 +105,7 @@ class CreateProfile extends Component {
   }
 
   componentDidMount() {
+    this.props.getCurrentProfile();
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
     });
@@ -113,6 +114,34 @@ class CreateProfile extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.profile.profile) {
+      const profile = nextProps.profile.profile;
+
+      const skillsCSV = profile.skills.join(",");
+
+      profile.company = !isEmpty(profile.company) ? profile.company : "";
+      profile.website = !isEmpty(profile.website) ? profile.website : "";
+      profile.location = !isEmpty(profile.location) ? profile.location : "";
+      profile.githubusername = !isEmpty(profile.githubusername)
+        ? profile.githubusername
+        : "";
+      /*profile.linkedin = !isEmpty(profile.social.linkedin)
+        ? profile.social.linkedin
+        : "";*/
+
+      this.setState({
+        handle: profile.handle,
+        company: profile.company,
+        website: profile.website,
+        location: profile.location,
+        githubusername: profile.githubusername,
+        status: profile.status,
+        //linkedin: profile.linkedin,
+
+        skills: skillsCSV //!
+      });
     }
   }
 
@@ -436,6 +465,8 @@ class CreateProfile extends Component {
 }
 
 CreateProfile.propTypes = {
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -448,7 +479,7 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { createProfile }
+    { createProfile, getCurrentProfile }
   )(withStyles(styles)(CreateProfile))
 );
 
