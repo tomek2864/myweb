@@ -24,7 +24,7 @@ const ProfileActions = () => {
         type="submit"
         variant="contained"
         color="primary"
-        to="/experience"
+        to="/create-experience"
       >
         Wykształcenie
       </Button>
@@ -33,7 +33,7 @@ const ProfileActions = () => {
         type="submit"
         variant="contained"
         color="primary"
-        to="/education"
+        to="/create-education"
       >
         Edukacja
       </Button>
