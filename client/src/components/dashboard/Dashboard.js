@@ -9,8 +9,10 @@ import {
   CardActions,
   CardContent,
   Button,
-  Typography
+  Typography,
+  LinearProgress
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const styles = {
   card: {
@@ -42,7 +44,7 @@ class Dashboard extends Component {
     const { profile, loading } = this.props.profile;
     let dashContent;
     if (profile === null || loading) {
-      dashContent = <Spinner />;
+      dashContent = <LinearProgress />; //<Spinner />;
     } else {
       //Sprawdzenie czy zalogowany uzytkownik ma utworzony profil
       if (Object.keys(profile).length > 0) {
@@ -54,7 +56,12 @@ class Dashboard extends Component {
             <p>Witaj {user.name}</p>
             <p>Utwórz swój profil.</p>
             <CardActions>
-              <Button className={classes.button} size="small">
+              <Button
+                className={classes.button}
+                component={Link}
+                size="small"
+                to="/create-profile"
+              >
                 Utworz profil
               </Button>
             </CardActions>
