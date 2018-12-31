@@ -6,17 +6,20 @@ import {
   Paper,
   Typography,
   FormControl,
-  InputLabel,
+  Checkbox,
   TextField,
   Grid,
-  Select,
+  FormControlLabel,
   OutlinedInput,
   MenuItem,
   FormHelperText,
   Button
 } from "@material-ui/core";
 
+import { DatePicker } from "material-ui-pickers";
+
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
+import { addExperience } from "../../actions/profileActions";
 
 const styles = theme => ({
   layout: {
@@ -42,6 +45,10 @@ const styles = theme => ({
   textField: {
     width: "auto",
     display: "flex",
+    margin: theme.spacing.unit
+  },
+  dateField: {
+    width: "auto",
     margin: theme.spacing.unit
   },
   headerText: {
@@ -90,12 +97,37 @@ class CreateExperience extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit = e => {
     e.preventDefault();
+
+    const expData = {
+      company: this.state.company,
+      title: this.state.title,
+      location: this.state.location,
+      from: this.state.from,
+      to: this.state.to,
+      current: this.state.current,
+      description: this.state.description
+    };
+
+    this.props.addExperience(expData, this.props.history);
+  };
+
+  checkChange = e => {
+    this.setState({
+      disabled: !this.state.disabled,
+      current: !this.state.current
+    });
   };
 
   render() {
@@ -165,7 +197,7 @@ class CreateExperience extends Component {
                 <FormHelperText className={classes.helpText}>
                   Podaj nazwę firmy.
                 </FormHelperText>
-                {errors.handle && (
+                {errors.company && (
                   <FormHelperText
                     className={classes.helpTextError}
                     id="company-error"
@@ -194,7 +226,7 @@ class CreateExperience extends Component {
                 <FormHelperText className={classes.helpText}>
                   Nazwa stanowiska pełnionego w firmie.
                 </FormHelperText>
-                {errors.handle && (
+                {errors.title && (
                   <FormHelperText
                     className={classes.helpTextError}
                     id="title-error"
@@ -223,12 +255,85 @@ class CreateExperience extends Component {
                 <FormHelperText className={classes.helpText}>
                   Miejscowość gdzie znajduje się firma.
                 </FormHelperText>
-                {errors.handle && (
+                {errors.location && (
                   <FormHelperText
                     className={classes.helpTextError}
                     id="location-error"
                   >
                     {errors.location}
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid className={classes.grid} item xs />
+            </Grid>
+            <Grid container>
+              <Grid className={classes.grid} item xs />
+              <Grid className={classes.grid} item xs={8}>
+                <DatePicker
+                  id="from"
+                  margin="normal"
+                  label="Date picker"
+                  value={this.state.from}
+                  onChange={this.onChange}
+                />
+                <TextField
+                  id="from"
+                  label="Data rozpoczęcia"
+                  type="date"
+                  defaultValue="2010-01-01"
+                  className={classes.dateField}
+                  value={this.state.from}
+                  onChange={this.onChange}
+                  error={errors.from}
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+
+                <TextField
+                  id="to"
+                  label="Data zakończenia"
+                  type="date"
+                  defaultValue="2010-01-01"
+                  className={classes.dateField}
+                  value={this.state.to}
+                  onChange={this.onChange}
+                  error={errors.to}
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  disabled={this.state.disabled ? "disabled" : ""}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      id="current"
+                      label="Aktualnie zatrudniony"
+                      checked={this.state.current}
+                      onChange={this.checkChange}
+                      value={this.state.current}
+                      color="primary"
+                    />
+                  }
+                  label="Aktualnie zatrudniony"
+                />
+
+                <FormHelperText className={classes.helpText}>
+                  Określ okres pracy w pracy.
+                </FormHelperText>
+                {errors.from && (
+                  <FormHelperText
+                    className={classes.helpTextError}
+                    id="from-error"
+                  >
+                    {errors.from}
                   </FormHelperText>
                 )}
               </Grid>
@@ -257,6 +362,7 @@ class CreateExperience extends Component {
 }
 
 CreateExperience.propTypes = {
+  addExperience: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -269,6 +375,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { CreateExperience }
+    { addExperience }
   )(withStyles(styles)(CreateExperience))
 );

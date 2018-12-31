@@ -6,7 +6,7 @@ import {
   Paper,
   Typography,
   FormControl,
-  InputLabel,
+  Checkbox,
   TextField,
   Grid,
   Select,
@@ -17,6 +17,8 @@ import {
 } from "@material-ui/core";
 
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
+
+import { addEducation } from "../../actions/profileActions";
 
 const styles = theme => ({
   layout: {
@@ -90,12 +92,37 @@ class CreateEducation extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  checkChange = e => {
+    this.setState({
+      disabled: !this.state.disabled,
+      current: !this.state.current
+    });
+  };
+
   onSubmit = e => {
     e.preventDefault();
+
+    const eduData = {
+      school: this.state.school,
+      degree: this.state.degree,
+      fieldofstudy: this.state.fieldofstudy,
+      from: this.state.from,
+      to: this.state.to,
+      current: this.state.current,
+      description: this.state.description
+    };
+
+    this.props.addEducation(eduData, this.props.history);
   };
 
   render() {
@@ -164,7 +191,7 @@ class CreateEducation extends Component {
                 <FormHelperText className={classes.helpText}>
                   Podaj nazwę szkoły.
                 </FormHelperText>
-                {errors.handle && (
+                {errors.school && (
                   <FormHelperText
                     className={classes.helpTextError}
                     id="school-error"
@@ -193,7 +220,7 @@ class CreateEducation extends Component {
                 <FormHelperText className={classes.helpText}>
                   Ocena z ukończenia szkoły.
                 </FormHelperText>
-                {errors.handle && (
+                {errors.degree && (
                   <FormHelperText
                     className={classes.helpTextError}
                     id="degree-error"
@@ -222,7 +249,7 @@ class CreateEducation extends Component {
                 <FormHelperText className={classes.helpText}>
                   Podaj na co były ukierunkowane zajęcia w szole.
                 </FormHelperText>
-                {errors.handle && (
+                {errors.fieldofstudy && (
                   <FormHelperText
                     className={classes.helpTextError}
                     id="fieldofstudy-error"
@@ -255,6 +282,12 @@ class CreateEducation extends Component {
   }
 }
 
+CreateEducation.propTypes = {
+  addEducation: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => ({
   profile: state.profile,
   errors: state.errors
@@ -263,6 +296,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { CreateEducation }
+    { addEducation }
   )(withStyles(styles)(CreateEducation))
 );
