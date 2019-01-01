@@ -16,10 +16,12 @@ import {
   Button
 } from "@material-ui/core";
 
-import { DatePicker } from "material-ui-pickers";
-
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
 import { addExperience } from "../../actions/profileActions";
+
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "material-ui-pickers";
+import { DatePicker } from "material-ui-pickers";
 
 const styles = theme => ({
   layout: {
@@ -81,6 +83,12 @@ const styles = theme => ({
   }
 });
 
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  }
+});
+
 class CreateExperience extends Component {
   constructor(props) {
     super(props);
@@ -88,8 +96,8 @@ class CreateExperience extends Component {
       company: "",
       title: "",
       location: "",
-      from: "",
-      to: "",
+      from: "2017-01-01T00:00:00.000Z",
+      to: "2018-01-01T00:00:00.000Z",
       current: false,
       description: "",
       errors: {},
@@ -105,6 +113,14 @@ class CreateExperience extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleDateChangeFrom = date => {
+    this.setState({ from: date });
+  };
+
+  handleDateChangeTo = date => {
+    this.setState({ to: date });
   };
 
   onSubmit = e => {
@@ -269,14 +285,7 @@ class CreateExperience extends Component {
             <Grid container>
               <Grid className={classes.grid} item xs />
               <Grid className={classes.grid} item xs={8}>
-                <DatePicker
-                  id="from"
-                  margin="normal"
-                  label="Date picker"
-                  value={this.state.from}
-                  onChange={this.onChange}
-                />
-                <TextField
+                {/* <TextField
                   id="from"
                   label="Data rozpoczęcia"
                   type="date"
@@ -291,13 +300,77 @@ class CreateExperience extends Component {
                   InputLabelProps={{
                     shrink: true
                   }}
-                />
+                /> */}
 
-                <TextField
+                <MuiPickersUtilsProvider
+                  className={classes.dateField}
+                  utils={DateFnsUtils}
+                >
+                  <DatePicker
+                    keyboard
+                    label="Data rozpoczęcia"
+                    format="dd/MM/yyyy"
+                    placeholder="10/10/2018"
+                    // handle clearing outside => pass plain array if you are not controlling value outside
+                    mask={value =>
+                      value
+                        ? [
+                            /\d/,
+                            /\d/,
+                            "/",
+                            /\d/,
+                            /\d/,
+                            "/",
+                            /\d/,
+                            /\d/,
+                            /\d/,
+                            /\d/
+                          ]
+                        : []
+                    }
+                    value={this.state.from}
+                    onChange={this.handleDateChangeFrom}
+                    disableOpenOnEnter
+                    animateYearScrolling={false}
+                    margin="normal"
+                    variant="outlined"
+                  />
+                  <DatePicker
+                    keyboard
+                    label="Data zakończenia"
+                    format="dd/MM/yyyy"
+                    placeholder="10/10/2018"
+                    // handle clearing outside => pass plain array if you are not controlling value outside
+                    mask={value =>
+                      value
+                        ? [
+                            /\d/,
+                            /\d/,
+                            "/",
+                            /\d/,
+                            /\d/,
+                            "/",
+                            /\d/,
+                            /\d/,
+                            /\d/,
+                            /\d/
+                          ]
+                        : []
+                    }
+                    value={this.state.to}
+                    onChange={this.handleDateChangeTo}
+                    disableOpenOnEnter
+                    animateYearScrolling={false}
+                    disabled={this.state.disabled ? "disabled" : ""}
+                    margin="normal"
+                    variant="outlined"
+                  />
+                </MuiPickersUtilsProvider>
+
+                {/* <TextField
                   id="to"
                   label="Data zakończenia"
                   type="date"
-                  defaultValue="2010-01-01"
                   className={classes.dateField}
                   value={this.state.to}
                   onChange={this.onChange}
@@ -309,7 +382,7 @@ class CreateExperience extends Component {
                   InputLabelProps={{
                     shrink: true
                   }}
-                />
+                /> */}
 
                 <FormControlLabel
                   control={
