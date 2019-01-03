@@ -15,9 +15,11 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+import Experience from "./Experience";
+
 const styles = {
   card: {
-    maxWidth: 600,
+    maxWidth: 1000,
     marginBottom: 25,
     marginTop: 25,
     marginLeft: "auto",
@@ -60,6 +62,7 @@ class Dashboard extends Component {
               Witaj <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
             </p>
             <ProfileActions />
+            <Experience experience={profile.experience} />
             <Button
               type="submit"
               variant="contained"

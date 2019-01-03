@@ -5,13 +5,10 @@ import PropTypes from "prop-types";
 import {
   Paper,
   Typography,
-  FormControl,
   Checkbox,
   TextField,
   Grid,
   FormControlLabel,
-  OutlinedInput,
-  MenuItem,
   FormHelperText,
   Button
 } from "@material-ui/core";
@@ -125,18 +122,29 @@ class CreateExperience extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
-    const expData = {
-      company: this.state.company,
-      title: this.state.title,
-      location: this.state.location,
-      from: this.state.from,
-      to: this.state.to,
-      current: this.state.current,
-      description: this.state.description
-    };
-
-    this.props.addExperience(expData, this.props.history);
+    if (this.state.current === true) {
+      const expData = {
+        company: this.state.company,
+        title: this.state.title,
+        location: this.state.location,
+        from: this.state.from,
+        to: "",
+        current: this.state.current,
+        description: this.state.description
+      };
+      this.props.addExperience(expData, this.props.history);
+    } else {
+      const expData = {
+        company: this.state.company,
+        title: this.state.title,
+        location: this.state.location,
+        from: this.state.from,
+        to: this.state.to,
+        current: this.state.current,
+        description: this.state.description
+      };
+      this.props.addExperience(expData, this.props.history);
+    }
   };
 
   checkChange = e => {
@@ -334,6 +342,7 @@ class CreateExperience extends Component {
                     animateYearScrolling={false}
                     margin="normal"
                     variant="outlined"
+                    error={errors.from}
                   />
                   <DatePicker
                     keyboard
@@ -364,6 +373,7 @@ class CreateExperience extends Component {
                     disabled={this.state.disabled ? "disabled" : ""}
                     margin="normal"
                     variant="outlined"
+                    error={errors.to}
                   />
                 </MuiPickersUtilsProvider>
 

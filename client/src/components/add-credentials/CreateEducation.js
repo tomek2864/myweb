@@ -5,20 +5,20 @@ import PropTypes from "prop-types";
 import {
   Paper,
   Typography,
-  FormControl,
   Checkbox,
   TextField,
   Grid,
-  Select,
-  OutlinedInput,
-  MenuItem,
   FormHelperText,
+  FormControlLabel,
   Button
 } from "@material-ui/core";
 
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
-
 import { addEducation } from "../../actions/profileActions";
+
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "material-ui-pickers";
+import { DatePicker } from "material-ui-pickers";
 
 const styles = theme => ({
   layout: {
@@ -83,8 +83,8 @@ class CreateEducation extends Component {
       school: "",
       degree: "",
       fieldofstudy: "",
-      from: "",
-      to: "",
+      from: "2017-01-01T00:00:00.000Z",
+      to: "2018-01-01T00:00:00.000Z",
       current: false,
       description: "",
       errors: {},
@@ -100,6 +100,14 @@ class CreateEducation extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleDateChangeFrom = date => {
+    this.setState({ from: date });
+  };
+
+  handleDateChangeTo = date => {
+    this.setState({ to: date });
   };
 
   checkChange = e => {
@@ -247,7 +255,7 @@ class CreateEducation extends Component {
                   fullWidth
                 />
                 <FormHelperText className={classes.helpText}>
-                  Podaj na co były ukierunkowane zajęcia w szole.
+                  Podaj na co były ukierunkowane zajęcia w szkole.
                 </FormHelperText>
                 {errors.fieldofstudy && (
                   <FormHelperText
@@ -260,6 +268,103 @@ class CreateEducation extends Component {
               </Grid>
               <Grid className={classes.grid} item xs />
             </Grid>
+
+            <Grid container>
+              <Grid className={classes.grid} item xs />
+              <Grid className={classes.grid} item xs={8}>
+                <MuiPickersUtilsProvider
+                  className={classes.dateField}
+                  utils={DateFnsUtils}
+                >
+                  <DatePicker
+                    keyboard
+                    label="Data rozpoczęcia"
+                    format="dd/MM/yyyy"
+                    placeholder="10/10/2018"
+                    mask={value =>
+                      value
+                        ? [
+                            /\d/,
+                            /\d/,
+                            "/",
+                            /\d/,
+                            /\d/,
+                            "/",
+                            /\d/,
+                            /\d/,
+                            /\d/,
+                            /\d/
+                          ]
+                        : []
+                    }
+                    value={this.state.from}
+                    onChange={this.handleDateChangeFrom}
+                    disableOpenOnEnter
+                    animateYearScrolling={false}
+                    margin="normal"
+                    variant="outlined"
+                    error={errors.from}
+                  />
+                  <DatePicker
+                    keyboard
+                    label="Data zakończenia"
+                    format="dd/MM/yyyy"
+                    placeholder="10/10/2018"
+                    mask={value =>
+                      value
+                        ? [
+                            /\d/,
+                            /\d/,
+                            "/",
+                            /\d/,
+                            /\d/,
+                            "/",
+                            /\d/,
+                            /\d/,
+                            /\d/,
+                            /\d/
+                          ]
+                        : []
+                    }
+                    value={this.state.to}
+                    onChange={this.handleDateChangeTo}
+                    disableOpenOnEnter
+                    animateYearScrolling={false}
+                    disabled={this.state.disabled ? "disabled" : ""}
+                    margin="normal"
+                    variant="outlined"
+                    error={errors.to}
+                  />
+                </MuiPickersUtilsProvider>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      id="current"
+                      label="Aktualnie zatrudniony"
+                      checked={this.state.current}
+                      onChange={this.checkChange}
+                      value={this.state.current}
+                      color="primary"
+                    />
+                  }
+                  label="Aktualnie zatrudniony"
+                />
+
+                <FormHelperText className={classes.helpText}>
+                  Określ okres pracy w pracy.
+                </FormHelperText>
+                {errors.from && (
+                  <FormHelperText
+                    className={classes.helpTextError}
+                    id="from-error"
+                  >
+                    {errors.from}
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid className={classes.grid} item xs />
+            </Grid>
+
             <Grid container>
               <Grid className={classes.grid} item xs />
               <Grid className={classes.grid} item xs={8}>
