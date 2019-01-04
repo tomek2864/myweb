@@ -60,7 +60,7 @@ class Experience extends Component {
           <TableRow>
             <TableCell>Firma</TableCell>
             <TableCell>Tytuł</TableCell>
-            <TableCell>Lata pracy</TableCell>
+            <TableCell>Okres pracy</TableCell>
             <TableCell />
           </TableRow>
           {experience}
@@ -70,7 +70,7 @@ class Experience extends Component {
   }
 }
 
-Experience.PropTypes = {
+Experience.propTypes = {
   delExperience: PropTypes.func.isRequired
 };
 

@@ -16,6 +16,7 @@ import {
 import { Link } from "react-router-dom";
 
 import Experience from "./Experience";
+import Education from "./Education";
 
 const styles = {
   card: {
@@ -63,6 +64,7 @@ class Dashboard extends Component {
             </p>
             <ProfileActions />
             <Experience experience={profile.experience} />
+            <Education education={profile.education} />
             <Button
               type="submit"
               variant="contained"

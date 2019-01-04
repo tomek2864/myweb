@@ -120,17 +120,31 @@ class CreateEducation extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const eduData = {
-      school: this.state.school,
-      degree: this.state.degree,
-      fieldofstudy: this.state.fieldofstudy,
-      from: this.state.from,
-      to: this.state.to,
-      current: this.state.current,
-      description: this.state.description
-    };
+    if (this.state.disabled === true) {
+      const eduData = {
+        school: this.state.school,
+        degree: this.state.degree,
+        fieldofstudy: this.state.fieldofstudy,
+        from: this.state.from,
+        to: "",
+        current: this.state.current,
+        description: this.state.description
+      };
 
-    this.props.addEducation(eduData, this.props.history);
+      this.props.addEducation(eduData, this.props.history);
+    } else {
+      const eduData = {
+        school: this.state.school,
+        degree: this.state.degree,
+        fieldofstudy: this.state.fieldofstudy,
+        from: this.state.from,
+        to: this.state.to,
+        current: this.state.current,
+        description: this.state.description
+      };
+
+      this.props.addEducation(eduData, this.props.history);
+    }
   };
 
   render() {
