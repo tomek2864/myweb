@@ -20,6 +20,8 @@ import CreateEducation from "./components/add-credentials/CreateEducation";
 
 import PrivateRoute from "./components/common/PrivateRoute";
 import { clearCurrentProfile } from "./actions/profileActions";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
 
 //Sprawdzanie czy token jest w localstorage
 if (localStorage.jwtToken) {
@@ -50,6 +52,8 @@ class App extends Component {
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/profile/:handle" component={Profile} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
