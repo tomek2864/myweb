@@ -101,7 +101,7 @@ class Dashboard extends Component {
     return (
       <Card className={classes.card}>
         <CardContent>
-          <h1>Dashboard</h1>
+          <h1>Panel sterowania</h1>
           {dashContent}
         </CardContent>
       </Card>

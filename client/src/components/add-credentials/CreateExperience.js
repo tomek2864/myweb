@@ -425,6 +425,37 @@ class CreateExperience extends Component {
             <Grid container>
               <Grid className={classes.grid} item xs />
               <Grid className={classes.grid} item xs={8}>
+                <TextField
+                  name="description"
+                  label="Opis stanowiska"
+                  placeholder="Opis"
+                  multiline
+                  rowsMax="8"
+                  className={classes.textField}
+                  value={this.state.description}
+                  onChange={this.onChange}
+                  error={errors.description}
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                />
+                <FormHelperText className={classes.helpText}>
+                  Opis stanowiska pracy.
+                </FormHelperText>
+                {errors.description && (
+                  <FormHelperText
+                    className={classes.helpTextError}
+                    id="description-error"
+                  >
+                    {errors.description}
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid className={classes.grid} item xs />
+            </Grid>
+            <Grid container>
+              <Grid className={classes.grid} item xs />
+              <Grid className={classes.grid} item xs={8}>
                 <Button
                   type="submit"
                   variant="contained"

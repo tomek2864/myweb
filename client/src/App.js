@@ -22,6 +22,7 @@ import PrivateRoute from "./components/common/PrivateRoute";
 import { clearCurrentProfile } from "./actions/profileActions";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
+import Articles from "./components/articles/Articles";
 
 //Sprawdzanie czy token jest w localstorage
 if (localStorage.jwtToken) {
@@ -84,6 +85,9 @@ class App extends Component {
                   path="/create-education"
                   component={CreateEducation}
                 />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/add-articles" component={Articles} />
               </Switch>
             </div>
             <Footer />

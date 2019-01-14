@@ -160,10 +160,18 @@ class Navbar extends React.Component {
         <Button
           className={classes.buttonNav}
           component={Link}
+          to="/add-articles"
+          color="inherit"
+        >
+          Dodaj artykuł
+        </Button>
+        <Button
+          className={classes.buttonNav}
+          component={Link}
           to="/dashboard"
           color="inherit"
         >
-          Dashboard
+          Zarządzanie profilem
         </Button>
       </div>
     );
@@ -267,6 +275,9 @@ class Navbar extends React.Component {
       >
         <MenuItem>
           <p>Dashboard</p>
+        </MenuItem>
+        <MenuItem>
+          <p>Dodaj artykuł</p>
         </MenuItem>
         <MenuItem onClick={this.handleProfileMenuOpen}>
           <IconButton color="inherit">

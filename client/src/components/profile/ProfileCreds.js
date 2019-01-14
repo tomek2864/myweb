@@ -4,14 +4,21 @@ import {
   CardActions,
   CardContent,
   Typography,
-  Grid
+  Grid,
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary
 } from "@material-ui/core";
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Moment from "react-moment";
 
 const styles = theme => ({
+  root: {
+    width: "100%"
+  },
   card: {
     background: "#f2f2f2",
-    maxWidth: 1000,
     marginBottom: 5,
     marginTop: 5,
     marginLeft: "auto",
@@ -41,34 +48,78 @@ const styles = theme => ({
     justifyContent: "center",
     alignItems: "center",
     display: "flex"
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: "25%",
+    flexShrink: 0
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: "25%",
+    flexShrink: 0
+  },
+  thirdHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary
   }
 });
 
 class ProfileCreds extends Component {
+  state = {
+    expanded: null
+  };
+
+  handleChange = panel => (event, expanded) => {
+    this.setState({
+      expanded: expanded ? panel : false
+    });
+  };
+
   render() {
     const { classes } = this.props;
+    const { expanded } = this.state;
     const { profileCreds } = this.props;
+    const { experience, education } = this.props;
+
+    const expItems = experience.map(exp => (
+      <ExpansionPanel
+        key={exp._id}
+        expanded={expanded === exp.company}
+        onChange={this.handleChange(exp.company)}
+      >
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>{exp.company}</Typography>
+          <Typography className={classes.secondaryHeading}>
+            {exp.title}
+          </Typography>
+          <Typography className={classes.thirdHeading}>
+            <Moment format="DD/MM/YYYY">{exp.from}</Moment> -{" "}
+            {exp.to === null ? (
+              "Aktualnie"
+            ) : (
+              <Moment format="DD/MM/YYYY">{exp.to}</Moment>
+            )}
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography>
+            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
+            Aliquam eget maximus est, id dignissim quam.
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    ));
+
     return (
-      <div>
+      <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
             <Typography className={classes.typograhyTitle}>
               Edukcja i doświadczenie zawodowe
             </Typography>
-            <Grid className={classes.grid} item xs>
-              <Typography className={classes.typograhyContent}>
-                Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz
-                w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarza do wypełnienia tekstem próbnej
-                książki. Pięć wieków później zaczął być używany przemyśle
-                elektronicznym, pozostając praktycznie niezmienionym.
-                Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy
-                Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z
-                zawierającym różne wersje Lorem Ipsum oprogramowaniem
-                przeznaczonym do realizacji druków na komputerach osobistych,
-                jak Aldus PageMaker
-              </Typography>
-            </Grid>
+            {expItems.length > 0 ? expItems : <p>Brak doświadczenia</p>}
+            <Grid className={classes.grid} />
           </CardContent>
         </Card>
       </div>

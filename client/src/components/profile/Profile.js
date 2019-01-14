@@ -3,8 +3,8 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ProfileHeader from "./ProfileHeader";
-import ProfileCreds from "./ProfileAbout";
-import ProfileAbout from "./ProfileCreds";
+import ProfileCreds from "./ProfileCreds";
+import ProfileAbout from "./ProfileAbout";
 import ProfileGithub from "./ProfileGithub";
 import ProfileArticles from "./ProfileArticles";
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
@@ -78,7 +78,10 @@ class Profile extends Component {
         <div>
           <Link to="/profiles">Powrót do profili</Link>
           <ProfileHeader profile={profile} />
-          <ProfileCreds />
+          <ProfileCreds
+            experience={profile.experience}
+            //education={profile.education}
+          />
           <ProfileAbout />
           <ProfileArticles />
           <ProfileGithub />

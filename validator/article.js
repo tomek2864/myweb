@@ -5,6 +5,7 @@ module.exports = function validateArticle(arg) {
   let errors = {};
 
   arg.text = !isEmpty(arg.text) ? arg.text : "";
+  arg.tags = !isEmpty(arg.tags) ? arg.tags : "";
 
   if (!Validator.isLength(arg.text, { min: 100 })) {
     errors.text = "Artykuł musi zawierać przynajmniej 100 znaków";
@@ -16,6 +17,7 @@ module.exports = function validateArticle(arg) {
   if (Validator.isEmpty(arg.tags)) {
     errors.tags = "Należy podać przynajmniej jeden tag";
   }
+
   return {
     errors,
     isValid: isEmpty(errors)
