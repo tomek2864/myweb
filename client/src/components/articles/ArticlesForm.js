@@ -17,6 +17,7 @@ import {
   FormControlLabel,
   FormHelperText
 } from "@material-ui/core";
+import ArticlesTags from "./ArticlesTags";
 
 const styles = theme => ({
   textField: {
@@ -102,9 +103,6 @@ class ArticlesForm extends Component {
               variant="outlined"
               fullWidth
             />
-            <FormHelperText className={classes.helpText}>
-              Treść artykułu.
-            </FormHelperText>
             {errors.text && (
               <FormHelperText className={classes.helpTextError} id="text-error">
                 {errors.text}
@@ -125,6 +123,13 @@ class ArticlesForm extends Component {
             >
               Dodaj
             </Button>
+          </Grid>
+          <Grid className={classes.grid} item xs />
+        </Grid>
+        <Grid container>
+          <Grid className={classes.grid} item xs />
+          <Grid className={classes.grid} item xs={8}>
+            <ArticlesTags />
           </Grid>
           <Grid className={classes.grid} item xs />
         </Grid>
