@@ -110,7 +110,7 @@ const suggestions = [
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 250
+    height: 100
   },
   input: {
     display: "flex",
@@ -285,59 +285,44 @@ const components = {
   ValueContainer
 };
 
-class ArticlesTags extends Component {
-  state = {
-    single: null,
-    multi: null
+//https://codesandbox.io/s/1q869myzz4
+const ArticlesTags = ({ value }) => {
+  const selectStyles = {
+    input: base => ({
+      ...base,
+      color: "#f2f2f2",
+      "& input": {
+        font: "inherit"
+      }
+    })
   };
-
-  handleChange = name => value => {
-    this.setState({
-      [name]: value
-    });
-  };
-
-  render() {
-    const { classes, theme } = this.props;
-
-    const selectStyles = {
-      input: base => ({
-        ...base,
-        color: "#f2f2f2",
-        "& input": {
-          font: "inherit"
-        }
-      })
-    };
-    //https://codesandbox.io/s/1q869myzz4
-    return (
-      <div className={classes.root}>
-        <NoSsr>
-          <Select
-            classes={classes}
-            styles={selectStyles}
-            textFieldProps={{
-              label: "Kategoria artykułu",
-              InputLabelProps: {
-                shrink: true
-              }
-            }}
-            options={suggestions}
-            components={components}
-            value={this.state.multi}
-            onChange={this.handleChange("multi")}
-            placeholder="Wybierz przynajmniej jedną kategorię artykułu"
-            isMulti
-          />
-        </NoSsr>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <NoSsr>
+        <Select
+          textFieldProps={{
+            label: "Kategoria artykułu",
+            InputLabelProps: {
+              shrink: true
+            }
+          }}
+          styles={selectStyles}
+          options={suggestions}
+          components={components}
+          value={value}
+          onChange={this.handleChange("multi")}
+          placeholder="Wybierz przynajmniej jedną kategorię artykułu"
+          isMulti
+        />
+      </NoSsr>
+    </div>
+  );
+};
 
 ArticlesTags.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
+  value: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(ArticlesTags);
