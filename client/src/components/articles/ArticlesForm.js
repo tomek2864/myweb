@@ -178,9 +178,8 @@ class ArticlesForm extends Component {
       name: user.name,
       tags: this.state.tags
     };
-    console.log(newArticle);
-    /*this.props.addArticle(newArticle);
-    this.setState({ text: "" });*/
+    this.props.addArticle(newArticle);
+    this.setState({ text: "" });
   };
 
   onChange = event => {
@@ -234,6 +233,7 @@ class ArticlesForm extends Component {
                 input={<Input id="select-multiple-checkbox" />}
                 renderValue={selected => selected.join(", ")}
                 MenuProps={MenuProps}
+                error={errors.tags}
               >
                 {chooseTags.map(tag => (
                   <MenuItem key={tag} value={tag}>
@@ -242,6 +242,14 @@ class ArticlesForm extends Component {
                   </MenuItem>
                 ))}
               </Select>
+              {errors.tags && (
+                <FormHelperText
+                  className={classes.helpTextError}
+                  id="tags-error"
+                >
+                  {errors.tags}
+                </FormHelperText>
+              )}
             </FormControl>
           </Grid>{" "}
           <Grid className={classes.grid} item xs />
