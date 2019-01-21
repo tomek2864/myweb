@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 
 import Experience from "./Experience";
 import Education from "./Education";
+import Articles from "./Articles";
 
 const styles = {
   card: {
@@ -51,8 +52,9 @@ class Dashboard extends Component {
     const { classes } = this.props;
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
+    const { articles, loading_art } = this.props.article;
     let dashContent;
-    if (profile === null || loading) {
+    if (profile === null || loading || articles === null || loading_art) {
       dashContent = <LinearProgress />; //<Spinner />;
     } else {
       //Sprawdzenie czy zalogowany uzytkownik ma utworzony profil
@@ -65,6 +67,7 @@ class Dashboard extends Component {
             <ProfileActions />
             <Experience experience={profile.experience} />
             <Education education={profile.education} />
+            <Articles articles={article} />
             <Button
               type="submit"
               variant="contained"
