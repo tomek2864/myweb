@@ -157,6 +157,7 @@ class ArticlesForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      title: "",
       text: "",
       tags: [],
       errors: {}
@@ -174,12 +175,13 @@ class ArticlesForm extends Component {
 
     const { user } = this.props.auth;
     const newArticle = {
+      title: this.state.title,
       text: this.state.text,
       name: user.name,
-      tags: this.state.tags
+      tags: this.state.tags.toString()
     };
     this.props.addArticle(newArticle);
-    this.setState({ text: "" });
+    // this.setState({ text: "" });
   };
 
   onChange = event => {
@@ -200,11 +202,38 @@ class ArticlesForm extends Component {
           <Grid className={classes.grid} item xs />
           <Grid className={classes.grid} item xs={8}>
             <TextField
+              name="title"
+              label="Tytuł artykułu"
+              placeholder="Tytuł"
+              className={classes.textField}
+              value={this.state.title}
+              onChange={this.onChange}
+              error={errors.title}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+            />
+            {errors.title && (
+              <FormHelperText
+                className={classes.helpTextError}
+                id="title-error"
+              >
+                {errors.title}
+              </FormHelperText>
+            )}
+          </Grid>
+          <Grid className={classes.grid} item xs />
+        </Grid>
+
+        <Grid container>
+          <Grid className={classes.grid} item xs />
+          <Grid className={classes.grid} item xs={8}>
+            <TextField
               name="text"
-              label="Utwórz artykuł"
+              label="Treść artykułu"
               placeholder="Opis"
               multiline
-              rowsMax="8"
+              rowsMax="30"
               className={classes.textField}
               value={this.state.text}
               onChange={this.onChange}

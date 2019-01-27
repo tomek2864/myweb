@@ -70,6 +70,7 @@ router.post(
 
     const newArticle = new Article({
       text: req.body.text,
+      title: req.body.title,
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id,
@@ -91,15 +92,15 @@ router.delete(
       Article.findById(req.params.id)
         .then(article => {
           //Sprawdz użytkownika
-          if (post.user.toString() !== req.user.id) {
+          if (article.user.toString() !== req.user.id) {
             return res
               .status(401)
               .json({ notauthorized: "Użytkownik nieautoryzowany" });
           }
           //Usuwanie
-          post.remove().then(() => res.json({ success: true }));
+          article.remove().then(() => res.json({ success: true }));
         })
-        .catch(err => res.status(404).json("Postu nieznaleziono"));
+        .catch(err => res.status(404).json("Artykułu nieznaleziono"));
     });
   }
 );

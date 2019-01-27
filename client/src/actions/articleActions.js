@@ -4,10 +4,12 @@ import {
   GET_ERRORS,
   GET_ARTICLE,
   ARTICLE_LOADING,
-  DELETE_ARTICLE
+  DELETE_ARTICLE,
+  CLEAR_ERRORS
 } from "../actions/types";
 
 export const addArticle = articleData => dispatch => {
+  dispatch(clearErrors());
   axios
     .post("api/articles", articleData)
     .then(res =>
@@ -66,4 +68,11 @@ export const deleteArticle = id => dispatch => {
         })
       );
   }
+};
+
+// Clear errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  };
 };

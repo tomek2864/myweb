@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
+import { getArticle } from "../../actions/articleActions";
 import ProfileActions from "../dashboard/ProfileActions";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { withStyles } from "@material-ui/core/styles";
@@ -42,6 +43,7 @@ const styles = {
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
+    this.props.getArticle();
   }
 
   onDeleteClick = e => {
@@ -53,7 +55,7 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
     const { articles, loading_art } = this.props.article;
-    let dashContent;
+    let dashContent, articleContent;
     if (profile === null || loading || articles === null || loading_art) {
       dashContent = <LinearProgress />; //<Spinner />;
     } else {
@@ -67,7 +69,7 @@ class Dashboard extends Component {
             <ProfileActions />
             <Experience experience={profile.experience} />
             <Education education={profile.education} />
-            <Articles articles={article} />
+
             <Button
               type="submit"
               variant="contained"
@@ -80,6 +82,19 @@ class Dashboard extends Component {
             </Button>
           </div>
         );
+        if (Object.keys(articles).length > 0) {
+          articleContent = (
+            <div>
+              <Articles article={articles} />
+            </div>
+          );
+        } else {
+          articleContent = (
+            <div>
+              <p>Brak artykułów</p>
+            </div>
+          );
+        }
       } else {
         //Uzytkownik nie posiada profilu
         dashContent = (
@@ -106,6 +121,7 @@ class Dashboard extends Component {
         <CardContent>
           <h1>Panel sterowania</h1>
           {dashContent}
+          {articleContent}
         </CardContent>
       </Card>
     );
@@ -114,18 +130,21 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  getArticle: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  article: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   profile: state.profile,
+  article: state.article,
   auth: state.auth
 });
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile, deleteAccount }
+  { getCurrentProfile, deleteAccount, getArticle }
 )(withStyles(styles)(Dashboard));

@@ -48,7 +48,7 @@ class Experience extends Component {
             color="primary"
             onClick={this.onDeleteClick.bind(this, exp._id)}
           >
-            Delete
+            Usuń
           </Button>
         </TableCell>
       </TableRow>

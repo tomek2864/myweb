@@ -46,7 +46,7 @@ class Education extends Component {
             color="primary"
             onClick={this.onDeleteClick.bind(this, edu._id)}
           >
-            Delete
+            Usuń
           </Button>
         </TableCell>
       </TableRow>

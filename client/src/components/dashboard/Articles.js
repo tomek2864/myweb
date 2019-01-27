@@ -29,8 +29,15 @@ class Articles extends Component {
   render() {
     const article = this.props.article.map(art => (
       <TableRow key={art._id}>
-        <TableCell>{art.name}</TableCell>
-        <TableCell>{art.date}</TableCell>
+        <TableCell>{art.title}</TableCell>
+        <TableCell>
+          <Moment format="DD/MM/YYYY HH:mm">{art.date}</Moment>
+        </TableCell>
+        <TableCell>
+          {art.tags.map((tag, index) => (
+            <div key={index}> {tag} </div>
+          ))}
+        </TableCell>
         <TableCell>
           <Button
             type="submit"
@@ -48,8 +55,9 @@ class Articles extends Component {
         <Typography variant="h6">Artykuły</Typography>
         <TableHead>
           <TableRow>
-            <TableCell>Nazwa</TableCell>
+            <TableCell>Tytuł</TableCell>
             <TableCell>Data</TableCell>
+            <TableCell>Tagi</TableCell>
             <TableCell />
           </TableRow>
           {article}

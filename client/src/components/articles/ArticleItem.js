@@ -79,7 +79,7 @@ class ArticleItem extends Component {
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.nameArticle}>
-            {article.name}
+            {article.title}
           </Typography>
           <Card className={classes.card}>
             <CardContent>
