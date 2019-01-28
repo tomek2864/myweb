@@ -14,6 +14,15 @@ import {
   Chip
 } from "@material-ui/core";
 
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  AtomicBlockUtils,
+  convertToRaw,
+  convertFromRaw
+} from "draft-js";
+
 const styles = theme => ({
   card: {
     maxWidth: 1000,
@@ -58,13 +67,22 @@ const styles = theme => ({
 });
 
 class ArticleItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      editorState: convertFromRaw(JSON.parse(this.props.article.text))
+    };
+  }
   handleClick = data => () => {
     alert(data);
   };
 
+  componentDidMount() {
+    console.log(this.state.editorState);
+  }
+
   render() {
     const { classes, article, auth } = this.props;
-
     // Skill List
     const tags = article.tags.map((tag, index) => (
       <Chip
@@ -83,9 +101,11 @@ class ArticleItem extends Component {
           </Typography>
           <Card className={classes.card}>
             <CardContent>
-              <Typography className={classes.textArticle}>
-                {article.text}
-              </Typography>
+              {/* <Typography className={classes.textArticle}>
+                {textDisplay}
+              </Typography> */}
+
+              <Editor editorState={this.state.editorState} readOnly />
             </CardContent>
           </Card>
           {tags}

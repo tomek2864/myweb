@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addArticle } from "../../actions/articleActions";
@@ -16,6 +17,20 @@ import {
   FormControl,
   FormHelperText
 } from "@material-ui/core";
+
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  AtomicBlockUtils,
+  convertToRaw,
+  convertFromRaw
+} from "draft-js";
+import BlockStyleToolbar, {
+  getBlockStyle
+} from "../blockStylesRichFieldText/BlockStyleToolbar";
+
+import { mediaBlockRenderer } from "../blockStylesRichFieldText/entities/mediaBlockRenderer";
 
 const chooseTags = [
   "Agile",
@@ -144,6 +159,10 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     width: "auto",
     display: "flex"
+  },
+  editor: {
+    border: "1px solid gray",
+    minHeight: "6em"
   }
 });
 
@@ -156,13 +175,58 @@ const theme = createMuiTheme({
 class ArticlesForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       title: "",
       text: "",
       tags: [],
-      errors: {}
+      errors: {},
+      //editorState: EditorState.createEmpty()
+      editorState: EditorState.createEmpty()
     };
   }
+
+  toggleBlockType = blockType => {
+    this.onChangeEditor(
+      RichUtils.toggleBlockType(this.state.editorState, blockType)
+    );
+  };
+
+  handleKeyCommand = command => {
+    const newState = RichUtils.handleKeyCommand(
+      this.state.editorState,
+      command
+    );
+    if (newState) {
+      this.onChangeEditor(newState);
+      return "handled";
+    }
+    return "not-handled";
+  };
+
+  onUnderlineClick = () => {
+    this.onChangeEditor(
+      RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
+    );
+  };
+
+  onBoldClick = event => {
+    this.onChangeEditor(
+      RichUtils.toggleInlineStyle(this.state.editorState, "BOLD")
+    );
+  };
+
+  onItalicClick = () => {
+    this.onChangeEditor(
+      RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
+    );
+  };
+
+  toggleBlockType = blockType => {
+    this.onChangeEditor(
+      RichUtils.toggleBlockType(this.state.editorState, blockType)
+    );
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -172,14 +236,18 @@ class ArticlesForm extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-
     const { user } = this.props.auth;
+
     const newArticle = {
       title: this.state.title,
-      text: this.state.text,
+      //text: this.state.text,
+      text: JSON.stringify(
+        convertToRaw(this.state.editorState.getCurrentContent())
+      ),
       name: user.name,
       tags: this.state.tags.toString()
     };
+    console.log(newArticle);
     this.props.addArticle(newArticle);
     // this.setState({ text: "" });
   };
@@ -190,6 +258,42 @@ class ArticlesForm extends Component {
 
   onChangeTag = event => {
     this.setState({ tags: event.target.value });
+  };
+
+  onChangeEditor = editorState => {
+    this.setState({ editorState });
+  };
+
+  focus = () => this.refs.editor.focus();
+
+  onAddImage = e => {
+    e.preventDefault();
+    const editorState = this.state.editorState;
+    const urlValue = window.prompt("Paste Image Link");
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      "image",
+      "IMMUTABLE",
+      { src: urlValue }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(
+      editorState,
+      { currentContent: contentStateWithEntity },
+      "create-entity"
+    );
+    this.setState(
+      {
+        editorState: AtomicBlockUtils.insertAtomicBlock(
+          newEditorState,
+          entityKey,
+          " "
+        )
+      },
+      () => {
+        setTimeout(() => this.focus(), 0);
+      }
+    );
   };
 
   render() {
@@ -228,6 +332,47 @@ class ArticlesForm extends Component {
         <Grid container>
           <Grid className={classes.grid} item xs />
           <Grid className={classes.grid} item xs={8}>
+            <div className="editorContainer">
+              <div className="toolbar">
+                <BlockStyleToolbar
+                  editorState={this.state.editorState}
+                  onToggle={this.toggleBlockType}
+                />
+                <Button onClick={this.onUnderlineClick}>U</Button>
+                <Button onClick={this.onBoldClick}>
+                  <b>B</b>
+                </Button>
+                <Button onClick={this.onItalicClick}>
+                  <em>I</em>
+                </Button>
+                <Button onClick={this.onAddImage}>
+                  <i class="material-icons">image</i>
+                </Button>
+              </div>
+
+              <div className="editors">
+                <Editor
+                  name="text"
+                  blockRendererFn={mediaBlockRenderer}
+                  blockStyleFn={getBlockStyle}
+                  editorState={this.state.editorState}
+                  handleKeyCommand={this.handleKeyCommand}
+                  onChange={this.onChangeEditor}
+                  plugins={this.plugins}
+                  ref="editor"
+                  value={this.state.text}
+                  rowsMax="30"
+                  error={errors.text}
+                />
+              </div>
+            </div>
+          </Grid>
+          <Grid className={classes.grid} item xs />
+        </Grid>
+
+        {/* <Grid container>
+          <Grid className={classes.grid} item xs />
+          <Grid className={classes.grid} item xs={8}>
             <TextField
               name="text"
               label="Treść artykułu"
@@ -249,7 +394,7 @@ class ArticlesForm extends Component {
             )}
           </Grid>
           <Grid className={classes.grid} item xs />
-        </Grid>
+        </Grid> */}
         <Grid container>
           <Grid className={classes.grid} item xs />
           <Grid className={classes.grid} item xs={8}>
