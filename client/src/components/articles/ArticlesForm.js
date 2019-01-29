@@ -32,6 +32,8 @@ import BlockStyleToolbar, {
 
 import { mediaBlockRenderer } from "../blockStylesRichFieldText/entities/mediaBlockRenderer";
 
+import { stateToHTML } from "draft-js-export-html";
+
 const chooseTags = [
   "Agile",
   "Amazon",
@@ -241,9 +243,11 @@ class ArticlesForm extends Component {
     const newArticle = {
       title: this.state.title,
       //text: this.state.text,
-      text: JSON.stringify(
+      /* text: JSON.stringify(
         convertToRaw(this.state.editorState.getCurrentContent())
-      ),
+      ), 
+      text: stateToHTML(this.state.editorState.getCurrentContent()),*/
+      text: stateToHTML(this.state.editorState.getCurrentContent()),
       name: user.name,
       tags: this.state.tags.toString()
     };

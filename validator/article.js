@@ -5,7 +5,7 @@ module.exports = function validateArticle(arg) {
   let errors = {};
 
   arg.title = !isEmpty(arg.title) ? arg.title : "";
-  arg.text = !isEmpty(arg.text) ? arg.text : "";
+  arg.text = !isEmpty(arg.text) ? arg.text : {};
   arg.tags = !isEmpty(arg.tags) ? arg.tags : "";
 
   if (!Validator.isLength(arg.title, { min: 3 })) {
@@ -16,13 +16,13 @@ module.exports = function validateArticle(arg) {
     errors.title = "Tytul jest wymagany";
   }
 
-  if (!Validator.isLength(arg.text, { min: 100 })) {
+  /*if (!Validator.isLength(arg.text, { min: 100 })) {
     errors.text = "Artykuł musi zawierać przynajmniej 100 znaków";
   }
 
-  if (Validator.isEmpty(arg.text)) {
+   if (Validator.isEmpty(arg.text)) {
     errors.text = "Tekst jest wymagany";
-  }
+  } */
   if (Validator.isEmpty(arg.tags)) {
     errors.tags = "Należy podać przynajmniej jeden tag";
   }

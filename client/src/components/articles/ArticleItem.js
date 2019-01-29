@@ -14,6 +14,9 @@ import {
   Chip
 } from "@material-ui/core";
 
+import { stateFromHTML } from "draft-js-import-html";
+import { unstable_Box as Box } from "@material-ui/core/Box";
+
 import {
   Editor,
   EditorState,
@@ -70,7 +73,7 @@ class ArticleItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: convertFromRaw(JSON.parse(this.props.article.text))
+      //editorState: convertFromRaw(this.props.article.text)
     };
   }
   handleClick = data => () => {
@@ -78,7 +81,8 @@ class ArticleItem extends Component {
   };
 
   componentDidMount() {
-    console.log(this.state.editorState);
+    console.log(this.props.article.text);
+    //const editorState = convertFromRaw(this.props.article.text);
   }
 
   render() {
@@ -103,9 +107,22 @@ class ArticleItem extends Component {
             <CardContent>
               {/* <Typography className={classes.textArticle}>
                 {textDisplay}
-              </Typography> */}
-
-              <Editor editorState={this.state.editorState} readOnly />
+              </Typography> 
+              <div>
+                <Editor editorState={this.state.editorState} readOnly />
+              </div>
+    <Typography>{this.props.article.text}</Typography>
+              <Editor editorState={editorState} readOnly={true} />*/}
+              {this.props.article.text}
+              <Typography textAlign="justify" className={classes.textArticle}>
+                <Box textAlign="justify" m={1}>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.article.text
+                    }}
+                  />
+                </Box>
+              </Typography>
             </CardContent>
           </Card>
           {tags}

@@ -12,7 +12,7 @@ const ArticleSchema = new Schema({
     required: true
   },
   text: {
-    type: String,
+    type: Object,
     required: true
   },
   name: {
