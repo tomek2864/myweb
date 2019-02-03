@@ -7,8 +7,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Typography, Button } from "@material-ui/core";
 import Moment from "react-moment";
-import { deleteArticle } from "../../actions/articleActions";
+import { deleteArticle, getArticleByID } from "../../actions/articleActions";
 import { withStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -25,13 +26,16 @@ class Articles extends Component {
   onDeleteClick(id) {
     this.props.deleteArticle(id, this.props.history);
   }
-
+  onEditClick(id) {
+    console.log(id);
+    this.props.getArticleByID(id, this.props.history);
+  }
   render() {
     const article = this.props.article.map(art => (
       <TableRow key={art._id}>
         <TableCell>{art.title}</TableCell>
         <TableCell>
-          <Moment format="DD/MM/YYYY HH:mm">{art.date}</Moment>
+          <Moment format="HH:mm DD/MM/YYYY">{art.date}</Moment>
         </TableCell>
         <TableCell>
           {art.tags.map((tag, index) => (
@@ -39,6 +43,16 @@ class Articles extends Component {
           ))}
         </TableCell>
         <TableCell>
+          <Button
+            component={Link}
+            type="submit"
+            variant="contained"
+            color="primary"
+            to={`/${art._id}`}
+            //onClick={this.onEditClick.bind(this, art._id)}
+          >
+            Edytuj
+          </Button>
           <Button
             type="submit"
             variant="contained"

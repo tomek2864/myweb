@@ -17,11 +17,12 @@ import { getArticle } from "../../actions/articleActions";
 
 const styles = {
   card: {
-    maxWidth: 1000,
+    maxWidth: 1400,
     marginBottom: 25,
     marginTop: 25,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    backgroundColor: "#968ffc"
   },
   title: {
     fontSize: 14

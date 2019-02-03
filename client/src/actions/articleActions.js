@@ -5,7 +5,8 @@ import {
   GET_ARTICLE,
   ARTICLE_LOADING,
   DELETE_ARTICLE,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  GET_ARTICLE_ID
 } from "../actions/types";
 
 export const addArticle = articleData => dispatch => {
@@ -39,6 +40,25 @@ export const getArticle = () => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ARTICLE,
+        payload: null
+      })
+    );
+};
+
+// Get article by id
+export const getArticleByID = id => dispatch => {
+  dispatch(setArticleLoading());
+  axios
+    .get(`api/articles/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_ARTICLE_ID,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ARTICLE_ID,
         payload: null
       })
     );

@@ -2,7 +2,8 @@ import {
   ADD_ARTICLE,
   GET_ARTICLE,
   ARTICLE_LOADING,
-  DELETE_ARTICLE
+  DELETE_ARTICLE,
+  GET_ARTICLE_ID
 } from "../actions/types";
 
 const initialState = {
@@ -30,6 +31,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         articles: action.payload,
+        loading: false
+      };
+    case GET_ARTICLE_ID:
+      return {
+        ...state,
+        article: action.payload,
         loading: false
       };
     case ADD_ARTICLE:

@@ -89,7 +89,7 @@ export const getProfiles = () => dispatch => {
     );
 };
 
-// Get all profiles
+// Get profile
 export const getProfileByHandle = handle => dispatch => {
   dispatch(setProfileLoading());
   axios

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
+import Moment from "react-moment";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -11,11 +12,12 @@ import {
   Button,
   Typography,
   LinearProgress,
-  Chip
+  Chip,
+  Paper
 } from "@material-ui/core";
 
 import { stateFromHTML } from "draft-js-import-html";
-import { unstable_Box as Box } from "@material-ui/core/Box";
+//import { unstable_Box as Box } from "@material-ui/core/Box";
 
 import {
   Editor,
@@ -66,6 +68,21 @@ const styles = theme => ({
     padding: "2px 8px",
     width: "auto",
     display: "flex"
+  },
+  cardText: {
+    maxWidth: 1000,
+    marginBottom: 25,
+    marginLeft: "auto",
+    marginRight: "auto",
+    textAlign: "justify"
+  },
+  cardBackground: {
+    maxWidth: 1000,
+    marginBottom: 25,
+    marginTop: 25,
+    marginLeft: "auto",
+    marginRight: "auto",
+    backgroundColor: "#4f6832"
   }
 });
 
@@ -98,34 +115,29 @@ class ArticleItem extends Component {
     ));
 
     return (
-      <Card className={classes.card}>
+      <Card className={classes.cardBackground}>
         <CardContent>
-          <Typography className={classes.nameArticle}>
-            {article.title}
-          </Typography>
-          <Card className={classes.card}>
-            <CardContent>
-              {/* <Typography className={classes.textArticle}>
-                {textDisplay}
-              </Typography> 
-              <div>
-                <Editor editorState={this.state.editorState} readOnly />
-              </div>
-    <Typography>{this.props.article.text}</Typography>
-              <Editor editorState={editorState} readOnly={true} />*/}
-              {this.props.article.text}
-              <Typography textAlign="justify" className={classes.textArticle}>
-                <Box textAlign="justify" m={1}>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.article.text
-                    }}
-                  />
-                </Box>
-              </Typography>
-            </CardContent>
+          <Card className={classes.cardText}>
+            <Typography className={classes.nameArticle}>
+              {article.title}
+            </Typography>
           </Card>
           {tags}
+        </CardContent>
+        <CardContent>
+          <Card className={classes.cardText}>
+            <Typography textAlign="justify" className={classes.textArticle}>
+              <div textalign="justify" m={1}>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: this.props.article.text
+                  }}
+                />
+              </div>
+            </Typography>
+          </Card>
+          {article.name}{" "}
+          {<Moment format="HH:mm DD/MM/YYYY">{article.date}</Moment>}
         </CardContent>
       </Card>
     );

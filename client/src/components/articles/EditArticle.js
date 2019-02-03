@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addArticle } from "../../actions/articleActions";
+import { addArticle, getArticleByID } from "../../actions/articleActions";
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
 import {
   Checkbox,
@@ -35,6 +35,7 @@ import { mediaBlockRenderer } from "../blockStylesRichFieldText/entities/mediaBl
 
 import { stateToHTML } from "draft-js-export-html";
 import createStyles from "draft-js-custom-styles";
+import isEmpty from "../../validation/is-empty";
 
 const chooseTags = [
   "Agile",
@@ -245,6 +246,29 @@ class ArticlesForm extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+    if (nextProps.article.article) {
+      console.log(nextProps.article.article);
+
+      const article = nextProps.article.article;
+      //const tagsCSV = article.tags.toString();
+
+      article.text = !isEmpty(article.text) ? article.text : "";
+      article.title = !isEmpty(article.title) ? article.title : "";
+      article.tags = !isEmpty(article.tags) ? article.tags : [];
+
+      this.setState({
+        title: article.title,
+        //text: article.text
+        //text: article.text.getCurrentContent(),
+        tags: article.tags
+      });
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.match.params.id) {
+      this.props.getArticleByID(this.props.match.params.id);
+    }
   }
 
   onSubmit = event => {
@@ -262,7 +286,7 @@ class ArticlesForm extends Component {
       name: user.name,
       tags: this.state.tags.toString()
     };
-    console.log(newArticle);
+    //console.log(newArticle);
     this.props.addArticle(newArticle);
     // this.setState({ text: "" });
   };
@@ -361,7 +385,7 @@ class ArticlesForm extends Component {
                   <em>I</em>
                 </Button>
                 <Button onClick={this.onAddImage}>
-                  <i class="material-icons">image</i>
+                  <i className="material-icons">image</i>
                 </Button>
               </div>
             </div>
@@ -449,16 +473,19 @@ class ArticlesForm extends Component {
 
 ArticlesForm.propTypes = {
   addArticle: PropTypes.func.isRequired,
+  getArticleByID: PropTypes.func.isRequired,
+  article: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  article: state.article,
   errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { addArticle }
+  { addArticle, getArticleByID }
 )(withStyles(styles)(ArticlesForm));

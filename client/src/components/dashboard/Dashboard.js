@@ -56,11 +56,18 @@ class Dashboard extends Component {
     const { profile, loading } = this.props.profile;
     const { articles, loading_art } = this.props.article;
     let dashContent, articleContent;
+    const articlesUser = [];
+
     if (profile === null || loading || articles === null || loading_art) {
       dashContent = <LinearProgress />; //<Spinner />;
     } else {
       //Sprawdzenie czy zalogowany uzytkownik ma utworzony profil
       if (Object.keys(profile).length > 0) {
+        for (var i = 0; i < articles.length; i++) {
+          if (articles[i].user === profile.user._id) {
+            articlesUser[i] = articles[i];
+          }
+        }
         dashContent = (
           <div>
             <p>
@@ -82,10 +89,10 @@ class Dashboard extends Component {
             </Button>
           </div>
         );
-        if (Object.keys(articles).length > 0) {
+        if (Object.keys(articlesUser).length > 0) {
           articleContent = (
             <div>
-              <Articles article={articles} />
+              <Articles article={articlesUser} />
             </div>
           );
         } else {
