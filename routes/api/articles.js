@@ -42,23 +42,64 @@ router.get("/id/:id", (req, res) => {
     );
 });
 
-// @route   GET api/articles/userid/:id
-// @desc    Get articles by User ID
+// @route   GET api/articles/handle/:handle
+// @desc    Get articles by User Handle
 // @access  Public
-router.get("/userid/:id", (req, res) => {
-  Article.findById(req.params.id)
-    .then(article => res.json(article))
-    .catch(err =>
-      res.status(404).json({ noarticlesfound: "Brak artykułu o takim ID." })
-    );
+router.get("/handle/:handle", (req, res) => {
+  Profile.findOne({ handle: req.params.handle })
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      if (profile) {
+        Article.find({ user: profile.user.id })
+          .sort({ date: -1 })
+          .then(articles => res.json(articles))
+          .catch(err =>
+            res
+              .status(404)
+              .json({ noarticlesfound: "Nie znaleziono żadnych artykułów." })
+          );
+      } else {
+        //errors
+        res
+          .status(404)
+          .json({ profile: "Ten user nie ma utworzonego profilu." });
+      }
+    });
+});
+
+// @route   GET api/articles /handle/:handle
+// @desc    Get articles by User Handle
+// @access  Public
+router.get("/handle/:handle/:tag", (req, res) => {
+  Profile.findOne({ handle: req.params.handle })
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      if (profile) {
+        Article.find({
+          user: profile.user.id,
+          tags: { $all: [req.params.tag] }
+        })
+          .sort({ date: -1 })
+          .then(articles => res.json(articles))
+          .catch(err =>
+            res
+              .status(404)
+              .json({ noarticlesfound: "Nie znaleziono żadnych artykułów." })
+          );
+      } else {
+        //errors
+        res
+          .status(404)
+          .json({ profile: "Ten user nie ma utworzonego profilu." });
+      }
+    });
 });
 
 // @route   GET api/articles/type/:type
 // @desc    Get articles by type
 // @access  Public
-router.get("/type/:typeID", (req, res) => {
-  Article.find({ tags: req.params.typeID })
-    .populate("tags.type")
+router.get("/tag/:typeID", (req, res) => {
+  Article.find({ tags: { $all: [req.params.typeID] } })
     .then(article => res.json(article))
     .catch(err =>
       res
