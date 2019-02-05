@@ -2,7 +2,7 @@ import axios from "axios";
 import {
   ADD_ARTICLE,
   GET_ERRORS,
-  GET_ARTICLE,
+  GET_ARTICLES,
   ARTICLE_LOADING,
   DELETE_ARTICLE,
   CLEAR_ERRORS,
@@ -12,7 +12,7 @@ import {
 export const addArticle = articleData => dispatch => {
   dispatch(clearErrors());
   axios
-    .post("api/articles", articleData)
+    .post("/api/articles", articleData)
     .then(res =>
       dispatch({
         type: ADD_ARTICLE,
@@ -30,16 +30,16 @@ export const addArticle = articleData => dispatch => {
 export const getArticle = () => dispatch => {
   dispatch(setArticleLoading());
   axios
-    .get("api/articles")
+    .get("/api/articles")
     .then(res =>
       dispatch({
-        type: GET_ARTICLE,
+        type: GET_ARTICLES,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_ARTICLE,
+        type: GET_ARTICLES,
         payload: null
       })
     );
@@ -49,7 +49,7 @@ export const getArticle = () => dispatch => {
 export const getArticleByID = id => dispatch => {
   dispatch(setArticleLoading());
   axios
-    .get(`api/articles/${id}`)
+    .get(`/api/articles/id/${id}`)
     .then(res =>
       dispatch({
         type: GET_ARTICLE_ID,

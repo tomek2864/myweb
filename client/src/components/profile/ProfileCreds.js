@@ -24,7 +24,8 @@ const styles = theme => ({
     marginLeft: "auto",
     marginRight: "auto",
     padding: "0px 0px 0px 0px",
-    paddingBottom: "0px"
+    paddingBottom: "0px",
+    textAlign: "justify"
   },
   cardContent: {
     color: "#242249",
@@ -62,7 +63,8 @@ const styles = theme => ({
   thirdHeading: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary
-  }
+  },
+  textDescription: {}
 });
 
 class ProfileCreds extends Component {
@@ -103,9 +105,50 @@ class ProfileCreds extends Component {
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Typography>
-            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-            Aliquam eget maximus est, id dignissim quam.
+          <Typography textAlign="justify" className={classes.textDescription}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: exp.description
+              }}
+            />
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    ));
+
+    const eduItems = education.map(edu => (
+      <ExpansionPanel
+        key={edu._id}
+        expanded={expanded === edu.school}
+        onChange={this.handleChange(edu.school)}
+      >
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>{edu.school}</Typography>
+          <Typography className={classes.secondaryHeading}>
+            {edu.fieldofstudy}
+          </Typography>
+          <Typography className={classes.thirdHeading}>
+            <Moment format="DD/MM/YYYY">{edu.from}</Moment> -{" "}
+            {edu.to === null ? (
+              "Aktualnie"
+            ) : (
+              <Moment format="DD/MM/YYYY">{edu.to}</Moment>
+            )}
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography
+            noWrap
+            textAlign="justify"
+            className={classes.textDescription}
+          >
+            <div
+              dangerouslySetInnerHTML={{
+                __html: edu.description
+              }}
+            />
+            {"Ocena końcowa: "}
+            {edu.degree}
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -119,6 +162,15 @@ class ProfileCreds extends Component {
               Edukcja i doświadczenie zawodowe
             </Typography>
             {expItems.length > 0 ? expItems : <p>Brak doświadczenia</p>}
+            <Grid className={classes.grid} />
+          </CardContent>
+        </Card>
+        <Card className={classes.card}>
+          <CardContent className={classes.cardContent}>
+            <Typography className={classes.typograhyTitle}>
+              Edukcja i doświadczenie zawodowe
+            </Typography>
+            {eduItems.length > 0 ? eduItems : <p>Brak edukacji</p>}
             <Grid className={classes.grid} />
           </CardContent>
         </Card>

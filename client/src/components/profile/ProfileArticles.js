@@ -47,7 +47,7 @@ const styles = theme => ({
 class ProfileArticles extends Component {
   render() {
     const { classes } = this.props;
-    const { profileArticles } = this.props;
+    const { articles } = this.props;
     return (
       <div>
         <Card className={classes.card}>

@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addArticle, getArticleByID } from "../../actions/articleActions";
+import {
+  addArticle,
+  getArticleByID,
+  deleteArticle
+} from "../../actions/articleActions";
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
 import {
   Checkbox,
@@ -16,7 +20,8 @@ import {
   TextField,
   FormControl,
   FormHelperText,
-  Paper
+  Paper,
+  LinearProgress
 } from "@material-ui/core";
 
 import {
@@ -25,7 +30,10 @@ import {
   RichUtils,
   AtomicBlockUtils,
   convertToRaw,
-  convertFromRaw
+  convertFromRaw,
+  ContentState,
+  convertFromHTML,
+  convertToHTML
 } from "draft-js";
 import BlockStyleToolbar, {
   getBlockStyle
@@ -36,6 +44,7 @@ import { mediaBlockRenderer } from "../blockStylesRichFieldText/entities/mediaBl
 import { stateToHTML } from "draft-js-export-html";
 import createStyles from "draft-js-custom-styles";
 import isEmpty from "../../validation/is-empty";
+import { Link, withRouter } from "react-router-dom";
 
 const chooseTags = [
   "Agile",
@@ -186,11 +195,12 @@ const theme = createMuiTheme({
   }
 });
 
-class ArticlesForm extends Component {
+class EditArticle extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      id: "",
       title: "",
       text: "",
       tags: [],
@@ -256,18 +266,24 @@ class ArticlesForm extends Component {
       article.title = !isEmpty(article.title) ? article.title : "";
       article.tags = !isEmpty(article.tags) ? article.tags : [];
 
-      this.setState({
-        title: article.title,
-        //text: article.text
-        //text: article.text.getCurrentContent(),
-        tags: article.tags
-      });
-    }
-  }
+      const html = article.text
+        .toString()
+        .replace("<figure><img", "[Link do obrazka należy dodać ponownie]");
+      console.log(html);
+      console.log(article.title.toString());
+      if (html !== "") {
+        const contentBlock = convertFromHTML(html);
+        const contentState = ContentState.createFromBlockArray(contentBlock);
+        this.setState({
+          id: article._id,
+          title: article.title,
 
-  componentDidMount() {
-    if (this.props.match.params.id) {
-      this.props.getArticleByID(this.props.match.params.id);
+          editorState: EditorState.createWithContent(contentState),
+          //text: article.text
+          //text: article.text.getCurrentContent(),
+          tags: article.tags
+        });
+      }
     }
   }
 
@@ -286,8 +302,13 @@ class ArticlesForm extends Component {
       name: user.name,
       tags: this.state.tags.toString()
     };
-    //console.log(newArticle);
-    this.props.addArticle(newArticle);
+    console.log(this.props.auth.isAuthenticated);
+    if (this.props.auth.isAuthenticated === true) {
+      this.props.deleteArticle(this.state.id);
+      this.props.addArticle(newArticle);
+      this.props.history.push("/dashboard");
+    }
+    //this.props.addArticle(newArticle);
     // this.setState({ text: "" });
   };
 
@@ -308,7 +329,7 @@ class ArticlesForm extends Component {
   onAddImage = e => {
     e.preventDefault();
     const editorState = this.state.editorState;
-    const urlValue = window.prompt("Paste Image Link");
+    const urlValue = window.prompt("Wklej link obrazka");
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       "image",
@@ -335,145 +356,160 @@ class ArticlesForm extends Component {
     );
   };
 
+  componentDidMount() {
+    if (this.props.match.params.id) {
+      //console.log(this.props.match.params.id);
+      this.props.getArticleByID(this.props.match.params.id);
+    }
+  }
+
   render() {
     const { classes } = this.props;
     const { errors } = this.state; // ES6
-
-    return (
-      <div>
-        <Grid container>
-          <Grid className={classes.grid} item xs />
-          <Grid className={classes.grid} item xs={8}>
-            <TextField
-              name="title"
-              label="Tytuł artykułu"
-              placeholder="Tytuł"
-              className={classes.textField}
-              value={this.state.title}
-              onChange={this.onChange}
-              error={errors.title}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-            />
-            {errors.title && (
-              <FormHelperText
-                className={classes.helpTextError}
-                id="title-error"
-              >
-                {errors.title}
-              </FormHelperText>
-            )}
-          </Grid>
-          <Grid className={classes.grid} item xs />
-        </Grid>
-
-        <Grid container>
-          <Grid className={classes.grid} item xs />
-          <Grid className={classes.grid} item xs={8}>
-            <div className="editorContainer">
-              <div className="toolbar">
-                <BlockStyleToolbar
-                  editorState={this.state.editorState}
-                  onToggle={this.toggleBlockType}
-                />
-                <Button onClick={this.onUnderlineClick}>U</Button>
-                <Button onClick={this.onBoldClick}>
-                  <b>B</b>
-                </Button>
-                <Button onClick={this.onItalicClick}>
-                  <em>I</em>
-                </Button>
-                <Button onClick={this.onAddImage}>
-                  <i className="material-icons">image</i>
-                </Button>
-              </div>
-            </div>
-          </Grid>
-          <Grid className={classes.grid} item xs />
-        </Grid>
-
-        <Grid container>
-          <Grid className={classes.grid} item xs>
-            <Paper className={classes.paper}>
-              <div>
-                <Editor
-                  className={classes.editors}
-                  name="text"
-                  blockRendererFn={mediaBlockRenderer}
-                  blockStyleFn={getBlockStyle}
-                  editorState={this.state.editorState}
-                  handleKeyCommand={this.handleKeyCommand}
-                  onChange={this.onChangeEditor}
-                  plugins={this.plugins}
-                  ref="editor"
-                  value={this.state.text}
-                  rowsMax="30"
-                  error={errors.text}
-                  spellCheck
-                />
-              </div>
-            </Paper>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid className={classes.grid} item xs />
-          <Grid className={classes.grid} item xs={8}>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
-              <Select
-                multiple
-                value={this.state.tags}
-                onChange={this.onChangeTag}
-                input={<Input id="select-multiple-checkbox" />}
-                renderValue={selected => selected.join(", ")}
-                MenuProps={MenuProps}
-                error={errors.tags}
-              >
-                {chooseTags.map(tag => (
-                  <MenuItem key={tag} value={tag}>
-                    <Checkbox checked={this.state.tags.indexOf(tag) > -1} />
-                    <ListItemText primary={tag} />
-                  </MenuItem>
-                ))}
-              </Select>
-              {errors.tags && (
+    const { article, loading } = this.props.article;
+    let articleContent;
+    console.log(article);
+    if (article === null || loading) {
+      articleContent = <LinearProgress />;
+    } else {
+      articleContent = (
+        <div>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <TextField
+                name="title"
+                label="Tytuł artykułuuu"
+                placeholder="Tytuł"
+                className={classes.textField}
+                value={this.state.title}
+                onChange={this.onChange}
+                error={errors.title}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+              />
+              {errors.title && (
                 <FormHelperText
                   className={classes.helpTextError}
-                  id="tags-error"
+                  id="title-error"
                 >
-                  {errors.tags}
+                  {errors.title}
                 </FormHelperText>
               )}
-            </FormControl>
-          </Grid>{" "}
-          <Grid className={classes.grid} item xs />
-        </Grid>
-        <Grid container>
-          <Grid className={classes.grid} item xs />
-          <Grid className={classes.grid} item xs={8}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={this.onSubmit}
-            >
-              Dodaj
-            </Button>
+            </Grid>
+            <Grid className={classes.grid} item xs />
           </Grid>
-          <Grid className={classes.grid} item xs />
-        </Grid>
-      </div>
-    );
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <div className="editorContainer">
+                <div className="toolbar">
+                  <BlockStyleToolbar
+                    editorState={this.state.editorState}
+                    onToggle={this.toggleBlockType}
+                  />
+                  <Button onClick={this.onUnderlineClick}>U</Button>
+                  <Button onClick={this.onBoldClick}>
+                    <b>B</b>
+                  </Button>
+                  <Button onClick={this.onItalicClick}>
+                    <em>I</em>
+                  </Button>
+                  <Button onClick={this.onAddImage}>
+                    <i className="material-icons">image</i>
+                  </Button>
+                </div>
+              </div>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+
+          <Grid container>
+            <Grid className={classes.grid} item xs>
+              <Paper className={classes.paper}>
+                <div>
+                  <Editor
+                    className={classes.editors}
+                    name="text"
+                    blockRendererFn={mediaBlockRenderer}
+                    blockStyleFn={getBlockStyle}
+                    editorState={this.state.editorState}
+                    handleKeyCommand={this.handleKeyCommand}
+                    onChange={this.onChangeEditor}
+                    plugins={this.plugins}
+                    ref="editor"
+                    value={this.state.text}
+                    rowsMax="30"
+                    error={errors.text}
+                    spellCheck
+                  />
+                </div>
+              </Paper>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
+                <Select
+                  multiple
+                  value={this.state.tags}
+                  onChange={this.onChangeTag}
+                  input={<Input id="select-multiple-checkbox" />}
+                  renderValue={selected => selected.join(", ")}
+                  MenuProps={MenuProps}
+                  error={errors.tags}
+                >
+                  {chooseTags.map(tag => (
+                    <MenuItem key={tag} value={tag}>
+                      <Checkbox checked={this.state.tags.indexOf(tag) > -1} />
+                      <ListItemText primary={tag} />
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.tags && (
+                  <FormHelperText
+                    className={classes.helpTextError}
+                    id="tags-error"
+                  >
+                    {errors.tags}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>{" "}
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={this.onSubmit}
+              >
+                Dodaj
+              </Button>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+        </div>
+      );
+    }
+
+    return <div>{articleContent}</div>;
   }
 }
 
 //https://material-ui.com/demos/autocomplete/
 
-ArticlesForm.propTypes = {
+EditArticle.propTypes = {
   addArticle: PropTypes.func.isRequired,
   getArticleByID: PropTypes.func.isRequired,
+  deleteArticle: PropTypes.func.isRequired,
   article: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
@@ -485,7 +521,9 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { addArticle, getArticleByID }
-)(withStyles(styles)(ArticlesForm));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { addArticle, getArticleByID, deleteArticle }
+  )(withStyles(styles)(EditArticle))
+);

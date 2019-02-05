@@ -20,6 +20,22 @@ import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import { DatePicker } from "material-ui-pickers";
 
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  AtomicBlockUtils,
+  convertToRaw,
+  convertFromRaw
+} from "draft-js";
+import BlockStyleToolbar, {
+  getBlockStyle
+} from "../blockStylesRichFieldText/BlockStyleToolbar";
+
+import { mediaBlockRenderer } from "../blockStylesRichFieldText/entities/mediaBlockRenderer";
+
+import { stateToHTML } from "draft-js-export-html";
+
 const styles = theme => ({
   layout: {
     width: "auto",
@@ -73,6 +89,14 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     width: "auto",
     display: "flex"
+  },
+  paperEditor: {
+    minHeight: "400px",
+    width: "auto",
+    margin: theme.spacing.unit
+  },
+  editors: {
+    padding: 25
   }
 });
 
@@ -80,6 +104,7 @@ class CreateEducation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      editorState: EditorState.createEmpty(),
       school: "",
       degree: "",
       fieldofstudy: "",
@@ -110,6 +135,58 @@ class CreateEducation extends Component {
     this.setState({ to: date });
   };
 
+  toggleBlockType = blockType => {
+    this.onChangeEditor(
+      RichUtils.toggleBlockType(this.state.editorState, blockType)
+    );
+  };
+
+  handleKeyCommand = command => {
+    const newState = RichUtils.handleKeyCommand(
+      this.state.editorState,
+      command
+    );
+    if (newState) {
+      this.onChangeEditor(newState);
+      return "handled";
+    }
+    return "not-handled";
+  };
+
+  onUnderlineClick = () => {
+    this.onChangeEditor(
+      RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
+    );
+  };
+
+  onBoldClick = event => {
+    this.onChangeEditor(
+      RichUtils.toggleInlineStyle(this.state.editorState, "BOLD")
+    );
+  };
+
+  onItalicClick = () => {
+    this.onChangeEditor(
+      RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
+    );
+  };
+
+  toggleBlockType = blockType => {
+    this.onChangeEditor(
+      RichUtils.toggleBlockType(this.state.editorState, blockType)
+    );
+  };
+
+  handleDateChangeTo = date => {
+    this.setState({ to: date });
+  };
+
+  onChangeEditor = editorState => {
+    this.setState({ editorState });
+  };
+
+  focus = () => this.refs.editor.focus();
+
   checkChange = e => {
     this.setState({
       disabled: !this.state.disabled,
@@ -128,7 +205,7 @@ class CreateEducation extends Component {
         from: this.state.from,
         to: "",
         current: this.state.current,
-        description: this.state.description
+        description: stateToHTML(this.state.editorState.getCurrentContent())
       };
 
       this.props.addEducation(eduData, this.props.history);
@@ -140,7 +217,7 @@ class CreateEducation extends Component {
         from: this.state.from,
         to: this.state.to,
         current: this.state.current,
-        description: this.state.description
+        description: stateToHTML(this.state.editorState.getCurrentContent())
       };
 
       this.props.addEducation(eduData, this.props.history);
@@ -354,18 +431,18 @@ class CreateEducation extends Component {
                   control={
                     <Checkbox
                       id="current"
-                      label="Aktualnie zatrudniony"
+                      label="Aktualnie studiuje"
                       checked={this.state.current}
                       onChange={this.checkChange}
                       value={this.state.current}
                       color="primary"
                     />
                   }
-                  label="Aktualnie zatrudniony"
+                  label="Aktualnie studiuje"
                 />
 
                 <FormHelperText className={classes.helpText}>
-                  Określ okres pracy w pracy.
+                  Określ lata studiów.
                 </FormHelperText>
                 {errors.from && (
                   <FormHelperText
@@ -375,6 +452,54 @@ class CreateEducation extends Component {
                     {errors.from}
                   </FormHelperText>
                 )}
+              </Grid>
+              <Grid className={classes.grid} item xs />
+            </Grid>
+
+            <Grid container>
+              <Grid className={classes.grid} item xs />
+              <Grid className={classes.grid} item xs={8}>
+                <div className="editorContainer">
+                  <div className="toolbar">
+                    <BlockStyleToolbar
+                      editorState={this.state.editorState}
+                      onToggle={this.toggleBlockType}
+                    />
+                    <Button onClick={this.onUnderlineClick}>U</Button>
+                    <Button onClick={this.onBoldClick}>
+                      <b>B</b>
+                    </Button>
+                    <Button onClick={this.onItalicClick}>
+                      <em>I</em>
+                    </Button>
+                  </div>
+                </div>
+              </Grid>
+              <Grid className={classes.grid} item xs />
+            </Grid>
+
+            <Grid container>
+              <Grid className={classes.grid} item xs />
+              <Grid className={classes.grid} item xs={8}>
+                <Paper className={classes.paperEditor}>
+                  <div>
+                    <Editor
+                      className={classes.editors}
+                      name="description"
+                      blockRendererFn={mediaBlockRenderer}
+                      blockStyleFn={getBlockStyle}
+                      editorState={this.state.editorState}
+                      handleKeyCommand={this.handleKeyCommand}
+                      onChange={this.onChangeEditor}
+                      plugins={this.plugins}
+                      ref="editor"
+                      value={this.state.text}
+                      rowsMax="30"
+                      error={errors.text}
+                      spellCheck
+                    />
+                  </div>
+                </Paper>
               </Grid>
               <Grid className={classes.grid} item xs />
             </Grid>

@@ -48,7 +48,8 @@ class Articles extends Component {
             type="submit"
             variant="contained"
             color="primary"
-            to={`/${art._id}`}
+            to={`/edit-articles/${art._id}`}
+            onClick={console.log(art._id)}
             //onClick={this.onEditClick.bind(this, art._id)}
           >
             Edytuj

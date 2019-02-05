@@ -3,7 +3,8 @@ import {
   GET_ARTICLE,
   ARTICLE_LOADING,
   DELETE_ARTICLE,
-  GET_ARTICLE_ID
+  GET_ARTICLE_ID,
+  GET_ARTICLES
 } from "../actions/types";
 
 const initialState = {
@@ -27,7 +28,7 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
-    case GET_ARTICLE:
+    case GET_ARTICLES:
       return {
         ...state,
         articles: action.payload,

@@ -7,6 +7,7 @@ import ProfileCreds from "./ProfileCreds";
 import ProfileAbout from "./ProfileAbout";
 import ProfileGithub from "./ProfileGithub";
 import ProfileArticles from "./ProfileArticles";
+import { getArticle } from "../../actions/articleActions";
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
 import { getProfileByHandle } from "../../actions/profileActions";
 import {
@@ -61,6 +62,7 @@ const styles = theme => ({
 
 class Profile extends Component {
   componentDidMount() {
+    this.props.getArticle();
     if (this.props.match.params.handle) {
       this.props.getProfileByHandle(this.props.match.params.handle);
     }
@@ -80,10 +82,10 @@ class Profile extends Component {
           <ProfileHeader profile={profile} />
           <ProfileCreds
             experience={profile.experience}
-            //education={profile.education}
+            education={profile.education}
           />
           <ProfileAbout />
-          <ProfileArticles />
+          <ProfileArticles profile={profile} />
           <ProfileGithub />
         </div>
       );
@@ -105,14 +107,17 @@ class Profile extends Component {
 
 Profile.propTypes = {
   getProfileByHandle: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  article: PropTypes.object.isRequired,
+  getArticle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
+  article: state.articles
 });
 
 export default connect(
   mapStateToProps,
-  { getProfileByHandle }
+  { getProfileByHandle, getArticle }
 )(withStyles(styles)(Profile));

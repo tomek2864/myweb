@@ -91,7 +91,11 @@ class App extends Component {
                 <PrivateRoute exact path="/add-articles" component={Articles} />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/:id" component={EditArticle} />
+                <PrivateRoute
+                  exact
+                  path="/edit-articles/:id"
+                  component={EditArticle}
+                />
               </Switch>
             </div>
             <Footer />

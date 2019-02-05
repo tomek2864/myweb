@@ -124,6 +124,8 @@ class CreateProfile extends Component {
       profile.company = !isEmpty(profile.company) ? profile.company : "";
       profile.website = !isEmpty(profile.website) ? profile.website : "";
       profile.location = !isEmpty(profile.location) ? profile.location : "";
+      profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+
       profile.githubusername = !isEmpty(profile.githubusername)
         ? profile.githubusername
         : "";
@@ -138,6 +140,7 @@ class CreateProfile extends Component {
         location: profile.location,
         githubusername: profile.githubusername,
         status: profile.status,
+        bio: profile.bio,
         //linkedin: profile.linkedin,
 
         skills: skillsCSV //!
@@ -158,7 +161,8 @@ class CreateProfile extends Component {
       location: this.state.location,
       status: this.state.status,
       skills: this.state.skills,
-      githubusername: this.state.githubusername
+      githubusername: this.state.githubusername,
+      bio: this.state.bio
     };
 
     this.props.createProfile(profileData, this.props.history);
@@ -437,6 +441,36 @@ class CreateProfile extends Component {
                     id="githubusername-error"
                   >
                     {errors.githubusername}
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid className={classes.grid} item xs />
+            </Grid>
+            <Grid container>
+              <Grid className={classes.grid} item xs />
+              <Grid className={classes.grid} item xs={8}>
+                <TextField
+                  name="bio"
+                  label="Twoja biografia"
+                  placeholder="Biografia"
+                  className={classes.textField}
+                  value={this.state.bio}
+                  onChange={this.onChange}
+                  error={errors.bio}
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                />
+                <FormHelperText className={classes.helpText}>
+                  Napisz pare zdań o sobie.
+                </FormHelperText>
+                {errors.bio && (
+                  <FormHelperText
+                    className={classes.helpTextError}
+                    id="bio-error"
+                  >
+                    {errors.bio}
                   </FormHelperText>
                 )}
               </Grid>

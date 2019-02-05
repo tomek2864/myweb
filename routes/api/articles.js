@@ -31,10 +31,21 @@ router.get("/", (req, res) => {
     );
 });
 
-// @route   GET api/articles/:id
+// @route   GET api/articles/id/:id
 // @desc    Get articles by id
 // @access  Public
-router.get("/:id", (req, res) => {
+router.get("/id/:id", (req, res) => {
+  Article.findById(req.params.id)
+    .then(article => res.json(article))
+    .catch(err =>
+      res.status(404).json({ noarticlesfound: "Brak artykułu o takim ID." })
+    );
+});
+
+// @route   GET api/articles/userid/:id
+// @desc    Get articles by User ID
+// @access  Public
+router.get("/userid/:id", (req, res) => {
   Article.findById(req.params.id)
     .then(article => res.json(article))
     .catch(err =>

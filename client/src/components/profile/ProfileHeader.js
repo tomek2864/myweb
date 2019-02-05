@@ -17,7 +17,8 @@ const styles = theme => ({
     marginLeft: "auto",
     marginRight: "auto",
     padding: "0px 0px 0px 0px",
-    paddingBottom: "0px"
+    paddingBottom: "0px",
+    textAlign: "justify"
   },
   cardContent: {
     color: "#242249",
@@ -47,26 +48,15 @@ const styles = theme => ({
 class ProfileHeader extends Component {
   render() {
     const { classes } = this.props;
-    const { profileHeader } = this.props;
+    const { profile } = this.props;
     return (
       <div>
         <Card className={classes.card}>
+          <Typography className={classes.typograhyTitle}>O mnie</Typography>
           <CardContent className={classes.cardContent}>
-            <Typography className={classes.typograhyTitle}>Nagłówek</Typography>
-            <Grid className={classes.grid} item xs>
-              <Typography className={classes.typograhyContent}>
-                Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz
-                w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarza do wypełnienia tekstem próbnej
-                książki. Pięć wieków później zaczął być używany przemyśle
-                elektronicznym, pozostając praktycznie niezmienionym.
-                Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy
-                Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z
-                zawierającym różne wersje Lorem Ipsum oprogramowaniem
-                przeznaczonym do realizacji druków na komputerach osobistych,
-                jak Aldus PageMaker
-              </Typography>
-            </Grid>
+            <Typography className={classes.typograhyContent}>
+              <div>{profile.bio}</div>
+            </Typography>
           </CardContent>
         </Card>
       </div>
