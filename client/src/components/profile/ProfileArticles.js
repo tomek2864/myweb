@@ -4,9 +4,14 @@ import {
   CardActions,
   CardContent,
   Typography,
-  Grid
+  Grid,
+  Paper,
+  ButtonBase,
+  Chip
 } from "@material-ui/core";
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   card: {
@@ -41,31 +46,78 @@ const styles = theme => ({
     justifyContent: "center",
     alignItems: "center",
     display: "flex"
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    margin: "auto",
+    maxWidth: 500
+  },
+  image: {
+    width: 128,
+    height: 128
+  },
+  img: {
+    margin: "auto",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%"
+  },
+  paperS: {
+    height: 200,
+    width: 280
+  },
+  chip: {
+    marginRight: theme.spacing.unit,
+    marginTop: theme.spacing.unit
   }
 });
 
 class ProfileArticles extends Component {
+  openTagSite = tag => () => {
+    this.props.history.push(
+      `/articles/${this.props.match.params.handle}/${tag}`
+    );
+  };
+
   render() {
     const { classes } = this.props;
     const { articles } = this.props;
+    //const tags = ;
     return (
       <div>
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
-            <Typography className={classes.typograhyTitle}>Artykuły</Typography>
-            <Grid className={classes.grid} item xs>
-              <Typography className={classes.typograhyContent}>
-                Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz
-                w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarza do wypełnienia tekstem próbnej
-                książki. Pięć wieków później zaczął być używany przemyśle
-                elektronicznym, pozostając praktycznie niezmienionym.
-                Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy
-                Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z
-                zawierającym różne wersje Lorem Ipsum oprogramowaniem
-                przeznaczonym do realizacji druków na komputerach osobistych,
-                jak Aldus PageMaker
-              </Typography>
+            <Typography className={classes.typograhyTitle}>
+              Opisy wykonanych projektów
+            </Typography>
+            <Grid item xs={12}>
+              <Grid
+                container
+                className={classes.demo}
+                justify="center"
+                spacing={Number(32)}
+                display="flex"
+                flexWrap="wrap"
+              >
+                {articles.map(value => (
+                  <Grid key={value} item>
+                    <Paper className={classes.paperS}>
+                      {" "}
+                      {value.title}
+                      <div>
+                        {value.tags.map((tag, index) => (
+                          <Chip
+                            key={index}
+                            label={tag}
+                            className={classes.chip}
+                            onClick={this.openTagSite(tag)}
+                          />
+                        ))}
+                      </div>
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </CardContent>
         </Card>
@@ -74,4 +126,9 @@ class ProfileArticles extends Component {
   }
 }
 
-export default withStyles(styles)(ProfileArticles);
+ProfileArticles.propTypes = {
+  articles: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
+};
+
+export default withRouter(withStyles(styles)(ProfileArticles));

@@ -64,6 +64,44 @@ export const getArticleByID = id => dispatch => {
     );
 };
 
+// Get article by id
+export const getArticlesByUserHandle = handle => dispatch => {
+  dispatch(setArticleLoading());
+  axios
+    .get(`/api/articles/handle/${handle}`)
+    .then(res =>
+      dispatch({
+        type: GET_ARTICLES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ARTICLES,
+        payload: null
+      })
+    );
+};
+
+// Get article by id
+export const getArticlesByTagUserHandle = (handle, tag) => dispatch => {
+  dispatch(setArticleLoading());
+  axios
+    .get(`/api/articles/handle/${handle}/${tag}`)
+    .then(res =>
+      dispatch({
+        type: GET_ARTICLES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ARTICLES,
+        payload: null
+      })
+    );
+};
+
 //Loading
 export const setArticleLoading = () => {
   return {

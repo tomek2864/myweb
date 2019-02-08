@@ -25,6 +25,8 @@ import Profile from "./components/profile/Profile";
 import Articles from "./components/articles/Articles";
 import EditArticle from "./components/articles/EditArticle";
 
+import UserTags from "./components/articles/UserTags";
+
 //Sprawdzanie czy token jest w localstorage
 if (localStorage.jwtToken) {
   //Ustawienie auth tokenu w header auth
@@ -56,6 +58,7 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/profiles" component={Profiles} />
               <Route exact path="/profile/:handle" component={Profile} />
+              <Route exact path="/articles/:handle/:tag" component={UserTags} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>

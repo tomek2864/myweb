@@ -7,7 +7,8 @@ import ProfileCreds from "./ProfileCreds";
 import ProfileAbout from "./ProfileAbout";
 import ProfileGithub from "./ProfileGithub";
 import ProfileArticles from "./ProfileArticles";
-import { getArticle } from "../../actions/articleActions";
+import { getArticlesByUserHandle } from "../../actions/articleActions";
+
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
 import { getProfileByHandle } from "../../actions/profileActions";
 import {
@@ -62,18 +63,24 @@ const styles = theme => ({
 
 class Profile extends Component {
   componentDidMount() {
-    this.props.getArticle();
     if (this.props.match.params.handle) {
       this.props.getProfileByHandle(this.props.match.params.handle);
+      this.props.getArticlesByUserHandle(this.props.match.params.handle);
     }
   }
 
   render() {
     const { classes } = this.props;
     const { profile, loading } = this.props.profile;
+    const { articles, loading_art } = this.props.article;
     let profileContent;
 
-    if (profile === null || loading) {
+    if (
+      profile === null ||
+      loading ||
+      this.props.article.loading ||
+      articles === null
+    ) {
       profileContent = <LinearProgress />;
     } else {
       profileContent = (
@@ -85,7 +92,7 @@ class Profile extends Component {
             education={profile.education}
           />
           <ProfileAbout />
-          <ProfileArticles profile={profile} />
+          <ProfileArticles articles={articles} />
           <ProfileGithub />
         </div>
       );
@@ -109,15 +116,15 @@ Profile.propTypes = {
   getProfileByHandle: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   article: PropTypes.object.isRequired,
-  getArticle: PropTypes.func.isRequired
+  getArticlesByUserHandle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  article: state.articles
+  article: state.article
 });
 
 export default connect(
   mapStateToProps,
-  { getProfileByHandle, getArticle }
+  { getProfileByHandle, getArticlesByUserHandle }
 )(withStyles(styles)(Profile));
