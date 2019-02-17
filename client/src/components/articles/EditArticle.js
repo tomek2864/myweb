@@ -211,8 +211,9 @@ class EditArticle extends Component {
       summary: "",
       yt: "",
       ytLinks: [{ yt: "" }],
-      photo: "",
-      photoLinks: [{ photo: "" }],
+      original: "",
+      thumbnail: "",
+      photoLinks: [{ original: "", thumbnail: "" }],
       tags: [],
       errors: {},
       //editorState: EditorState.createEmpty()
@@ -376,14 +377,14 @@ class EditArticle extends Component {
 
   addPhotoLink = () => {
     this.setState({
-      photoLinks: this.state.photoLinks.concat({ photo: "" }) // tworzy kopie tablicy z nowym elementem
+      photoLinks: this.state.photoLinks.concat({ original: "", thumbnail: "" }) // tworzy kopie tablicy z nowym elementem
     });
   };
 
   removePhotoLink = newPhotoIndex => () => {
     this.setState({
       photoLinks: this.state.photoLinks.filter(
-        (photo, index) => newPhotoIndex !== index // nowa tablica z wykonaniem testu obecnosci elementow
+        (original, index) => newPhotoIndex !== index // nowa tablica z wykonaniem testu obecnosci elementow
       ) //
     });
   };
@@ -391,7 +392,11 @@ class EditArticle extends Component {
   changePhotoLink = newPhotoIndex => event => {
     const newPhotoLinks = this.state.photoLinks.map((photoLink, index) => {
       if (newPhotoIndex !== index) return photoLink;
-      return { ...photoLink, photo: event.target.value };
+      return {
+        ...photoLink,
+        original: event.target.value,
+        thumbnail: event.target.value
+      };
     });
     this.setState({ photoLinks: newPhotoLinks });
   };
@@ -573,7 +578,7 @@ class EditArticle extends Component {
                     label={`Podaj link do zdjęcia nr ${index + 1}`}
                     placeholder="Link do zdjęcia"
                     className={classes.textFieldLink}
-                    value={photoLink.photo}
+                    value={photoLink.original}
                     onChange={this.changePhotoLink(index)}
                     error={errors.photoLinks}
                     margin="normal"

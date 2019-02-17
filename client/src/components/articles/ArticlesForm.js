@@ -201,7 +201,8 @@ class ArticlesForm extends Component {
       yt: "",
       ytLinks: [{ yt: "" }],
       original: "",
-      photoLinks: [{ original: "" }],
+      thumbnail: "",
+      photoLinks: [{ original: "", thumbnail: "" }],
       tags: [],
       errors: {},
       //editorState: EditorState.createEmpty()
@@ -326,7 +327,7 @@ class ArticlesForm extends Component {
 
   addPhotoLink = () => {
     this.setState({
-      photoLinks: this.state.photoLinks.concat({ original: "" }) // tworzy kopie tablicy z nowym elementem
+      photoLinks: this.state.photoLinks.concat({ original: "", thumbnail: "" }) // tworzy kopie tablicy z nowym elementem
     });
   };
 
@@ -341,7 +342,11 @@ class ArticlesForm extends Component {
   changePhotoLink = newPhotoIndex => event => {
     const newPhotoLinks = this.state.photoLinks.map((photoLink, index) => {
       if (newPhotoIndex !== index) return photoLink;
-      return { ...photoLink, original: event.target.value };
+      return {
+        ...photoLink,
+        original: event.target.value,
+        thumbnail: event.target.value
+      };
     });
     this.setState({ photoLinks: newPhotoLinks });
   };

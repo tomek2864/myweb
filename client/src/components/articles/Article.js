@@ -13,8 +13,7 @@ import {
 } from "@material-ui/core";
 import { getArticleByID } from "../../actions/articleActions";
 import ImageGallery from "react-image-gallery";
-import "node_modules/react-image-gallery/styles/css/imageGallery.css";
-
+import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 const styles = {
   card: {
     maxWidth: 1400,
@@ -23,6 +22,14 @@ const styles = {
     marginLeft: "auto",
     marginRight: "auto",
     backgroundColor: "#968ffc"
+  },
+  cardGallery: {
+    maxWidth: 600,
+    marginBottom: 25,
+    marginTop: 25,
+    marginLeft: "auto",
+    marginRight: "auto",
+    backgroundColor: "#fff"
   },
   title: {
     fontSize: 14
@@ -45,6 +52,7 @@ class Article extends Component {
 
   render() {
     const { article, loading } = this.props.article;
+    const { classes } = this.props;
     let articleContent;
 
     if (article === null || loading) {
@@ -52,14 +60,12 @@ class Article extends Component {
     } else {
       articleContent = (article.title,
       (
-        <ImageGallery
-          className={classes.imageGallery}
-          items={article.photoLinks}
-        />
+        <Card className={classes.cardGallery}>
+          <ImageGallery items={article.photoLinks} />
+        </Card>
       ));
     }
 
-    const { classes } = this.props;
     return (
       <Card className={classes.card}>
         <CardContent>{articleContent}</CardContent>
