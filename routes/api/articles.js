@@ -126,6 +126,9 @@ router.post(
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id,
+      summary: req.body.summary,
+      ytLinks: req.body.ytLinks,
+      photoLinks: req.body.photoLinks,
       tags: req.body.tags.split(",")
     });
 

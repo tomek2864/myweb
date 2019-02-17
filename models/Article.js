@@ -11,6 +11,16 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
+  summary: {
+    type: String,
+    required: true
+  },
+  ytLinks: {
+    type: Object
+  },
+  photoLinks: {
+    type: Object
+  },
   text: {
     type: Object,
     required: true

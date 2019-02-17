@@ -18,7 +18,7 @@ import {
   FormHelperText,
   Paper
 } from "@material-ui/core";
-
+import DeleteIcon from "@material-ui/icons/Delete";
 import {
   Editor,
   EditorState,
@@ -143,6 +143,11 @@ const styles = theme => ({
     display: "flex",
     margin: theme.spacing.unit
   },
+  textFieldLink: {
+    width: "75%",
+    display: "flex",
+    margin: theme.spacing.unit
+  },
   formControl: {
     margin: theme.spacing.unit,
     width: "auto",
@@ -192,6 +197,11 @@ class ArticlesForm extends Component {
     this.state = {
       title: "",
       text: "",
+      summary: "",
+      yt: "",
+      ytLinks: [{ yt: "" }],
+      original: "",
+      photoLinks: [{ original: "" }],
       tags: [],
       errors: {},
       //editorState: EditorState.createEmpty()
@@ -253,6 +263,7 @@ class ArticlesForm extends Component {
 
     const newArticle = {
       title: this.state.title,
+      summary: this.state.summary,
       //text: this.state.text,
       /* text: JSON.stringify(
         convertToRaw(this.state.editorState.getCurrentContent())
@@ -260,7 +271,9 @@ class ArticlesForm extends Component {
       text: stateToHTML(this.state.editorState.getCurrentContent()),*/
       text: stateToHTML(this.state.editorState.getCurrentContent()),
       name: user.name,
-      tags: this.state.tags.toString()
+      tags: this.state.tags.toString(),
+      photoLinks: this.state.photoLinks,
+      ytLinks: this.state.ytLinks
     };
     console.log(newArticle);
     this.props.addArticle(newArticle);
@@ -311,6 +324,50 @@ class ArticlesForm extends Component {
     );
   };
 
+  addPhotoLink = () => {
+    this.setState({
+      photoLinks: this.state.photoLinks.concat({ original: "" }) // tworzy kopie tablicy z nowym elementem
+    });
+  };
+
+  removePhotoLink = newPhotoIndex => () => {
+    this.setState({
+      photoLinks: this.state.photoLinks.filter(
+        (original, index) => newPhotoIndex !== index // nowa tablica z wykonaniem testu obecnosci elementow
+      ) //
+    });
+  };
+
+  changePhotoLink = newPhotoIndex => event => {
+    const newPhotoLinks = this.state.photoLinks.map((photoLink, index) => {
+      if (newPhotoIndex !== index) return photoLink;
+      return { ...photoLink, original: event.target.value };
+    });
+    this.setState({ photoLinks: newPhotoLinks });
+  };
+
+  addYoutubeLink = () => {
+    this.setState({
+      ytLinks: this.state.ytLinks.concat({ yt: "" }) // tworzy kopie tablicy z nowym elementem
+    });
+  };
+
+  removeYoutubeLink = newYoutubeIndex => () => {
+    this.setState({
+      ytLinks: this.state.ytLinks.filter(
+        (y, index) => newYoutubeIndex !== index // nowa tablica z wykonaniem testu obecnosci elementow
+      ) //
+    });
+  };
+
+  changeYoutubeLink = newYoutubeIndex => event => {
+    const newYoutubeLink = this.state.ytLinks.map((ytLink, index) => {
+      if (newYoutubeIndex !== index) return ytLink;
+      return { ...ytLink, yt: event.target.value };
+    });
+    this.setState({ ytLinks: newYoutubeLink });
+  };
+
   render() {
     const { classes } = this.props;
     const { errors } = this.state; // ES6
@@ -343,7 +400,32 @@ class ArticlesForm extends Component {
           </Grid>
           <Grid className={classes.grid} item xs />
         </Grid>
-
+        <Grid container>
+          <Grid className={classes.grid} item xs />
+          <Grid className={classes.grid} item xs={8}>
+            <TextField
+              name="summary"
+              label="Streszczenie artykułu"
+              placeholder="Streszczenie"
+              className={classes.textField}
+              value={this.state.summary}
+              onChange={this.onChange}
+              error={errors.summary}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+            />
+            {errors.summary && (
+              <FormHelperText
+                className={classes.helpTextError}
+                id="summary-error"
+              >
+                {errors.summary}
+              </FormHelperText>
+            )}
+          </Grid>
+          <Grid className={classes.grid} item xs />
+        </Grid>
         <Grid container>
           <Grid className={classes.grid} item xs />
           <Grid className={classes.grid} item xs={8}>
@@ -368,7 +450,6 @@ class ArticlesForm extends Component {
           </Grid>
           <Grid className={classes.grid} item xs />
         </Grid>
-
         <Grid container>
           <Grid className={classes.grid} item xs>
             <Paper className={classes.paper}>
@@ -391,6 +472,96 @@ class ArticlesForm extends Component {
               </div>
             </Paper>
           </Grid>
+        </Grid>
+        {this.state.photoLinks.map((photoLink, index) => (
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <div>
+                <TextField
+                  name="photoLinks"
+                  id="photoLinks"
+                  label={`Podaj link do zdjęcia nr ${index + 1}`}
+                  placeholder="Link do zdjęcia"
+                  className={classes.textFieldLink}
+                  value={photoLink.original}
+                  onChange={this.changePhotoLink(index)}
+                  error={errors.photoLinks}
+                  margin="normal"
+                  variant="outlined"
+                />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
+                  onClick={this.removePhotoLink(index)}
+                >
+                  <DeleteIcon className={classes.rightIcon} />
+                </Button>
+              </div>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+        ))}
+        <Grid container>
+          <Grid className={classes.grid} item xs />
+          <Grid className={classes.grid} item xs={8}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={this.addPhotoLink}
+            >
+              Nowe zdjęcie
+            </Button>
+          </Grid>
+          <Grid className={classes.grid} item xs />
+        </Grid>
+        {this.state.ytLinks.map((ytLink, index) => (
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <div>
+                <TextField
+                  name="ytLinks"
+                  id="ytLinks"
+                  label={`Podaj link do filmiku na youtube nr ${index + 1}`}
+                  placeholder="Link do youtube"
+                  className={classes.textFieldLink}
+                  value={ytLink.yt}
+                  onChange={this.changeYoutubeLink(index)}
+                  error={errors.ytLinks}
+                  margin="normal"
+                  variant="outlined"
+                />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
+                  onClick={this.removeYoutubeLink(index)}
+                >
+                  <DeleteIcon className={classes.rightIcon} />
+                </Button>
+              </div>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+        ))}
+        <Grid container>
+          <Grid className={classes.grid} item xs />
+          <Grid className={classes.grid} item xs={8}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={this.addYoutubeLink}
+            >
+              Nowy film
+            </Button>
+          </Grid>
+          <Grid className={classes.grid} item xs />
         </Grid>
         <Grid container>
           <Grid className={classes.grid} item xs />

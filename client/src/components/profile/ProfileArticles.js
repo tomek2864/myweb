@@ -6,12 +6,12 @@ import {
   Typography,
   Grid,
   Paper,
-  ButtonBase,
+  Button,
   Chip
 } from "@material-ui/core";
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 const styles = theme => ({
   card: {
@@ -115,6 +115,15 @@ class ProfileArticles extends Component {
                         ))}
                       </div>
                     </Paper>
+                    <Button
+                      component={Link}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      to={`/article/${value._id}`}
+                    >
+                      Zobacz całość
+                    </Button>
                   </Grid>
                 ))}
               </Grid>

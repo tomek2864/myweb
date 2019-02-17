@@ -1,17 +1,9 @@
 import React, { Component } from "react";
-import classnames from "classnames";
 import PropTypes from "prop-types";
 import { getArticlesByTagUserHandle } from "../../actions/articleActions";
-import Moment from "react-moment";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  Card,
-  CardContent,
-  Typography,
-  LinearProgress,
-  Chip
-} from "@material-ui/core";
+import { Card, CardContent, Typography } from "@material-ui/core";
 const styles = theme => ({
   card: {
     maxWidth: 1000,
