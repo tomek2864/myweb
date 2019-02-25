@@ -7,12 +7,13 @@ import {
   CardActions,
   CardContent,
   Button,
-  Typography,
+  TextField,
   LinearProgress,
-  Paper
+  Grid
 } from "@material-ui/core";
 import { getArticleByID } from "../../actions/articleActions";
 import ImageGallery from "react-image-gallery";
+import YouTube from "react-youtube";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 const styles = {
   card: {
@@ -55,20 +56,36 @@ class Article extends Component {
     const { classes } = this.props;
     let articleContent;
 
+    const opts = {
+      height: "390",
+      width: "640",
+      playerVars: {
+        autoplay: 0
+      }
+    };
+
     if (article === null || loading) {
       articleContent = <LinearProgress />;
     } else {
-      articleContent = (article.title,
-      (
-        <Card className={classes.cardGallery}>
-          <ImageGallery items={article.photoLinks} />
-        </Card>
-      ));
+      articleContent = (
+        <div>
+          <Card className={classes.cardGallery}>
+            <ImageGallery items={article.photoLinks} />
+          </Card>
+          <Card className={classes.cardGallery} />
+        </div>
+      );
     }
 
     return (
       <Card className={classes.card}>
-        <CardContent>{articleContent}</CardContent>
+        {article.title}
+        <CardContent>
+          {articleContent}
+          {article.ytLinks !== undefined ? (
+            <YouTube videoId={article.ytLinks[0].yt} opts={opts} />
+          ) : null}
+        </CardContent>
       </Card>
     );
   }

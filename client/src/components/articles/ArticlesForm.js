@@ -556,15 +556,19 @@ class ArticlesForm extends Component {
         <Grid container>
           <Grid className={classes.grid} item xs />
           <Grid className={classes.grid} item xs={8}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={this.addYoutubeLink}
-            >
-              Nowy film
-            </Button>
+            {this.state.ytLinks.length == 1 ? (
+              " "
+            ) : (
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={this.addYoutubeLink}
+              >
+                Nowy film
+              </Button>
+            )}
           </Grid>
           <Grid className={classes.grid} item xs />
         </Grid>
