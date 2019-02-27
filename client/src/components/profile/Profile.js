@@ -43,11 +43,12 @@ const styles = theme => ({
     padding: `${theme.spacing.unit * 2}px 0 ${theme.spacing.unit * 3}px` //up left-right down
   },
   card: {
-    maxWidth: 1000,
+    maxWidth: 1400,
     marginBottom: 25,
     marginTop: 25,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    backgroundColor: "#EEE"
   },
   title: {
     fontSize: 14
@@ -91,7 +92,6 @@ class Profile extends Component {
             experience={profile.experience}
             education={profile.education}
           />
-          <ProfileAbout />
           <ProfileArticles articles={articles} />
           <ProfileGithub />
         </div>
@@ -101,11 +101,7 @@ class Profile extends Component {
     return (
       <React.Fragment>
         <main className={classes.layout}>
-          <Paper className={classes.paper}>
-            <Card className={classes.card}>
-              <CardContent>{profileContent}</CardContent>
-            </Card>
-          </Paper>
+          <Card className={classes.card}>{profileContent}</Card>
         </main>
       </React.Fragment>
     );

@@ -9,33 +9,18 @@ import {
 import { withStyles, createMuiTheme } from "@material-ui/core/styles";
 
 const styles = theme => ({
-  card: {
-    background: "#f2f2f2",
-    maxWidth: 1000,
-    marginBottom: 5,
-    marginTop: 5,
+  contentCard: {
+    alignItems: "center",
     marginLeft: "auto",
-    marginRight: "auto",
-    padding: "0px 0px 0px 0px",
-    paddingBottom: "0px",
-    textAlign: "justify"
-  },
-  cardContent: {
-    color: "#242249",
-    padding: "0px 0px 0px 0px",
-    paddingBottom: "0px"
+    marginRight: "auto"
   },
   typograhyTitle: {
-    padding: "5px 5px",
-    fontSize: 22
+    textAlign: "center",
+    fontSize: 28
   },
-  typograhyContent: {
-    padding: "5px 5px",
-    fontSize: 14,
-    alignContent: "stretch",
-    justifyContent: "center",
-    alignItems: "center",
-    display: "flex"
+  textAboutMe: {
+    textAlign: "justify",
+    fontSize: 16
   },
   grid: {
     alignContent: "stretch",
@@ -51,14 +36,33 @@ class ProfileHeader extends Component {
     const { profile } = this.props;
     return (
       <div>
-        <Card className={classes.card}>
-          <Typography className={classes.typograhyTitle}>O mnie</Typography>
-          <CardContent className={classes.cardContent}>
-            <Typography className={classes.typograhyContent}>
-              <div>{profile.bio}</div>
-            </Typography>
-          </CardContent>
-        </Card>
+        <Grid container>
+          <Grid className={classes.grid} item xs />
+          <Grid className={classes.grid} item xs={11}>
+            <Grid className={classes.grid} item xs={8}>
+              <CardContent className={classes.contentCard}>
+                <Typography className={classes.typograhyTitle}>
+                  {profile.user.name}
+                </Typography>
+                <Typography className={classes.textAboutMe}>
+                  <div>{profile.bio}</div>
+                </Typography>
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={4}>
+              <CardContent className={classes.contentCard}>
+                <Typography className={classes.typograhyTitle}>
+                  {profile.user.name}
+                </Typography>
+                <Typography className={classes.textAboutMe}>
+                  <div>{profile.bio}</div>
+                </Typography>
+              </CardContent>
+            </Grid>
+          </Grid>
+          <Grid className={classes.grid} item xs />
+        </Grid>
       </div>
     );
   }

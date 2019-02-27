@@ -7,13 +7,14 @@ import {
   CardActions,
   CardContent,
   Button,
-  TextField,
+  Chip,
   LinearProgress,
-  Grid
+  Grid,
+  Typography
 } from "@material-ui/core";
 import { getArticleByID } from "../../actions/articleActions";
 import ImageGallery from "react-image-gallery";
-import YouTube from "react-youtube";
+import YouTube from "react-youtube-embed";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 const styles = {
   card: {
@@ -22,10 +23,10 @@ const styles = {
     marginTop: 25,
     marginLeft: "auto",
     marginRight: "auto",
-    backgroundColor: "#968ffc"
+    backgroundColor: "#EEE"
   },
   cardGallery: {
-    maxWidth: 600,
+    maxWidth: 800,
     marginBottom: 25,
     marginTop: 25,
     marginLeft: "auto",
@@ -35,12 +36,32 @@ const styles = {
   title: {
     fontSize: 14
   },
-  pos: {
-    marginBottom: 12
-  },
   button: {
     marginLeft: "auto",
     marginRight: "auto"
+  },
+  contentCard: {
+    maxWidth: 800,
+    alignItems: "center"
+  },
+  textArticle: {
+    textAlign: "justify",
+    fontSize: 16
+  },
+  titleArticle: {
+    textAlign: "center",
+    fontSize: 28
+  },
+  tagsArticle: {
+    fontSize: 16
+  },
+  chip: {
+    color: "#EEE",
+    backgroundColor: "#323232",
+    borderColor: "#323232",
+    border: "2px solid",
+    padding: "1px 8px",
+    fontSize: 16
   }
 };
 
@@ -51,21 +72,20 @@ class Article extends Component {
     }
   }
 
+  openTagSite = tag => () => {
+    this.props.history.push(
+      `/articles/${this.props.match.params.handle}/${tag}`
+    );
+  };
+
   render() {
     const { article, loading } = this.props.article;
     const { classes } = this.props;
-    let articleContent;
+    let articleContent, articleTags;
 
-    const opts = {
-      height: "390",
-      width: "640",
-      playerVars: {
-        autoplay: 0
-      }
-    };
-
-    if (article === null || loading) {
+    if (article.tags === undefined || article === null || loading) {
       articleContent = <LinearProgress />;
+      articleTags = <LinearProgress />;
     } else {
       articleContent = (
         <div>
@@ -75,18 +95,76 @@ class Article extends Component {
           <Card className={classes.cardGallery} />
         </div>
       );
+      articleTags = (
+        <div>
+          {article.tags.map((tag, index) => (
+            <Chip
+              key={index}
+              label={tag}
+              className={classes.chip}
+              onClick={this.openTagSite(tag)}
+            />
+          ))}
+        </div>
+      );
     }
 
     return (
-      <Card className={classes.card}>
-        {article.title}
-        <CardContent>
-          {articleContent}
-          {article.ytLinks !== undefined ? (
-            <YouTube videoId={article.ytLinks[0].yt} opts={opts} />
-          ) : null}
-        </CardContent>
-      </Card>
+      <div>
+        <Card className={classes.card}>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <CardContent className={classes.contentCard}>
+                <Typography className={classes.titleArticle}>
+                  {article.title}
+                </Typography>
+                <Typography className={classes.textArticle}>
+                  <div textalign="justify" m={1}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: article.text
+                      }}
+                    />
+                  </div>
+                </Typography>
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <CardContent className={classes.contentCard}>
+                {articleContent}
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <CardContent className={classes.contentCard}>
+                {article.ytLinks !== undefined ? (
+                  <YouTube id={article.ytLinks[0].yt} />
+                ) : null}
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={8}>
+              <CardContent className={classes.contentCard}>
+                <Typography className={classes.tagsArticle}>
+                  {articleTags}
+                </Typography>
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+        </Card>
+      </div>
     );
   }
 }

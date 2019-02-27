@@ -17,34 +17,18 @@ const styles = theme => ({
   root: {
     width: "100%"
   },
-  card: {
-    background: "#f2f2f2",
-    marginBottom: 5,
-    marginTop: 5,
+  contentCard: {
+    alignItems: "center",
     marginLeft: "auto",
-    marginRight: "auto",
-    padding: "0px 0px 0px 0px",
-    paddingBottom: "0px",
-    textAlign: "justify"
-  },
-  cardContent: {
-    color: "#242249",
-    padding: "0px 0px 0px 0px",
-    paddingBottom: "0px"
+    marginRight: "auto"
   },
   typograhyTitle: {
-    padding: "5px 5px",
-    fontSize: 22
+    textAlign: "center",
+    fontSize: 28
   },
   typograhyContent: {
     padding: "5px 5px",
     fontSize: 14,
-    alignContent: "stretch",
-    justifyContent: "center",
-    alignItems: "center",
-    display: "flex"
-  },
-  grid: {
     alignContent: "stretch",
     justifyContent: "center",
     alignItems: "center",
@@ -155,26 +139,24 @@ class ProfileCreds extends Component {
     ));
 
     return (
-      <div className={classes.root}>
-        <Card className={classes.card}>
-          <CardContent className={classes.cardContent}>
+      <Grid container>
+        <Grid className={classes.grid} item xs />
+        <Grid className={classes.grid} item xs={11}>
+          <CardContent className={classes.contentCard}>
             <Typography className={classes.typograhyTitle}>
               Edukcja i doświadczenie zawodowe
             </Typography>
             {expItems.length > 0 ? expItems : <p>Brak doświadczenia</p>}
-            <Grid className={classes.grid} />
           </CardContent>
-        </Card>
-        <Card className={classes.card}>
-          <CardContent className={classes.cardContent}>
+          <CardContent className={classes.contentCard}>
             <Typography className={classes.typograhyTitle}>
               Edukcja i doświadczenie zawodowe
             </Typography>
             {eduItems.length > 0 ? eduItems : <p>Brak edukacji</p>}
-            <Grid className={classes.grid} />
           </CardContent>
-        </Card>
-      </div>
+        </Grid>
+        <Grid className={classes.grid} item xs />
+      </Grid>
     );
   }
 }

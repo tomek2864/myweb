@@ -14,32 +14,17 @@ import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
 
 const styles = theme => ({
-  card: {
-    background: "#f2f2f2",
-    maxWidth: 1000,
-    marginBottom: 5,
-    marginTop: 5,
-    marginLeft: "auto",
-    marginRight: "auto",
-    padding: "0px 0px 0px 0px",
-    paddingBottom: "0px"
-  },
-  cardContent: {
-    color: "#242249",
-    padding: "0px 0px 0px 0px",
-    paddingBottom: "0px"
+  contentCard: {
+    maxWidth: 800,
+    alignItems: "center"
   },
   typograhyTitle: {
-    padding: "5px 5px",
-    fontSize: 22
+    textAlign: "center",
+    fontSize: 28
   },
   typograhyContent: {
-    padding: "5px 5px",
-    fontSize: 14,
-    alignContent: "stretch",
-    justifyContent: "center",
-    alignItems: "center",
-    display: "flex"
+    textAlign: "justify",
+    fontSize: 16
   },
   grid: {
     alignContent: "stretch",
@@ -67,8 +52,23 @@ const styles = theme => ({
     width: 280
   },
   chip: {
-    marginRight: theme.spacing.unit,
-    marginTop: theme.spacing.unit
+    margin: theme.spacing.unit / 2,
+    color: "#EEE",
+    backgroundColor: "#323232",
+    borderColor: "#323232",
+    border: "2px solid",
+    padding: "1px 8px",
+    fontSize: 16
+  },
+  textSummary: {
+    fontSize: 16,
+    padding: 10,
+    textAlign: "justify"
+  },
+  textTitle: {
+    fontSize: 20,
+    padding: 10,
+    textAlign: "center"
   }
 });
 
@@ -85,51 +85,54 @@ class ProfileArticles extends Component {
     //const tags = ;
     return (
       <div>
-        <Card className={classes.card}>
-          <CardContent className={classes.cardContent}>
-            <Typography className={classes.typograhyTitle}>
-              Opisy wykonanych projektów
-            </Typography>
-            <Grid item xs={12}>
-              <Grid
-                container
-                className={classes.demo}
-                justify="center"
-                spacing={Number(32)}
-                display="flex"
-                flexWrap="wrap"
-              >
-                {articles.map(value => (
-                  <Grid key={value} item>
-                    <Paper className={classes.paperS}>
-                      {" "}
+        <Typography className={classes.typograhyTitle}>
+          Opisy wykonanych projektów
+        </Typography>
+        <CardContent className={classes.contentCard}>
+          <Grid item xs={12}>
+            <Grid
+              container
+              className={classes.demo}
+              justify="center"
+              spacing={Number(32)}
+              display="flex"
+              flexWrap="wrap"
+            >
+              {articles.map(value => (
+                <Grid key={value} item>
+                  <Paper className={classes.paperS}>
+                    {" "}
+                    <Typography className={classes.textTitle}>
                       {value.title}
-                      <div>
-                        {value.tags.map((tag, index) => (
-                          <Chip
-                            key={index}
-                            label={tag}
-                            className={classes.chip}
-                            onClick={this.openTagSite(tag)}
-                          />
-                        ))}
-                      </div>
-                    </Paper>
-                    <Button
-                      component={Link}
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      to={`/article/${value._id}`}
-                    >
-                      Zobacz całość
-                    </Button>
-                  </Grid>
-                ))}
-              </Grid>
+                    </Typography>
+                    <Typography className={classes.textSummary}>
+                      {value.summary}
+                    </Typography>
+                    <div>
+                      {value.tags.map((tag, index) => (
+                        <Chip
+                          key={index}
+                          label={tag}
+                          className={classes.chip}
+                          onClick={this.openTagSite(tag)}
+                        />
+                      ))}
+                    </div>
+                  </Paper>
+                  <Button
+                    component={Link}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    to={`/article/${value._id}`}
+                  >
+                    Zobacz całość
+                  </Button>
+                </Grid>
+              ))}
             </Grid>
-          </CardContent>
-        </Card>
+          </Grid>
+        </CardContent>
       </div>
     );
   }

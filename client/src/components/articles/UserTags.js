@@ -24,9 +24,9 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit / 2,
-    color: "#ff795e",
-    backgroundColor: "#242249",
-    borderColor: "#242249",
+    color: "#EEE",
+    backgroundColor: "#323232",
+    borderColor: "#323232",
     border: "2px solid",
     padding: "1px 8px",
     fontSize: 16
