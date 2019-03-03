@@ -369,6 +369,7 @@ class CreateProfile extends Component {
                   margin="normal"
                   variant="outlined"
                   fullWidth
+                  multiline
                 />
                 <FormHelperText className={classes.helpText}>
                   Wypisz jakie umiejętności posiadasz np. PHP, JS, CSS

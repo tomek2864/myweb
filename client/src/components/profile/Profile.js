@@ -93,7 +93,6 @@ class Profile extends Component {
             education={profile.education}
           />
           <ProfileArticles articles={articles} />
-          <ProfileGithub />
         </div>
       );
     }

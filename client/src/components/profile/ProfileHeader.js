@@ -53,11 +53,17 @@ class ProfileHeader extends Component {
             <Grid className={classes.grid} item xs={4}>
               <CardContent className={classes.contentCard}>
                 <Typography className={classes.typograhyTitle}>
-                  {profile.user.name}
+                  Umiejętności
                 </Typography>
-                <Typography className={classes.textAboutMe}>
-                  <div>{profile.bio}</div>
-                </Typography>
+                <div>
+                  {profile.skills.map((skill, index) => (
+                    <Typography className={classes.textAboutMe}>
+                      {skill.main === "" ? "" : skill.main}
+                      {": "}
+                      {skill.skills === "" ? "" : skill.skills}
+                    </Typography>
+                  ))}
+                </div>
               </CardContent>
             </Grid>
           </Grid>

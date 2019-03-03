@@ -85,9 +85,32 @@ router.post(
     if (req.body.githubusername)
       profileFields.githubusername = req.body.githubusername;
 
+    let fieldsOfSkills = [];
     // Skills sa tablica
     if (typeof req.body.skills !== "undefined") {
-      profileFields.skills = req.body.skills.split(",");
+      let pos_mainSkill, sub_str_mainSkill, sub_str_skills;
+      const elemSkillsTable = req.body.skills.split(";");
+      elemSkillsTable.forEach((element, index) => {
+        //elemSkillsTable[index] = elemSkillsTable[index].replace(/\s+/g, ""); //usuwanie bialych znakow
+        pos_mainSkill = elemSkillsTable[index].search(":");
+        sub_str_mainSkill = elemSkillsTable[index].substr(0, pos_mainSkill);
+        sub_str_skills = elemSkillsTable[index].substr(pos_mainSkill + 1);
+
+        /* if (sub_str_mainSkill[0] === " ") {
+          sub_str_mainSkill[0].replace(/\s+/g, ""); //usuwanie bialych znakow
+        }
+        if (sub_str_skills[0] === " ") {
+          sub_str_skills[0].replace(" ", ""); //usuwanie bialych znakow
+        } */
+
+        fieldsOfSkills.push({
+          main: sub_str_mainSkill,
+          skills: sub_str_skills
+        });
+
+        //console.log(skillsTabTmp[index].skills);
+      });
+      profileFields.skills = fieldsOfSkills;
     }
 
     profileFields.social = {};

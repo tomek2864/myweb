@@ -15,8 +15,9 @@ import { withRouter, Link } from "react-router-dom";
 
 const styles = theme => ({
   contentCard: {
-    maxWidth: 800,
-    alignItems: "center"
+    alignItems: "center",
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   typograhyTitle: {
     textAlign: "center",
@@ -69,6 +70,9 @@ const styles = theme => ({
     fontSize: 20,
     padding: 10,
     textAlign: "center"
+  },
+  buttonTag: {
+    width: 280
   }
 });
 
@@ -88,51 +92,56 @@ class ProfileArticles extends Component {
         <Typography className={classes.typograhyTitle}>
           Opisy wykonanych projektów
         </Typography>
-        <CardContent className={classes.contentCard}>
-          <Grid item xs={12}>
-            <Grid
-              container
-              className={classes.demo}
-              justify="center"
-              spacing={Number(32)}
-              display="flex"
-              flexWrap="wrap"
-            >
-              {articles.map(value => (
-                <Grid key={value} item>
-                  <Paper className={classes.paperS}>
-                    {" "}
-                    <Typography className={classes.textTitle}>
-                      {value.title}
-                    </Typography>
-                    <Typography className={classes.textSummary}>
-                      {value.summary}
-                    </Typography>
-                    <div>
-                      {value.tags.map((tag, index) => (
-                        <Chip
-                          key={index}
-                          label={tag}
-                          className={classes.chip}
-                          onClick={this.openTagSite(tag)}
-                        />
-                      ))}
-                    </div>
-                  </Paper>
-                  <Button
-                    component={Link}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    to={`/article/${value._id}`}
-                  >
-                    Zobacz całość
-                  </Button>
-                </Grid>
-              ))}
+        <Grid container>
+          <Grid className={classes.grid} item xs />
+          <CardContent className={classes.contentCard}>
+            <Grid item xs={12}>
+              <Grid
+                container
+                className={classes.demo}
+                justify="center"
+                spacing={Number(32)}
+                display="flex"
+                flexWrap="wrap"
+              >
+                {articles.map(value => (
+                  <Grid key={value} item>
+                    <Paper className={classes.paperS}>
+                      {" "}
+                      <Typography className={classes.textTitle}>
+                        {value.title}
+                      </Typography>
+                      <Typography className={classes.textSummary}>
+                        {value.summary}
+                      </Typography>
+                      <div>
+                        {value.tags.map((tag, index) => (
+                          <Chip
+                            key={index}
+                            label={tag}
+                            className={classes.chip}
+                            onClick={this.openTagSite(tag)}
+                          />
+                        ))}
+                      </div>
+                    </Paper>
+                    <Button
+                      className={classes.buttonTag}
+                      component={Link}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      to={`/article/${value._id}`}
+                    >
+                      Zobacz całość
+                    </Button>
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
-          </Grid>
-        </CardContent>
+          </CardContent>
+          <Grid className={classes.grid} item xs />
+        </Grid>
       </div>
     );
   }

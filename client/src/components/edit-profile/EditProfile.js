@@ -119,7 +119,16 @@ class CreateProfile extends Component {
     if (nextProps.profile.profile) {
       const profile = nextProps.profile.profile;
 
-      const skillsCSV = profile.skills.join(",");
+      //const skillsCSV = profile.skills.join(",");
+      let skillsCSV = "";
+      profile.skills.forEach((element, index) => {
+        skillsCSV =
+          skillsCSV +
+          profile.skills[index].main +
+          ":" +
+          profile.skills[index].skills +
+          ";";
+      });
 
       profile.company = !isEmpty(profile.company) ? profile.company : "";
       profile.website = !isEmpty(profile.website) ? profile.website : "";
@@ -401,6 +410,7 @@ class CreateProfile extends Component {
                   margin="normal"
                   variant="outlined"
                   fullWidth
+                  multiline
                 />
                 <FormHelperText className={classes.helpText}>
                   Wypisz jakie umiejętności posiadasz np. PHP, JS, CSS
