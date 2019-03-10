@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { clearCurrentProfile } from "../../actions/profileActions";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -145,6 +146,16 @@ class Navbar extends React.Component {
     this.setState({ mobileMoreAnchorE2: null });
   };
 
+  openDashboard = () => {
+    this.handleMobileMenuClose();
+    this.props.history.push(`/dashboard`);
+  };
+
+  openAddArticle = () => {
+    this.handleMobileMenuClose();
+    this.props.history.push(`/add-articles`);
+  };
+
   render() {
     const { anchorEl, mobileMoreAnchorEl, mobileMoreAnchorE2 } = this.state;
     const { classes } = this.props;
@@ -230,7 +241,7 @@ class Navbar extends React.Component {
 
     const authLinksIconButton = (
       <div>
-        <IconButton color="inherit">
+        {/* <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
           </Badge>
@@ -239,7 +250,7 @@ class Navbar extends React.Component {
           <Badge badgeContent={17} color="secondary">
             <NotificationsIcon />
           </Badge>
-        </IconButton>
+        </IconButton> */}
         <IconButton
           aria-owns={isMenuOpen ? "material-appbar" : undefined}
           aria-haspopup="true"
@@ -273,18 +284,8 @@ class Navbar extends React.Component {
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
-        <MenuItem>
-          <p>Dashboard</p>
-        </MenuItem>
-        <MenuItem>
-          <p>Dodaj artykuł</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
+        <MenuItem onClick={this.openAddArticle}>Dodaj artykuł</MenuItem>
+        <MenuItem onClick={this.openDashboard}>Mój profil</MenuItem>
         <MenuItem onClick={this.onLogoutClick.bind(this)}>Wyloguj</MenuItem>
       </Menu>
     );
@@ -297,8 +298,8 @@ class Navbar extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={this.openAddArticle}>Dodaj artykuł</MenuItem>
+        <MenuItem onClick={this.openDashboard}>Mój profil</MenuItem>
         <MenuItem onClick={this.onLogoutClick.bind(this)}>Wyloguj</MenuItem>
       </Menu>
     );
@@ -344,7 +345,7 @@ class Navbar extends React.Component {
                     justify="space-between"
                     alignItems="stretch"
                   >
-                    {isAuthenticated ? authLinksButtons : guestLinksButtons}
+                    {/* {isAuthenticated ? authLinksButtons : guestLinksButtons} */}
                     <Button className={classes.buttonNav} color="inherit">
                       Kontakt
                     </Button>
@@ -381,7 +382,9 @@ Navbar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  { logoutUser, clearCurrentProfile }
-)(withStyles(styles)(Navbar));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { logoutUser, clearCurrentProfile }
+  )(withStyles(styles)(Navbar))
+);

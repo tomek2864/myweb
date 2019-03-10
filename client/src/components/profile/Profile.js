@@ -43,7 +43,7 @@ const styles = theme => ({
     padding: `${theme.spacing.unit * 2}px 0 ${theme.spacing.unit * 3}px` //up left-right down
   },
   card: {
-    maxWidth: 1400,
+    maxWidth: 1200,
     marginBottom: 25,
     marginTop: 25,
     marginLeft: "auto",
@@ -86,7 +86,7 @@ class Profile extends Component {
     } else {
       profileContent = (
         <div>
-          <Link to="/profiles">Powrót do profili</Link>
+          {/* <Button href="/">Powrót do profili</Button> */}
           <ProfileHeader profile={profile} />
           <ProfileCreds
             experience={profile.experience}

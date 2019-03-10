@@ -144,14 +144,12 @@ class ProfileCreds extends Component {
         <Grid className={classes.grid} item xs={11}>
           <CardContent className={classes.contentCard}>
             <Typography className={classes.typograhyTitle}>
-              Edukcja i doświadczenie zawodowe
+              Doświadczenie
             </Typography>
             {expItems.length > 0 ? expItems : <p>Brak doświadczenia</p>}
           </CardContent>
           <CardContent className={classes.contentCard}>
-            <Typography className={classes.typograhyTitle}>
-              Edukcja i doświadczenie zawodowe
-            </Typography>
+            <Typography className={classes.typograhyTitle}>Edukcja</Typography>
             {eduItems.length > 0 ? eduItems : <p>Brak edukacji</p>}
           </CardContent>
         </Grid>

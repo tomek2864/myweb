@@ -14,7 +14,7 @@ class Footer extends Component {
   render() {
     return (
       <Paper>
-        <Tabs
+        {/* <Tabs
           value={this.state.value}
           onChange={this.handleChange}
           indicatorColor="primary"
@@ -24,7 +24,8 @@ class Footer extends Component {
           <Tab label="Item One" />
           <Tab label="Item Two" />
           <Tab label="Item Three" />
-        </Tabs>
+        </Tabs> */}
+        Footer
       </Paper>
     );
   }

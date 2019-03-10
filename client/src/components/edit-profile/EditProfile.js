@@ -496,7 +496,7 @@ class CreateProfile extends Component {
                   className={classes.submit}
                   onClick={this.onSubmit}
                 >
-                  Zaloguj
+                  Zapisz
                 </Button>
               </Grid>
               <Grid className={classes.grid} item xs />

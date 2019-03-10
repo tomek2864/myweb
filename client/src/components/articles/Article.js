@@ -18,7 +18,7 @@ import YouTube from "react-youtube-embed";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 const styles = {
   card: {
-    maxWidth: 1400,
+    maxWidth: 1200,
     marginBottom: 25,
     marginTop: 25,
     marginLeft: "auto",
@@ -114,7 +114,7 @@ class Article extends Component {
         <Card className={classes.card}>
           <Grid container>
             <Grid className={classes.grid} item xs />
-            <Grid className={classes.grid} item xs={8}>
+            <Grid className={classes.grid} item xs={7}>
               <CardContent className={classes.contentCard}>
                 <Typography className={classes.titleArticle}>
                   {article.title}
@@ -134,7 +134,7 @@ class Article extends Component {
           </Grid>
           <Grid container>
             <Grid className={classes.grid} item xs />
-            <Grid className={classes.grid} item xs={8}>
+            <Grid className={classes.grid} item xs={7}>
               <CardContent className={classes.contentCard}>
                 {articleContent}
               </CardContent>
@@ -143,7 +143,7 @@ class Article extends Component {
           </Grid>
           <Grid container>
             <Grid className={classes.grid} item xs />
-            <Grid className={classes.grid} item xs={8}>
+            <Grid className={classes.grid} item xs={7}>
               <CardContent className={classes.contentCard}>
                 {article.ytLinks !== undefined ? (
                   <YouTube id={article.ytLinks[0].yt} />
@@ -154,7 +154,7 @@ class Article extends Component {
           </Grid>
           <Grid container>
             <Grid className={classes.grid} item xs />
-            <Grid className={classes.grid} item xs={8}>
+            <Grid className={classes.grid} item xs={7}>
               <CardContent className={classes.contentCard}>
                 <Typography className={classes.tagsArticle}>
                   {articleTags}
