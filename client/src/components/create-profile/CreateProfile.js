@@ -92,6 +92,7 @@ class CreateProfile extends Component {
       displaySocialInputs: false,
       handle: "",
       company: "",
+      email: "",
       website: "",
       location: "",
       status: "",
@@ -125,6 +126,7 @@ class CreateProfile extends Component {
     const profileData = {
       handle: this.state.handle,
       company: this.state.company,
+      email: this.state.email,
       website: this.state.website,
       location: this.state.location,
       status: this.state.status,
@@ -207,6 +209,36 @@ class CreateProfile extends Component {
                     id="handle-error"
                   >
                     {errors.handle}
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid className={classes.grid} item xs />
+            </Grid>
+            <Grid container>
+              <Grid className={classes.grid} item xs />
+              <Grid className={classes.grid} item xs={8}>
+                <TextField
+                  name="email"
+                  label="* Adres email"
+                  placeholder="Twoj adres email"
+                  className={classes.textField}
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  error={errors.email}
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                />
+                <FormHelperText className={classes.helpText}>
+                  Podaj swoj oficjalny adres email aby ulatwic pracodawca
+                  kontakt z Toba.
+                </FormHelperText>
+                {errors.email && (
+                  <FormHelperText
+                    className={classes.helpTextError}
+                    id="email-error"
+                  >
+                    {errors.email}
                   </FormHelperText>
                 )}
               </Grid>

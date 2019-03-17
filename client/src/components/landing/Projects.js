@@ -1,7 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import industry from "../../img/industry.jpg";
+import arm from "../../img/loga/arm.png";
+import armbian from "../../img/loga/armbian.png";
+import atmel from "../../img/loga/atmel.png";
+import beckhoff from "../../img/loga/beckhoff.png";
+import eagle from "../../img/loga/eagle.png";
+import es6 from "../../img/loga/es6.png";
+import indusoft from "../../img/loga/indusoft.png";
+import kuka from "../../img/loga/kuka.png";
+import mongodb from "../../img/loga/mongodb.png";
+import nodejs from "../../img/loga/nodejs.png";
+import nxp from "../../img/loga/nxp.png";
+import qt from "../../img/loga/qt.png";
+import react from "../../img/loga/react.png";
+import rpi from "../../img/loga/rpi.png";
+import { withRouter, Link } from "react-router-dom";
 import {
   Grid,
   Card,
@@ -80,12 +94,12 @@ const BoxRobotics = posed.div({
   init: {
     scale: 1,
     boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    backgroundColor: "#123321"
+    backgroundColor: "#ff6f00"
   },
   hover: {
     scale: 1,
     boxShadow: "0px 5px 10px rgba(0,0,0,0)",
-    backgroundColor: "#123321"
+    backgroundColor: "#f1f1f1"
   }
 });
 
@@ -94,12 +108,12 @@ const BoxOther = posed.div({
   init: {
     scale: 1,
     boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    backgroundColor: "#fff"
+    backgroundColor: "#ff616f"
   },
   hover: {
-    scale: 0.95,
-    boxShadow: "0px 5px 10px rgba(0,0,0,0)"
-    //backgroundColor: "#123123",
+    scale: 1,
+    boxShadow: "0px 5px 10px rgba(0,0,0,0)",
+    backgroundColor: "#f1f1f1"
   }
 });
 
@@ -114,7 +128,16 @@ const styles = theme => ({
   },
   box: {
     width: "auto",
-    height: 300
+    cursor: "default",
+    [theme.breakpoints.down("md")]: {
+      height: 350
+    },
+    [theme.breakpoints.up("md")]: {
+      height: 325
+    },
+    "&:hover": {
+      cursor: "pointer"
+    }
   },
   gridFull: {
     width: "100%"
@@ -143,68 +166,33 @@ const styles = theme => ({
     }
   },
   typoInfo: {
-    padding: "0px 25px",
     textAlign: "justify",
     [theme.breakpoints.down("lg")]: {
-      fontSize: 12
+      fontSize: 13,
+      padding: "0px 12px 0px 10px"
     },
     [theme.breakpoints.up("sm")]: {
-      fontSize: 20
+      fontSize: 20,
+      padding: "0px 35px 0px 25px"
+    },
+    [theme.breakpoints.up("lg")]: {
+      fontSize: 20,
+      padding: "0px 25px 0px 25px"
     }
+  },
+  imageInfo: {
+    [theme.breakpoints.down("lg")]: {
+      maxHeight: 0
+    },
+    [theme.breakpoints.up("lg")]: {
+      padding: "25px 25px",
+      maxHeight: 40
+    }
+  },
+  imagePosition: {
+    textAlign: "center"
   }
 });
-
-const tileData = [
-  {
-    img: industry,
-    tag: "JavaScript",
-    title: "JavaScript",
-    author: "author",
-    cols: 1
-  },
-  {
-    img: industry,
-    tag: "Automatyka przemysłowa",
-    title: "Automatyka przemysłowa",
-    author: "author",
-    cols: 1
-  },
-  {
-    img: industry,
-    tag: "Elektronika",
-    title: "Elektronika",
-    author: "author",
-    cols: 1
-  },
-  {
-    img: industry,
-    tag: "Systemy wbudowane",
-    title: "Systemy wbudowane",
-    author: "author",
-    cols: 1
-  },
-  {
-    img: industry,
-    tag: "C/C++",
-    title: "C/C++",
-    author: "author",
-    cols: 1
-  },
-  {
-    img: industry,
-    tag: "Roboty",
-    title: "Roboty",
-    author: "author",
-    cols: 1
-  },
-  {
-    img: industry,
-    tag: "React",
-    title: "Industry",
-    author: "author",
-    cols: 1
-  }
-];
 
 class Projects extends Component {
   state = {
@@ -240,9 +228,28 @@ class Projects extends Component {
   onMoveInEmbedded = () => {
     this.setState(state => ({ moveInEmbedded: true }));
   };
-
   onMoveOutEmbedded = () => {
     this.setState(state => ({ moveInEmbedded: false }));
+  };
+
+  onMoveInRobotics = () => {
+    this.setState(state => ({ moveInRobotics: true }));
+  };
+
+  onMoveOutRobotics = () => {
+    this.setState(state => ({ moveInRobotics: false }));
+  };
+
+  onMoveInOther = () => {
+    this.setState(state => ({ moveInOther: true }));
+  };
+
+  onMoveOutOther = () => {
+    this.setState(state => ({ moveInOther: false }));
+  };
+
+  openTagSite = tag => () => {
+    this.props.history.push(`/articles/tomek/${tag}`);
   };
 
   render() {
@@ -263,6 +270,7 @@ class Projects extends Component {
             <Paper
               onMouseMove={this.onMoveInElectronic}
               onMouseOut={this.onMoveOutElectronic}
+              onClick={this.openTagSite("electronic")}
             >
               <BoxElectronic className={classes.box}>
                 <>
@@ -276,10 +284,15 @@ class Projects extends Component {
                     {...(moveInElectronic ? { timeout: 1500 } : {})}
                   >
                     <div className={classes.typoInfo}>
-                      Lorem Ipsum jest tekstem stosowanym jako przykładowy
-                      wypełniacz w przemyśle poligraficznym. Został po raz
-                      pierwszy użyty w XV w. przez nieznanego drukarza do
-                      wypełnienia tekstem próbnej książki.{" "}
+                      Projektowanie ukladow elektronicznych z wykorzystaniem
+                      mikrokontrolerow, rzadziej uklady czysto analogowe.
+                      Schematy PCB dla plytek dwuwarstwowych, testowanie,
+                      lutowanie. Posiadam tez doswiadczenie w odtwarzaniu
+                      funkcjonalnosci istniejacych, czesto uszkodzonych
+                      urzadzen.{" "}
+                      <div className={classes.imagePosition}>
+                        <img className={classes.imageInfo} src={eagle} />
+                      </div>
                     </div>
                   </Grow>
                 </>
@@ -290,6 +303,7 @@ class Projects extends Component {
             <Paper
               onMouseMove={this.onMoveInAutomation}
               onMouseOut={this.onMoveOutAutomation}
+              onClick={this.openTagSite("automation")}
             >
               <BoxAutomation className={classes.box}>
                 <>
@@ -305,10 +319,13 @@ class Projects extends Component {
                     {...(moveInAutomation ? { timeout: 1500 } : {})}
                   >
                     <div className={classes.typoInfo}>
-                      Lorem Ipsum jest tekstem stosowanym jako przykładowy
-                      wypełniacz w przemyśle poligraficznym. Został po raz
-                      pierwszy użyty w XV w. przez nieznanego drukarza do
-                      wypełnienia tekstem próbnej książki.{" "}
+                      Wykonuje sterowana dla urzadzen przemyslowych oraz
+                      projekty schematow elektrycznych. Dobor aparatury
+                      elektrycznej, urzadzen wykonawczych, napedow, czujnikow.
+                      <div className={classes.imagePosition}>
+                        <img className={classes.imageInfo} src={beckhoff} />
+                        <img className={classes.imageInfo} src={indusoft} />
+                      </div>
                     </div>
                   </Grow>
                 </>
@@ -318,7 +335,11 @@ class Projects extends Component {
         </Grid>
         <Grid container spacing={0} wrap="nowrap">
           <Grid item xs>
-            <div onMouseMove={this.onMoveInWeb} onMouseOut={this.onMoveOutWeb}>
+            <Paper
+              onMouseMove={this.onMoveInWeb}
+              onMouseOut={this.onMoveOutWeb}
+              onClick={this.openTagSite("web")}
+            >
               <BoxWeb className={classes.box}>
                 <>
                   <div className={classes.typoTitle}>Technologie Webowe</div>
@@ -331,24 +352,31 @@ class Projects extends Component {
                     {...(moveInWeb ? { timeout: 1500 } : {})}
                   >
                     <div className={classes.typoInfo}>
-                      Lorem Ipsum jest tekstem stosowanym jako przykładowy
-                      wypełniacz w przemyśle poligraficznym. Został po raz
-                      pierwszy użyty w XV w. przez nieznanego drukarza do
-                      wypełnienia tekstem próbnej książki.{" "}
+                      Wykonuje aplikacje internetowe z wykorzystaniem MERN Stack
+                      - MongoDB, Express, React, Node.js. Aplikacje te pisane sa
+                      w JavaScript z wykorzystaniem standardu ECMAScript 6.
+                      Grafiki przygotowuje w Photoshopie.
+                      <div className={classes.imagePosition}>
+                        <img className={classes.imageInfo} src={es6} />
+                        <img className={classes.imageInfo} src={mongodb} />
+                        <img className={classes.imageInfo} src={react} />
+                        <img className={classes.imageInfo} src={nodejs} />
+                      </div>
                     </div>
                   </Grow>
                 </>
               </BoxWeb>
-            </div>
+            </Paper>
           </Grid>
           <Grid item xs={6} wrap="nowrap">
-            <div
+            <Paper
               onMouseMove={this.onMoveInEmbedded}
               onMouseOut={this.onMoveOutEmbedded}
+              onClick={this.openTagSite("embedded")}
             >
               <BoxEmbedded className={classes.box}>
                 <>
-                  <div className={classes.typoTitle}>Systemy wbudowane</div>
+                  <div className={classes.typoTitle}>Systemy Wbudowane</div>
                   <Grow
                     in={moveInEmbedded}
                     style={{
@@ -358,15 +386,89 @@ class Projects extends Component {
                     {...(moveInEmbedded ? { timeout: 1500 } : {})}
                   >
                     <div className={classes.typoInfo}>
-                      Lorem Ipsum jest tekstem stosowanym jako przykładowy
-                      wypełniacz w przemyśle poligraficznym. Został po raz
-                      pierwszy użyty w XV w. przez nieznanego drukarza do
-                      wypełnienia tekstem próbnej książki.{" "}
+                      Sterowania, aplikacje oparte o mikroprocesory 8bit jak
+                      Attiny, ATmega, ATXmega oraz 32bit ARM Cortex-M4. Z
+                      wykorzystaniem RTOS procesory NPX ARM Cortex-A7, a takze
+                      Raspberry Pi i klony np. Orange Pi takze z systemem
+                      Armbian. Oprogramowanie w C/C++, biblioteka Qt, aplikacje
+                      serwerowe z wykorzystaniem NodeJS.
+                      <div className={classes.imagePosition}>
+                        <img className={classes.imageInfo} src={atmel} />
+                        <img className={classes.imageInfo} src={nxp} />
+                        <img className={classes.imageInfo} src={rpi} />
+                        <img className={classes.imageInfo} src={qt} />
+                      </div>
                     </div>
                   </Grow>
                 </>
               </BoxEmbedded>
-            </div>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Grid container spacing={0} wrap="nowrap">
+          <Grid item xs>
+            <Paper
+              onMouseMove={this.onMoveInRobotics}
+              onMouseOut={this.onMoveOutRobotics}
+              onClick={this.openTagSite("robotics")}
+            >
+              <BoxRobotics className={classes.box}>
+                <>
+                  <div className={classes.typoTitle}>Robotyka</div>
+                  <Grow
+                    in={moveInRobotics}
+                    style={{
+                      //transformOrigin: "0 0 0",
+                      transition: { ease: "linear" }
+                    }}
+                    {...(moveInRobotics ? { timeout: 1500 } : {})}
+                  >
+                    <div className={classes.typoInfo}>
+                      Posiadam doswiadczenie w programowaniu robotow KUKA KRC1 i
+                      KRC2, zdazaly sie tez wersje VKRC. Roboty ktore
+                      programowalem wykonywaly algorytmy sterowania dla
+                      rozladunku i zaladunku linii produkcyjnej dla przemyslu
+                      meblarskiego. Pelnily one role slava, zarzadzanego przez
+                      nadrzedny sterownik PLC.
+                      <div className={classes.imagePosition}>
+                        <img className={classes.imageInfo} src={kuka} />
+                      </div>
+                    </div>
+                  </Grow>
+                </>
+              </BoxRobotics>
+            </Paper>
+          </Grid>
+          <Grid item xs={6} wrap="nowrap">
+            <Paper
+              onMouseMove={this.onMoveInOther}
+              onMouseOut={this.onMoveOutOther}
+              onClick={this.openTagSite("other")}
+            >
+              <BoxOther className={classes.box}>
+                <>
+                  <div className={classes.typoTitle}>Inne</div>
+                  <Grow
+                    in={moveInOther}
+                    style={{
+                      //transformOrigin: "0 0 0",
+                      transition: { ease: "linear" }
+                    }}
+                    {...(moveInOther ? { timeout: 1500 } : {})}
+                  >
+                    <div className={classes.typoInfo}>
+                      Hobbistycznie interesuje sie tematami zwiazanymi z
+                      technologiami, szczegolnie dotyczy to dziedzin
+                      rozpoznawania obiektow, autonomicznych pojazdow
+                      elektrycznych, zasilania i przesylu energii a takze
+                      bezprzewodowej transmisji danych. Lubie majsterowanie,
+                      wykonywanie przedmiotow z drewnia, tworzyw sztucznych i
+                      obserwajce kosmosu ;){" "}
+                    </div>
+                  </Grow>
+                </>
+              </BoxOther>
+            </Paper>
           </Grid>
         </Grid>
       </div>
@@ -379,4 +481,4 @@ Projects.propTypes = {
   articles: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Projects);
+export default withRouter(withStyles(styles)(Projects));

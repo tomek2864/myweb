@@ -216,7 +216,7 @@ class Navbar extends React.Component {
         onClose={this.handleMobileMenuNavbarClose}
       >
         <MenuItem>
-          <Link to="/contact">Kontakt</Link>
+          <Link to="/profile/tomek">O mnie</Link>
         </MenuItem>
       </Menu>
     );
@@ -234,7 +234,7 @@ class Navbar extends React.Component {
           <Link to="/register">Rejestracja</Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/contact">Kontakt</Link>
+          <Link to="/profile/tomek">O mnie</Link>
         </MenuItem>
       </Menu>
     );
@@ -346,8 +346,13 @@ class Navbar extends React.Component {
                     alignItems="stretch"
                   >
                     {/* {isAuthenticated ? authLinksButtons : guestLinksButtons} */}
-                    <Button className={classes.buttonNav} color="inherit">
-                      Kontakt
+                    <Button
+                      component={Link}
+                      className={classes.buttonNav}
+                      color="inherit"
+                      to="/profile/tomek"
+                    >
+                      O mnie
                     </Button>
                   </Grid>
                 </Grid>
