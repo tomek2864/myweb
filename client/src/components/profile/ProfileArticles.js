@@ -21,11 +21,13 @@ const styles = theme => ({
   },
   typograhyTitle: {
     textAlign: "center",
-    fontSize: 28
+    fontSize: 28,
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
   },
   typograhyContent: {
     textAlign: "justify",
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
   },
   grid: {
     alignContent: "stretch",

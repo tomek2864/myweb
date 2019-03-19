@@ -27,7 +27,7 @@ const styles = theme => ({
     display: "block", // Fix IE11.
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
-
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(","),
     [theme.breakpoints.up(1800 + theme.spacing.unit * 3 * 2)]: {
       width: 1800,
       marginLeft: "auto",

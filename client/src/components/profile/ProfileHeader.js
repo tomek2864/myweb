@@ -27,11 +27,13 @@ const styles = theme => ({
   },
   typograhyTitle: {
     textAlign: "center",
-    fontSize: 28
+    fontSize: 28,
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
   },
   textAboutMe: {
     textAlign: "justify",
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
   },
   grid: {
     display: "flex",
@@ -40,7 +42,8 @@ const styles = theme => ({
     }
   },
   textSkills: {
-    textAlign: "justify"
+    textAlign: "justify",
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
   },
   icon: {
     margin: theme.spacing.unit,

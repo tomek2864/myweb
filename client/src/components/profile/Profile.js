@@ -27,6 +27,7 @@ const styles = theme => ({
     display: "block", // Fix IE11.
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
+    marginTop: 80,
 
     [theme.breakpoints.up(1800 + theme.spacing.unit * 3 * 2)]: {
       width: 1800,
@@ -51,7 +52,8 @@ const styles = theme => ({
     backgroundColor: "#EEE"
   },
   title: {
-    fontSize: 14
+    fontSize: 14,
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
   },
   pos: {
     marginBottom: 12

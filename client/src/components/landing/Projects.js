@@ -38,7 +38,7 @@ const BoxElectronic = posed.div({
   init: {
     scale: 1,
     boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    backgroundColor: "#14cba8"
+    backgroundColor: "#9e9e9e"
   },
   hover: {
     scale: 1,
@@ -52,7 +52,7 @@ const BoxAutomation = posed.div({
   init: {
     scale: 1,
     boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    backgroundColor: "#37474f"
+    backgroundColor: "#f44336"
   },
   hover: {
     scale: 1,
@@ -66,7 +66,7 @@ const BoxWeb = posed.div({
   init: {
     scale: 1,
     boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    backgroundColor: "#2196f3"
+    backgroundColor: "#42a5f5"
   },
   hover: {
     scale: 1,
@@ -80,7 +80,7 @@ const BoxEmbedded = posed.div({
   init: {
     scale: 1,
     boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    backgroundColor: "#6d4c41"
+    backgroundColor: "#ffc947"
   },
   hover: {
     scale: 1,
@@ -94,7 +94,7 @@ const BoxRobotics = posed.div({
   init: {
     scale: 1,
     boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    backgroundColor: "#ff6f00"
+    backgroundColor: "#c0ca33"
   },
   hover: {
     scale: 1,
@@ -108,7 +108,7 @@ const BoxOther = posed.div({
   init: {
     scale: 1,
     boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    backgroundColor: "#ff616f"
+    backgroundColor: "#90a4ae"
   },
   hover: {
     scale: 1,
@@ -152,12 +152,13 @@ const styles = theme => ({
   },
   typoTitle: {
     textAlign: "center",
+    fontFamily: ["Alegreya SC", "serif"].join(","),
     [theme.breakpoints.down("lg")]: {
       fontSize: 20,
       padding: "10px 5px 5px 0px"
     },
     [theme.breakpoints.up("sm")]: {
-      fontSize: 35,
+      fontSize: 40,
       padding: "50px 10px 10px 0px"
     },
     [theme.breakpoints.down("md")]: {
@@ -167,6 +168,7 @@ const styles = theme => ({
   },
   typoInfo: {
     textAlign: "justify",
+    fontFamily: ["Work Sans", "sans-serif"].join(","),
     [theme.breakpoints.down("lg")]: {
       fontSize: 13,
       padding: "0px 12px 0px 10px"

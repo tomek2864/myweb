@@ -8,12 +8,14 @@ import "./index.css";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: "#4A6572",
-      main: "#344955",
-      dark: "#232F34"
+      light: "#4ebaaa",
+      main: "#00897b",
+      dark: "#005b4f"
     },
     secondary: {
-      main: "#F9AA33"
+      light: "#ffc947",
+      main: "#ff9800",
+      dark: "#c66900"
     }
   },
   status: {

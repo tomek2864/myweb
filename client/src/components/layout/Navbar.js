@@ -15,8 +15,6 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -27,7 +25,7 @@ import { withRouter } from "react-router-dom";
 const styles = theme => ({
   root: {
     width: "100%",
-    backgroundColor: "#242249"
+    backgroundColor: "#fff"
   },
   grow: {
     flexGrow: 1
@@ -38,11 +36,13 @@ const styles = theme => ({
   },
   title: {
     display: "block",
+    color: "#000",
     marginLeft: 20,
     fontSize: 20,
     [theme.breakpoints.up("md")]: {
       fontSize: 35
-    }
+    },
+    fontFamily: ["Ubuntu", "sans-serif"].join(",")
     /*[theme.breakpoints.up("sm")]: {
       display: "block"
     }*/
@@ -50,35 +50,24 @@ const styles = theme => ({
   buttonNav: {
     boxShadow: "none",
     textTransform: "none",
-    fontSize: 19,
-    padding: "6px 12px",
-    border: "1px solid",
-    backgroundColor: "#242249",
-    borderColor: "#242249",
-    fontFamily: [
-      "-apple-system",
-      "BlinkMacSystemFont",
-      '"Segoe UI"',
-      "Roboto",
-      '"Helvetica Neue"',
-      "Arial",
-      "sans-serif",
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(","),
+    fontSize: 22,
+    marginRight: 10,
+    marginTop: 20,
+    padding: "5px 12px",
+    color: "#000",
+    fontFamily: ["Scope One", "serif"].join(","),
     "&:hover": {
-      backgroundColor: "#242249",
-      borderColor: "#c1ff75"
+      color: theme.palette.secondary.main
     },
     "&:active": {
       boxShadow: "none",
-      backgroundColor: "#13190c",
-      borderColor: "#c1ff75"
+      backgroundColor: theme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
+      color: theme.palette.secondary.main
     },
     "&:focus": {
       boxShadow: "none",
-      color: "#ff795e"
+      color: theme.palette.secondary.main
     }
   },
 
@@ -105,6 +94,9 @@ const styles = theme => ({
   paper: {
     textAlign: "center",
     backgroundColor: "#242249"
+  },
+  menuItem: {
+    color: "#000"
   }
 });
 
@@ -215,7 +207,7 @@ class Navbar extends React.Component {
         open={isMobileMenuNavbarOpen}
         onClose={this.handleMobileMenuNavbarClose}
       >
-        <MenuItem>
+        <MenuItem className={classes.menuItem}>
           <Link to="/profile/tomek">O mnie</Link>
         </MenuItem>
       </Menu>
@@ -227,7 +219,7 @@ class Navbar extends React.Component {
         open={isMobileMenuNavbarOpen}
         onClose={this.handleMobileMenuNavbarClose}
       >
-        <MenuItem>
+        <MenuItem className={classes.menuItem}>
           <Link to="/login">Logowanie</Link>
         </MenuItem>
         <MenuItem>
@@ -312,7 +304,7 @@ class Navbar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" className={classes.root}>
+        <AppBar position="fixed" className={classes.root}>
           <Toolbar>
             <div className={classes.sectionMobile}>
               <IconButton
@@ -326,14 +318,8 @@ class Navbar extends React.Component {
             <Grid className={classes.sectionDesktop} item xs={2}>
               <Paper className={classes.paper} />
             </Grid>
-            <Typography
-              component={Link}
-              to="/"
-              className={classes.title}
-              color="inherit"
-              noWrap
-            >
-              Tomasz Sobczak
+            <Typography className={classes.title} color="inherit">
+              Portfolio | Tomasz Sobczak
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -353,6 +339,30 @@ class Navbar extends React.Component {
                       to="/profile/tomek"
                     >
                       O mnie
+                    </Button>
+                    <Button
+                      component={Link}
+                      className={classes.buttonNav}
+                      color="inherit"
+                      to="/profile/tomek"
+                    >
+                      Projekty
+                    </Button>
+                    <Button
+                      component={Link}
+                      className={classes.buttonNav}
+                      color="inherit"
+                      to="/profile/tomek"
+                    >
+                      Kontakt
+                    </Button>
+                    <Button
+                      component={Link}
+                      className={classes.buttonNav}
+                      color="inherit"
+                      to="/login"
+                    >
+                      <AccountCircle />
                     </Button>
                   </Grid>
                 </Grid>

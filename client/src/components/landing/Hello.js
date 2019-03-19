@@ -11,11 +11,12 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     textAlign: "center",
-    height: 400
+    height: 600
   },
   text: {
-    marginTop: 100,
-    fontFamily: ["Mukta Mahee", "sans-serif"].join(",")
+    marginTop: 200,
+    fontSize: 56,
+    fontFamily: ["Scope One", "serif"].join(",")
   }
 });
 
