@@ -14,7 +14,8 @@ import {
   InputLabel,
   Typography,
   Paper,
-  FormHelperText
+  FormHelperText,
+  Grid
 } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/LockOutlined";
 import {
@@ -24,6 +25,9 @@ import {
 } from "@material-ui/core/styles";
 
 const styles = theme => ({
+  root: {
+    flexGrow: 1
+  },
   checkbox: {
     "&$checked": {
       color: "#242249"
@@ -31,10 +35,11 @@ const styles = theme => ({
   },
   checked: {},
   layout: {
-    width: "auto",
-    display: "block", // Fix IE11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
+    flexGrow: 1,
+    marginTop: 20,
+    height: "100%",
+    width: "100%",
+    display: "flex",
 
     [theme.breakpoints.up(420 + theme.spacing.unit * 3 * 2)]: {
       width: 420,
@@ -44,7 +49,10 @@ const styles = theme => ({
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
-    display: "flex",
+    display: "flex", // Fix IE11 issue.
+    direction: "column",
+    alignItems: "center",
+    justify: "center",
     flexDirection: "column",
     alignItems: "center",
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
@@ -112,6 +120,9 @@ const styles = theme => ({
   },
   formHelperText: {
     color: "#ff0000"
+  },
+  container: {
+    minHeight: "100vh"
   }
 });
 
@@ -169,96 +180,105 @@ class Login extends Component {
       <React.Fragment>
         <CssBaseline />
         <main className={classes.layout}>
-          <Paper className={classes.paper} onSubmit={this.onSubmit}>
-            <Avatar className={classes.avatar}>
-              <LockIcon />
-            </Avatar>
-            <Typography variant="headline">Logowanie</Typography>
-            <form className={classes.form}>
-              <FormControl margin="normal" fullWidth>
-                <InputLabel
-                  classes={{
-                    root: classes.cssLabel
-                    //focused: classes.cssFocused
-                  }}
-                  htmlFor="email"
-                >
-                  Adres email
-                </InputLabel>
-                <Input
-                  id="email"
-                  name="email"
-                  autoComplete="email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  autoFocus
-                  className={classNames(classes.cssUnderline, {
-                    [classes.cssUnderlineErrorState]: errors.email
-                  })}
-                />
-                {errors.email && (
-                  <FormHelperText
-                    className={classes.formHelperText}
-                    id="email-error"
-                  >
-                    {errors.email}
-                  </FormHelperText>
-                )}
-              </FormControl>
-              <FormControl margin="normal" fullWidth>
-                <InputLabel
-                  classes={{
-                    root: classes.cssLabel
-                    //focused: classes.cssFocused
-                  }}
-                  htmlFor="password"
-                >
-                  Hasło
-                </InputLabel>
-                <Input
-                  name="password"
-                  type="password"
-                  id="password"
-                  value={this.state.password}
-                  onChange={this.onChange}
-                  autoComplete="current-password"
-                  className={classNames(classes.cssUnderline, {
-                    [classes.cssUnderlineErrorState]: errors.password
-                  })}
-                />
-                {errors.password && (
-                  <FormHelperText
-                    className={classes.formHelperText}
-                    id="password-error"
-                  >
-                    {errors.password}
-                  </FormHelperText>
-                )}
-              </FormControl>
-              <FormControlLabel
-                control={
-                  <Checkbox
+          <Grid
+            container
+            spacing={16}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            classNames={classes.container}
+          >
+            <Paper className={classes.paper} onSubmit={this.onSubmit}>
+              <Avatar className={classes.avatar}>
+                <LockIcon />
+              </Avatar>
+              <Typography variant="headline">Logowanie</Typography>
+              <form className={classes.form}>
+                <FormControl margin="normal" fullWidth>
+                  <InputLabel
                     classes={{
-                      root: classes.checkbox,
-                      checked: classes.checked
+                      root: classes.cssLabel
+                      //focused: classes.cssFocused
                     }}
-                    value="remember"
-                    color="primary"
+                    htmlFor="email"
+                  >
+                    Adres email
+                  </InputLabel>
+                  <Input
+                    id="email"
+                    name="email"
+                    autoComplete="email"
+                    value={this.state.email}
+                    onChange={this.onChange}
+                    autoFocus
+                    className={classNames(classes.cssUnderline, {
+                      [classes.cssUnderlineErrorState]: errors.email
+                    })}
                   />
-                }
-                label="Zapamiętaj hasło"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Zaloguj
-              </Button>
-            </form>
-          </Paper>
+                  {errors.email && (
+                    <FormHelperText
+                      className={classes.formHelperText}
+                      id="email-error"
+                    >
+                      {errors.email}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+                <FormControl margin="normal" fullWidth>
+                  <InputLabel
+                    classes={{
+                      root: classes.cssLabel
+                      //focused: classes.cssFocused
+                    }}
+                    htmlFor="password"
+                  >
+                    Hasło
+                  </InputLabel>
+                  <Input
+                    name="password"
+                    type="password"
+                    id="password"
+                    value={this.state.password}
+                    onChange={this.onChange}
+                    autoComplete="current-password"
+                    className={classNames(classes.cssUnderline, {
+                      [classes.cssUnderlineErrorState]: errors.password
+                    })}
+                  />
+                  {errors.password && (
+                    <FormHelperText
+                      className={classes.formHelperText}
+                      id="password-error"
+                    >
+                      {errors.password}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      classes={{
+                        root: classes.checkbox,
+                        checked: classes.checked
+                      }}
+                      value="remember"
+                      color="primary"
+                    />
+                  }
+                  label="Zapamiętaj hasło"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Zaloguj
+                </Button>
+              </form>
+            </Paper>
+          </Grid>
         </main>
       </React.Fragment>
     );

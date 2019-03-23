@@ -23,9 +23,12 @@ import { clearCurrentProfile } from "../../actions/profileActions";
 import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
-  root: {
+  nav: {
     width: "100%",
     backgroundColor: "#fff"
+  },
+  root: {
+    flexGrow: 1
   },
   grow: {
     flexGrow: 1
@@ -39,6 +42,7 @@ const styles = theme => ({
     color: "#000",
     marginLeft: 20,
     fontSize: 20,
+
     [theme.breakpoints.up("md")]: {
       fontSize: 35
     },
@@ -97,15 +101,68 @@ const styles = theme => ({
   },
   menuItem: {
     color: "#000"
+  },
+  show: {
+    transform: "translate(0,0)",
+    transition: "transform .5s"
+  },
+  hide: {
+    transform: "translate(0, -140px)",
+    transition: "transform .5s"
   }
 });
 
 class Navbar extends React.Component {
-  state = {
-    anchorEl: null,
-    mobileMoreAnchorEl: null,
-    mobileMoreAnchorE2: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      anchorEl: null,
+      mobileMoreAnchorEl: null,
+      mobileMoreAnchorE2: null,
+      isVisible: null
+    };
+
+    this.lastScroll = null;
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll, { passive: true });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll() {
+    const lastScroll = window.scrollY;
+
+    if (lastScroll === this.state.lastScroll) {
+      return;
+    }
+
+    const isVisible =
+      this.lastScroll !== null ? lastScroll < this.lastScroll : null;
+
+    if (isVisible !== this.state.isVisible) {
+      this.setState(prevState => ({
+        ...prevState,
+        isVisible
+      }));
+    }
+
+    this.lastScroll = lastScroll;
+  }
+
+  getScrollClassName() {
+    if (this.state.isVisible === null) {
+      return "";
+    }
+    return this.state.isVisible
+      ? this.props.classes.show
+      : this.props.classes.hide;
+  }
+
   onLogoutClick(e) {
     e.preventDefault();
     this.handleMobileMenuClose();
@@ -304,7 +361,10 @@ class Navbar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="fixed" className={classes.root}>
+        <AppBar
+          position="fixed"
+          className={`${classes.nav} ${this.getScrollClassName()}`}
+        >
           <Toolbar>
             <div className={classes.sectionMobile}>
               <IconButton
@@ -318,9 +378,11 @@ class Navbar extends React.Component {
             <Grid className={classes.sectionDesktop} item xs={2}>
               <Paper className={classes.paper} />
             </Grid>
-            <Typography className={classes.title} color="inherit">
-              Portfolio | Tomasz Sobczak
-            </Typography>
+            <Link style={{ textDecoration: "none" }} to="/">
+              <Typography className={classes.title} color="inherit">
+                Portfolio | Tomasz Sobczak
+              </Typography>
+            </Link>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Toolbar>

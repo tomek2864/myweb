@@ -283,7 +283,7 @@ class Projects extends Component {
                       //transformOrigin: "0 0 0",
                       transition: { ease: "linear" }
                     }}
-                    {...(moveInElectronic ? { timeout: 1500 } : {})}
+                    {...(moveInElectronic ? { timeout: 700 } : {})}
                   >
                     <div className={classes.typoInfo}>
                       Projektowanie ukladow elektronicznych z wykorzystaniem
@@ -318,7 +318,7 @@ class Projects extends Component {
                       //transformOrigin: "0 0 0",
                       transition: { ease: "linear" }
                     }}
-                    {...(moveInAutomation ? { timeout: 1500 } : {})}
+                    {...(moveInAutomation ? { timeout: 700 } : {})}
                   >
                     <div className={classes.typoInfo}>
                       Wykonuje sterowana dla urzadzen przemyslowych oraz
@@ -351,7 +351,7 @@ class Projects extends Component {
                       //transformOrigin: "0 0 0",
                       transition: { ease: "linear" }
                     }}
-                    {...(moveInWeb ? { timeout: 1500 } : {})}
+                    {...(moveInWeb ? { timeout: 700 } : {})}
                   >
                     <div className={classes.typoInfo}>
                       Wykonuje aplikacje internetowe z wykorzystaniem MERN Stack
@@ -385,7 +385,7 @@ class Projects extends Component {
                       //transformOrigin: "0 0 0",
                       transition: { ease: "linear" }
                     }}
-                    {...(moveInEmbedded ? { timeout: 1500 } : {})}
+                    {...(moveInEmbedded ? { timeout: 700 } : {})}
                   >
                     <div className={classes.typoInfo}>
                       Sterowania, aplikacje oparte o mikroprocesory 8bit jak
@@ -423,7 +423,7 @@ class Projects extends Component {
                       //transformOrigin: "0 0 0",
                       transition: { ease: "linear" }
                     }}
-                    {...(moveInRobotics ? { timeout: 1500 } : {})}
+                    {...(moveInRobotics ? { timeout: 700 } : {})}
                   >
                     <div className={classes.typoInfo}>
                       Posiadam doswiadczenie w programowaniu robotow KUKA KRC1 i
@@ -456,7 +456,7 @@ class Projects extends Component {
                       //transformOrigin: "0 0 0",
                       transition: { ease: "linear" }
                     }}
-                    {...(moveInOther ? { timeout: 1500 } : {})}
+                    {...(moveInOther ? { timeout: 700 } : {})}
                   >
                     <div className={classes.typoInfo}>
                       Hobbistycznie interesuje sie tematami zwiazanymi z

@@ -9,6 +9,7 @@ import store from "./store";
 import { Navbar, Footer } from "./components/layout";
 import Landing from "./components/landing";
 import Hello from "./components/landing/Hello";
+import Contact from "./components/landing/Contact";
 import Projects from "./components/landing/Projects";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -53,6 +54,7 @@ class App extends Component {
             <Navbar />
             <Route exact path="/" component={Hello} />
             <Route exact path="/" component={Projects} />
+            <Route exact path="/" component={Contact} />
             <Route exact path="/" component={Landing} />
             <div className="container">
               <Route exact path="/register" component={Register} />

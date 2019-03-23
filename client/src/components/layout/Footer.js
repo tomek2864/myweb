@@ -1,34 +1,48 @@
 import React, { Component } from "react";
-import { Paper, Tabs, Tab } from "@material-ui/core/";
+import { Paper, Card, Tab, AppBar, Typography } from "@material-ui/core/";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1
+  },
+  card: {
+    width: "100%",
+    margin: "auto",
+
+    backgroundColor: theme.palette.primary.light,
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    right: 0
+  },
+  appBar: {
+    padding: 5,
+    top: "auto",
+    bottom: 0,
+    backgroundColor: "#fff"
+  },
+  appBarText: {
+    color: "#000",
+    textAlign: "center",
+    fontFamily: ["Devonshire", "cursive"].join(","),
+    fontSize: 18
+  }
+});
 
 class Footer extends Component {
-  state = {
-    value: 0
-  };
-
-  handleChange = (event, value) => {
-    this.setState({ value });
-    console.log(value);
-  };
-
   render() {
+    const { classes } = this.props;
     return (
-      <Paper>
-        {/* <Tabs
-          value={this.state.value}
-          onChange={this.handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-        >
-          <Tab label="Item One" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
-        </Tabs> */}
-        Footer
-      </Paper>
+      <div position="fixed" color="primary" className={classes.root}>
+        <AppBar className={classes.appBar}>
+          <Typography className={classes.appBarText}>
+            Project by Tomasz Sobczak
+          </Typography>
+        </AppBar>
+      </div>
     );
   }
 }
 
-export default Footer;
+export default withStyles(styles)(Footer);

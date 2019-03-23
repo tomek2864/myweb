@@ -30,19 +30,6 @@ class Hello extends Component {
             Witaj! <br />
             Nazywam się Tomasz Sobczak
             <br />
-            <Button
-              href="https://www.linkedin.com/in/tomaszsobczak7/"
-              style={{
-                backgroundColor: "#5cb85c",
-                color: "black"
-              }}
-            >
-              <i
-                component={Link}
-                target="_blank"
-                className="fab fa-linkedin "
-              />
-            </Button>
             Zajmuje się elektroniką <br />
             oraz tworzeniem oprogramowania.
           </Typography>
