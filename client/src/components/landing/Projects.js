@@ -135,6 +135,10 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       height: 325
     },
+    [theme.breakpoints.down("sm")]: {
+      height: 360,
+      width: "50vw"
+    },
     "&:hover": {
       cursor: "pointer"
     }
@@ -169,8 +173,11 @@ const styles = theme => ({
   typoInfo: {
     textAlign: "justify",
     fontFamily: ["Work Sans", "sans-serif"].join(","),
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 12
+    },
     [theme.breakpoints.down("lg")]: {
-      fontSize: 13,
+      fontSize: 17,
       padding: "0px 12px 0px 10px"
     },
     [theme.breakpoints.up("sm")]: {
@@ -184,7 +191,8 @@ const styles = theme => ({
   },
   imageInfo: {
     [theme.breakpoints.down("lg")]: {
-      maxHeight: 0
+      padding: "10px 5px",
+      maxHeight: 30
     },
     [theme.breakpoints.up("lg")]: {
       padding: "25px 25px",
@@ -205,6 +213,12 @@ class Projects extends Component {
     moveInRobotics: false,
     moveInOther: false
   };
+
+  /* componentDidMount() {
+    if (this.props.location.hash === "#projects") {
+      window.scrollTo(0, 630);
+    }
+  } */
 
   onMoveInElectronic = () => {
     this.setState(state => ({ moveInElectronic: true }));
@@ -266,9 +280,9 @@ class Projects extends Component {
       moveInOther
     } = this.state;
     return (
-      <div className={classes.root}>
-        <Grid container spacing={0}>
-          <Grid item xs wrap="nowrap">
+      <section className={classes.root} id="projects">
+        <Grid container spacing={0} wrap="nowrap">
+          <Grid item xs>
             <Paper
               onMouseMove={this.onMoveInElectronic}
               onMouseOut={this.onMoveOutElectronic}
@@ -335,6 +349,7 @@ class Projects extends Component {
             </Paper>
           </Grid>
         </Grid>
+
         <Grid container spacing={0} wrap="nowrap">
           <Grid item xs>
             <Paper
@@ -473,7 +488,7 @@ class Projects extends Component {
             </Paper>
           </Grid>
         </Grid>
-      </div>
+      </section>
     );
   }
 }

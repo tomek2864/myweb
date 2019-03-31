@@ -11,52 +11,32 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     textAlign: "center",
-    height: 600,
-    [theme.breakpoints.down("lg")]: {
-      height: 400
-    },
-    [theme.breakpoints.down("sm")]: {
-      height: 300
-    }
+    height: 600
   },
   text: {
     marginTop: 200,
     fontSize: 56,
-    fontFamily: ["Scope One", "serif"].join(","),
-    [theme.breakpoints.down("lg")]: {
-      marginTop: 90,
-      fontSize: 46
-    },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 42
-    },
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 30
-    }
+    fontFamily: ["Scope One", "serif"].join(",")
   }
 });
 
-class Hello extends Component {
+class NotFound extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <section id="hello">
+      <div>
         <Paper className={classes.root} elevation={1}>
           <Typography className={classes.text} variant="h3">
-            Witaj! <br />
-            Nazywam się Tomasz Sobczak
-            <br />
-            Zajmuje się elektroniką <br />
-            oraz tworzeniem oprogramowania.
+            Przykro mi, podana strona nie istnieje...
           </Typography>
         </Paper>
-      </section>
+      </div>
     );
   }
 }
 
-Hello.propTypes = {
+NotFound.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Hello);
+export default withStyles(styles)(NotFound);

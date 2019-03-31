@@ -16,11 +16,14 @@ import { withStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { clearCurrentProfile } from "../../actions/profileActions";
 import { withRouter } from "react-router-dom";
+import LinkButton from "../common/LinkButton";
+
+import { HashLink as Link } from "react-router-hash-link";
 
 const styles = theme => ({
   nav: {
@@ -41,9 +44,9 @@ const styles = theme => ({
     display: "block",
     color: "#000",
     marginLeft: 20,
-    fontSize: 20,
+    fontSize: 25,
 
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       fontSize: 35
     },
     fontFamily: ["Ubuntu", "sans-serif"].join(",")
@@ -74,25 +77,51 @@ const styles = theme => ({
       color: theme.palette.secondary.main
     }
   },
+  buttonNavMobile: {
+    textAlign: "center",
+    boxShadow: "none",
+    textTransform: "none",
+    fontSize: 16,
+    margin: "auto",
+    color: "#000",
+    fontFamily: ["Scope One", "serif"].join(","),
+    "&:hover": {
+      color: theme.palette.secondary.main
+    },
+    "&:active": {
+      boxShadow: "none",
+      backgroundColor: theme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
+      color: theme.palette.secondary.main
+    },
+    "&:focus": {
+      boxShadow: "none",
+      color: theme.palette.secondary.main
+    }
+  },
 
   menuButtons: {
     display: "none",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       display: "block"
     }
   },
 
   sectionDesktop: {
     display: "none",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       display: "flex"
     }
   },
   sectionMobile: {
     display: "flex",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       display: "none"
-    }
+    },
+    color: "#000"
+  },
+  buttonMenuMobile: {
+    color: "#242249"
   },
 
   paper: {
@@ -100,7 +129,7 @@ const styles = theme => ({
     backgroundColor: "#242249"
   },
   menuItem: {
-    color: "#000"
+    color: "#242249"
   },
   show: {
     transform: "translate(0,0)",
@@ -119,7 +148,8 @@ class Navbar extends React.Component {
       anchorEl: null,
       mobileMoreAnchorEl: null,
       mobileMoreAnchorE2: null,
-      isVisible: null
+      isVisible: null,
+      hashSite: this.props.location.hash
     };
 
     this.lastScroll = null;
@@ -130,7 +160,7 @@ class Navbar extends React.Component {
     window.addEventListener("scroll", this.handleScroll, { passive: true });
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(prevProps) {
     window.removeEventListener("scroll", this.handleScroll);
   }
 
@@ -205,6 +235,11 @@ class Navbar extends React.Component {
     this.props.history.push(`/add-articles`);
   };
 
+  refresh = hash => {
+    //window.scrollTo(500, 0);
+    //window.location.reload();
+  };
+
   render() {
     const { anchorEl, mobileMoreAnchorEl, mobileMoreAnchorE2 } = this.state;
     const { classes } = this.props;
@@ -273,40 +308,61 @@ class Navbar extends React.Component {
       <Menu
         anchorOrigin={{ vertical: "top", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "left" }}
+        anchorReference="none"
         open={isMobileMenuNavbarOpen}
         onClose={this.handleMobileMenuNavbarClose}
       >
         <MenuItem className={classes.menuItem}>
-          <Link to="/login">Logowanie</Link>
+          <Button
+            component={Link}
+            className={classes.buttonNavMobile}
+            to="/profile/tomek"
+          >
+            O mnie
+          </Button>
         </MenuItem>
-        <MenuItem>
-          <Link to="/register">Rejestracja</Link>
+        <MenuItem className={classes.menuItem}>
+          <Button
+            component={Link}
+            className={classes.buttonNavMobile}
+            to="/#projects"
+            scroll={el => el.scrollIntoView({ behavior: "smooth" })}
+          >
+            Projekty
+          </Button>
         </MenuItem>
-        <MenuItem>
-          <Link to="/profile/tomek">O mnie</Link>
+        <MenuItem className={classes.menuItem}>
+          <Button
+            component={Link}
+            className={classes.buttonNavMobile}
+            to="/#contact"
+            scroll={el => el.scrollIntoView({ behavior: "smooth" })}
+          >
+            Kontakt
+          </Button>
+        </MenuItem>
+        <MenuItem className={classes.menuItem}>
+          <Button
+            component={Link}
+            className={classes.buttonNavMobile}
+            color="inherit"
+            to="/login"
+          >
+            <AccountCircle />
+          </Button>
         </MenuItem>
       </Menu>
     );
 
     const authLinksIconButton = (
       <div>
-        {/* <IconButton color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <IconButton color="inherit">
-          <Badge badgeContent={17} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton> */}
         <IconButton
           aria-owns={isMenuOpen ? "material-appbar" : undefined}
           aria-haspopup="true"
           onClick={this.handleProfileMenuOpen}
-          color="inherit"
+          color="#000"
         >
-          <AccountCircle />
+          <i class="fas fa-user-cog" />
         </IconButton>
       </div>
     );
@@ -317,7 +373,7 @@ class Navbar extends React.Component {
       <IconButton
         aria-haspopup="true"
         onClick={this.handleMobileMenuOpen}
-        color="inherit"
+        color="#000"
       >
         <MoreIcon />
       </IconButton>
@@ -355,9 +411,7 @@ class Navbar extends React.Component {
 
     const renderMobileMenu = isAuthenticated ? authLinkControlMobile : false;
 
-    const renderMobileNavbarMenu = isAuthenticated
-      ? authLinkButtonsMobile
-      : guestLinksButtonsMobile;
+    const renderMobileNavbarMenu = guestLinksButtonsMobile;
 
     return (
       <div className={classes.root}>
@@ -370,15 +424,18 @@ class Navbar extends React.Component {
               <IconButton
                 aria-label="Open drawer"
                 onClick={this.handleMobileMenuNavbarOpen}
-                color="inherit"
               >
                 <MenuIcon />
               </IconButton>
             </div>
-            <Grid className={classes.sectionDesktop} item xs={2}>
+            <Grid className={classes.sectionDesktop} item xs={1}>
               <Paper className={classes.paper} />
             </Grid>
-            <Link style={{ textDecoration: "none" }} to="/">
+            <Link
+              style={{ textDecoration: "none" }}
+              to="/#hello"
+              scroll={el => el.scrollIntoView({ behavior: "smooth" })}
+            >
               <Typography className={classes.title} color="inherit">
                 Portfolio | Tomasz Sobczak
               </Typography>
@@ -406,7 +463,9 @@ class Navbar extends React.Component {
                       component={Link}
                       className={classes.buttonNav}
                       color="inherit"
-                      to="/profile/tomek"
+                      to="/#projects"
+                      scroll={el => el.scrollIntoView({ behavior: "smooth" })}
+                      style={{ color: "#000" }}
                     >
                       Projekty
                     </Button>
@@ -414,22 +473,26 @@ class Navbar extends React.Component {
                       component={Link}
                       className={classes.buttonNav}
                       color="inherit"
-                      to="/profile/tomek"
+                      to="/#contact"
+                      scroll={el => el.scrollIntoView({ behavior: "smooth" })}
+                      style={{ color: "#000" }}
                     >
                       Kontakt
                     </Button>
-                    <Button
-                      component={Link}
-                      className={classes.buttonNav}
-                      color="inherit"
-                      to="/login"
-                    >
-                      <AccountCircle />
-                    </Button>
+
+                    <div className={classes.buttonNav}>
+                      {" "}
+                      {isAuthenticated ? (
+                        authLinksIconButton
+                      ) : (
+                        <Button component={Link} color="inherit" to="/login">
+                          <AccountCircle />
+                        </Button>
+                      )}
+                    </div>
                   </Grid>
                 </Grid>
               </Toolbar>
-              {isAuthenticated ? authLinksIconButton : guestLinksIconButtons}
             </div>
             <div className={classes.sectionMobile}>
               {isAuthenticated

@@ -9,6 +9,7 @@ import store from "./store";
 import { Navbar, Footer } from "./components/layout";
 import Landing from "./components/landing";
 import Hello from "./components/landing/Hello";
+
 import Contact from "./components/landing/Contact";
 import Projects from "./components/landing/Projects";
 import Login from "./components/auth/Login";
@@ -28,6 +29,11 @@ import Article from "./components/articles/Article";
 import EditArticle from "./components/articles/EditArticle";
 
 import UserTags from "./components/articles/UserTags";
+import NotFound from "./components/NotFound/NotFound";
+import ScrollableAnchor from "react-scrollable-anchor";
+import { configureAnchors } from "react-scrollable-anchor";
+
+import ScrollToTop from "./components/common/ScrollToTop";
 
 //Sprawdzanie czy token jest w localstorage
 if (localStorage.jwtToken) {
@@ -37,7 +43,7 @@ if (localStorage.jwtToken) {
   const decodeed = jwt_decode(localStorage.jwtToken);
   // Ustawienie usera i isAuthenticated
   store.dispatch(setCurrentUser(decodeed));
-  const currentTime = Date.now() / 3000; // auto logout
+  const currentTime = Date.now() / 1000; // auto logout
   if (decodeed.exp < currentTime) {
     store.dispatch(logoutUser());
     store.dispatch(clearCurrentProfile());
@@ -56,6 +62,13 @@ class App extends Component {
             <Route exact path="/" component={Projects} />
             <Route exact path="/" component={Contact} />
             <Route exact path="/" component={Landing} />
+
+            {/* <ScrollableAnchor id={"contact"}>
+              <Route exact path="/" component={Contact} />
+            </ScrollableAnchor> */}
+
+            {/* <Route path="/contact" component={Contact} /> */}
+
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
@@ -104,6 +117,7 @@ class App extends Component {
                   component={EditArticle}
                 />
               </Switch>
+              {/* <Route exact path="*" component={NotFound} status={404} /> */}
             </div>
             <Footer />
           </div>

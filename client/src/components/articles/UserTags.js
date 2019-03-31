@@ -3,17 +3,32 @@ import PropTypes from "prop-types";
 import { getArticlesByTagUserHandle } from "../../actions/articleActions";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Chip,
+  LinearProgress,
+  Grid,
+  Typography
+} from "@material-ui/core";
+import ImageGallery from "react-image-gallery";
+import YouTube from "react-youtube-embed";
+import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
+
 const styles = theme => ({
   card: {
-    maxWidth: 1000,
+    maxWidth: 1200,
     marginBottom: 25,
-    marginTop: 25,
+    marginTop: 70,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    backgroundColor: "#EEE"
   },
   title: {
-    fontSize: 14
+    fontSize: 14,
+    color: "#000"
   },
   pos: {
     marginBottom: 12
@@ -52,17 +67,9 @@ const styles = theme => ({
     marginRight: "auto",
     textAlign: "justify"
   },
-  cardNav: {
-    maxWidth: 1000,
-    marginBottom: 25,
-    marginTop: 25,
-    marginLeft: "auto",
-    marginRight: "auto",
-    backgroundColor: "#4f6832"
-  },
   textNav: {
     fontSize: 28,
-    color: "#2a2a5a",
+    color: "#010101",
     textAlign: "center"
   }
 });
@@ -81,10 +88,18 @@ class UserTags extends Component {
   }
 
   render() {
-    const { classes, article, auth } = this.props;
+    const { classes } = this.props;
+    const { articles } = this.props;
+    let articleContent;
+    console.log(articles);
+    if (articles === null) {
+      articleContent = <LinearProgress />;
+    } else {
+      console.log(articles);
+    }
 
     return (
-      <Card className={classes.cardNav}>
+      <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.textNav}>
             Projekty z kategorii: {this.props.match.params.tag}
@@ -96,7 +111,8 @@ class UserTags extends Component {
 }
 
 UserTags.propTypes = {
-  getArticlesByTagUserHandle: PropTypes.func.isRequired
+  getArticlesByTagUserHandle: PropTypes.func.isRequired,
+  articles: PropTypes.object.isRequired
 };
 
 export default connect(

@@ -22,9 +22,9 @@ import Articles from "./Articles";
 
 const styles = {
   card: {
-    maxWidth: 1000,
+    maxWidth: 1200,
     marginBottom: 25,
-    marginTop: 25,
+    marginTop: 70,
     marginLeft: "auto",
     marginRight: "auto"
   },
@@ -36,7 +36,11 @@ const styles = {
   },
   button: {
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    padding: 16
+  },
+  contentCard: {
+    margin: 25
   }
 };
 
@@ -125,7 +129,7 @@ class Dashboard extends Component {
 
     return (
       <Card className={classes.card}>
-        <CardContent>
+        <CardContent className={classes.contentCard}>
           <h1>Panel sterowania</h1>
           {dashContent}
           {articleContent}

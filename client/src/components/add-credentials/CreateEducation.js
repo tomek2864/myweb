@@ -38,7 +38,11 @@ import { stateToHTML } from "draft-js-export-html";
 
 const styles = theme => ({
   layout: {
-    width: "auto",
+    maxWidth: 1200,
+    marginBottom: 25,
+    marginTop: 70,
+    marginLeft: "auto",
+    marginRight: "auto",
     display: "block", // Fix IE11.
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,

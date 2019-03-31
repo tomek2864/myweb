@@ -57,11 +57,15 @@ const styles = theme => ({
   chip: {
     margin: theme.spacing.unit / 2,
     color: "#EEE",
-    backgroundColor: "#323232",
-    borderColor: "#323232",
+    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.light,
     border: "2px solid",
     padding: "1px 8px",
-    fontSize: 16
+    fontSize: 16,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.main
+    }
   },
   textSummary: {
     fontSize: 16,
@@ -74,7 +78,12 @@ const styles = theme => ({
     textAlign: "center"
   },
   buttonTag: {
-    width: 280
+    width: 280,
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.dark,
+      backgroundColor: theme.palette.secondary.dark
+    }
   }
 });
 

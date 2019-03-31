@@ -16,11 +16,11 @@ import { getArticleByID } from "../../actions/articleActions";
 import ImageGallery from "react-image-gallery";
 import YouTube from "react-youtube-embed";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
-const styles = {
+const styles = theme => ({
   card: {
     maxWidth: 1200,
     marginBottom: 25,
-    marginTop: 25,
+    marginTop: 70,
     marginLeft: "auto",
     marginRight: "auto",
     backgroundColor: "#EEE"
@@ -56,14 +56,19 @@ const styles = {
     fontSize: 16
   },
   chip: {
+    margin: theme.spacing.unit / 2,
     color: "#EEE",
-    backgroundColor: "#323232",
-    borderColor: "#323232",
+    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.light,
     border: "2px solid",
     padding: "1px 8px",
-    fontSize: 16
+    fontSize: 16,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.main
+    }
   }
-};
+});
 
 class Article extends Component {
   componentDidMount() {
