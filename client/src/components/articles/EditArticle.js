@@ -21,7 +21,8 @@ import {
   FormControl,
   FormHelperText,
   Paper,
-  LinearProgress
+  LinearProgress,
+  Card
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
@@ -148,6 +149,14 @@ const MenuProps = {
 };
 
 const styles = theme => ({
+  card: {
+    maxWidth: 1200,
+    marginBottom: 70,
+    marginTop: 90,
+    marginLeft: "auto",
+    marginRight: "auto",
+    backgroundColor: "#EEE"
+  },
   textField: {
     width: "auto",
     display: "flex",
@@ -428,12 +437,12 @@ class EditArticle extends Component {
     const { errors } = this.state; // ES6
     const { article, loading } = this.props.article;
     let articleContent;
-    console.log(article);
     if (article === null || loading) {
       articleContent = <LinearProgress />;
     } else {
       articleContent = (
-        <div>
+        <Card className={classes.card}>
+          <h1 style={{ textAlign: "center" }}>Edytuj wybrany artykul</h1>
           <Grid container>
             <Grid className={classes.grid} item xs />
             <Grid className={classes.grid} item xs={8}>
@@ -474,6 +483,7 @@ class EditArticle extends Component {
                 margin="normal"
                 variant="outlined"
                 fullWidth
+                multiline
               />
               {errors.summary && (
                 <FormHelperText
@@ -676,7 +686,7 @@ class EditArticle extends Component {
             </Grid>
             <Grid className={classes.grid} item xs />
           </Grid>
-        </div>
+        </Card>
       );
     }
 

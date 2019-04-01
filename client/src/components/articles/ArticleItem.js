@@ -30,11 +30,12 @@ import {
 
 const styles = theme => ({
   card: {
-    maxWidth: 1000,
+    maxWidth: 1200,
     marginBottom: 25,
-    marginTop: 25,
+    marginTop: 70,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    backgroundColor: "#EEE"
   },
   title: {
     fontSize: 14
@@ -82,7 +83,7 @@ const styles = theme => ({
     marginTop: 25,
     marginLeft: "auto",
     marginRight: "auto",
-    backgroundColor: "#4f6832"
+    backgroundColor: "#F2F2F2"
   }
 });
 

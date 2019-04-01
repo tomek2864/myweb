@@ -17,12 +17,12 @@ import { getArticle } from "../../actions/articleActions";
 
 const styles = {
   card: {
-    maxWidth: 1400,
-    marginBottom: 25,
-    marginTop: 25,
+    maxWidth: 1200,
+    marginBottom: 70,
+    marginTop: 90,
     marginLeft: "auto",
     marginRight: "auto",
-    backgroundColor: "#968ffc"
+    backgroundColor: "#EEE"
   },
   title: {
     fontSize: 14
@@ -55,7 +55,7 @@ class Articles extends Component {
     return (
       <Card className={classes.card}>
         <CardContent>
-          <h1>Panel sterowania</h1>
+          <h1 style={{ textAlign: "center" }}>Utwórz nowy artykul</h1>
           <ArticleForm />
           {articleContent}
         </CardContent>

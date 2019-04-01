@@ -68,8 +68,6 @@ const styles = theme => ({
     },
     "&:active": {
       boxShadow: "none",
-      backgroundColor: theme.palette.primary.main,
-      borderColor: theme.palette.primary.main,
       color: theme.palette.secondary.main
     },
     "&:focus": {

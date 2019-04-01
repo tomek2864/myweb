@@ -16,106 +16,206 @@ import {
 import ImageGallery from "react-image-gallery";
 import YouTube from "react-youtube-embed";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
+import Moment from "react-moment";
 
 const styles = theme => ({
   card: {
     maxWidth: 1200,
-    marginBottom: 25,
+    marginBottom: 70,
     marginTop: 70,
     marginLeft: "auto",
     marginRight: "auto",
     backgroundColor: "#EEE"
   },
-  title: {
-    fontSize: 14,
-    color: "#000"
-  },
-  pos: {
-    marginBottom: 12
-  },
-  button: {
+  cardGallery: {
+    maxWidth: 800,
+    marginBottom: 25,
+    marginTop: 25,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    backgroundColor: "#fff"
+  },
+  title: {
+    fontSize: 14
   },
   chip: {
     margin: theme.spacing.unit / 2,
     color: "#EEE",
-    backgroundColor: "#323232",
-    borderColor: "#323232",
+    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.light,
     border: "2px solid",
     padding: "1px 8px",
-    fontSize: 16
+    fontSize: 16,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.main
+    }
   },
   textArticle: {
-    margin: theme.spacing.unit / 2,
+    textAlign: "justify",
     fontSize: 16,
-    padding: "2px 8px",
-    width: "auto",
-    display: "flex"
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
   },
-  nameArticle: {
-    margin: theme.spacing.unit / 2,
-    fontSize: 22,
-    padding: "2px 8px",
-    width: "auto",
-    display: "flex"
+  summaryArticle: {
+    textAlign: "justify",
+    fontSize: 16,
+    fontFamily: ["Work Sans", "sans-serif"].join(",")
   },
-  cardText: {
-    maxWidth: 1000,
-    marginBottom: 25,
-    marginLeft: "auto",
-    marginRight: "auto",
-    textAlign: "justify"
+  titleArticle: {
+    textAlign: "center",
+    fontSize: 28,
+    fontFamily: ["Alegreya SC", "serif"].join(",")
+  },
+  tagsArticle: {
+    fontSize: 16
   },
   textNav: {
     fontSize: 28,
     color: "#010101",
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
   }
 });
 
 class UserTags extends Component {
-  handleClick = data => () => {
-    alert(data);
-  };
-
   componentDidMount() {
-    console.log(this.props.match.params.tag);
     this.props.getArticlesByTagUserHandle(
       this.props.match.params.handle,
       this.props.match.params.tag
     );
   }
 
+  openTagSite = tag => () => {
+    this.props.history.push(
+      `/articles/${this.props.match.params.handle}/${tag}`
+    );
+  };
+
   render() {
     const { classes } = this.props;
-    const { articles } = this.props;
+    const { articles, loading_art } = this.props.article;
     let articleContent;
-    console.log(articles);
-    if (articles === null) {
+    //console.log(articles);
+    if (articles === null || loading_art) {
       articleContent = <LinearProgress />;
     } else {
-      console.log(articles);
+      articleContent = articles.map(article => (
+        <Card className={classes.card}>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={7}>
+              <CardContent className={classes.contentCard}>
+                <Typography className={classes.titleArticle}>
+                  {article.title}
+                </Typography>
+                <Typography className={classes.summaryArticle}>
+                  {article.summary}
+                </Typography>
+                <Typography className={classes.textArticle}>
+                  <div textalign="justify" m={1}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: article.text
+                      }}
+                    />
+                  </div>
+                </Typography>
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={7}>
+              <CardContent className={classes.contentCard}>
+                <div>
+                  <Card className={classes.cardGallery}>
+                    {article.photoLinks[0] != "" ? (
+                      <ImageGallery items={article.photoLinks} />
+                    ) : (
+                      {}
+                    )}
+                  </Card>
+                  <Card className={classes.cardGallery} />
+                </div>
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={7}>
+              <CardContent className={classes.contentCard}>
+                {article.ytLinks !== undefined && article.ytLinks != "" ? (
+                  <YouTube id={article.ytLinks[0].yt} />
+                ) : (
+                  {}
+                )}
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={7}>
+              <CardContent className={classes.contentCard}>
+                <Typography className={classes.tagsArticle}>
+                  <div>
+                    {article.tags.map((tag, index) => (
+                      <Chip
+                        key={index}
+                        label={tag}
+                        className={classes.chip}
+                        onClick={this.openTagSite(tag)}
+                      />
+                    ))}
+                  </div>
+                </Typography>
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={7}>
+              <CardContent className={classes.contentCard}>
+                <Typography className={classes.summaryArticle}>
+                  {article.name}{" "}
+                  {<Moment format="HH:mm DD/MM/YYYY">{article.date}</Moment>}
+                </Typography>
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+        </Card>
+      ));
     }
 
     return (
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography className={classes.textNav}>
-            Projekty z kategorii: {this.props.match.params.tag}
-          </Typography>
-        </CardContent>
-      </Card>
+      <div>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.textNav}>
+              Projekty z kategorii: {this.props.match.params.tag}
+            </Typography>
+          </CardContent>
+        </Card>
+        {articleContent}
+      </div>
     );
   }
 }
 
 UserTags.propTypes = {
   getArticlesByTagUserHandle: PropTypes.func.isRequired,
-  articles: PropTypes.object.isRequired
+  article: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  article: state.article
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { getArticlesByTagUserHandle }
 )(withStyles(styles)(UserTags));

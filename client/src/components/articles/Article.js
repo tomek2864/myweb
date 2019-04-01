@@ -16,6 +16,8 @@ import { getArticleByID } from "../../actions/articleActions";
 import ImageGallery from "react-image-gallery";
 import YouTube from "react-youtube-embed";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
+import Moment from "react-moment";
+
 const styles = theme => ({
   card: {
     maxWidth: 1200,
@@ -46,11 +48,18 @@ const styles = theme => ({
   },
   textArticle: {
     textAlign: "justify",
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: ["Merriweather Sans", "sans-serif"].join(",")
+  },
+  summaryArticle: {
+    textAlign: "justify",
+    fontSize: 16,
+    fontFamily: ["Work Sans", "sans-serif"].join(",")
   },
   titleArticle: {
     textAlign: "center",
-    fontSize: 28
+    fontSize: 28,
+    fontFamily: ["Alegreya SC", "serif"].join(",")
   },
   tagsArticle: {
     fontSize: 16
@@ -124,6 +133,9 @@ class Article extends Component {
                 <Typography className={classes.titleArticle}>
                   {article.title}
                 </Typography>
+                <Typography className={classes.summaryArticle}>
+                  {article.summary}
+                </Typography>
                 <Typography className={classes.textArticle}>
                   <div textalign="justify" m={1}>
                     <div
@@ -163,6 +175,18 @@ class Article extends Component {
               <CardContent className={classes.contentCard}>
                 <Typography className={classes.tagsArticle}>
                   {articleTags}
+                </Typography>
+              </CardContent>
+            </Grid>
+            <Grid className={classes.grid} item xs />
+          </Grid>
+          <Grid container>
+            <Grid className={classes.grid} item xs />
+            <Grid className={classes.grid} item xs={7}>
+              <CardContent className={classes.contentCard}>
+                <Typography className={classes.summaryArticle}>
+                  {article.name}{" "}
+                  {<Moment format="HH:mm DD/MM/YYYY">{article.date}</Moment>}
                 </Typography>
               </CardContent>
             </Grid>

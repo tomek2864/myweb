@@ -51,7 +51,7 @@ const styles = theme => ({
     maxHeight: "100%"
   },
   paperS: {
-    height: 200,
+    maxHeight: 500,
     width: 280
   },
   chip: {

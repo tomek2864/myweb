@@ -419,6 +419,7 @@ class ArticlesForm extends Component {
               margin="normal"
               variant="outlined"
               fullWidth
+              multiline
             />
             {errors.summary && (
               <FormHelperText
