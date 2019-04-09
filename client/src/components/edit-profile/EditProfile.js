@@ -26,8 +26,6 @@ const styles = theme => ({
     maxWidth: 1200,
     marginBottom: 25,
     marginTop: 70,
-    marginLeft: "auto",
-    marginRight: "auto",
     display: "block", // Fix IE11.
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,

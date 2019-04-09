@@ -6,7 +6,6 @@ import {
   Typography,
   IconButton,
   Grid,
-  Badge,
   MenuItem,
   Menu,
   Button,
@@ -21,7 +20,6 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { clearCurrentProfile } from "../../actions/profileActions";
 import { withRouter } from "react-router-dom";
-import LinkButton from "../common/LinkButton";
 
 import { HashLink as Link } from "react-router-hash-link";
 
@@ -245,7 +243,7 @@ class Navbar extends React.Component {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const isMobileMenuNavbarOpen = Boolean(mobileMoreAnchorE2);
 
-    const { isAuthenticated, user } = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
 
     //Menu przyciski zwykle
     const authLinksButtons = (

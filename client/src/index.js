@@ -4,8 +4,6 @@ import App from "./App";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
-import { ScrollContext } from "react-router-scroll-4";
 
 const theme = createMuiTheme({
   palette: {

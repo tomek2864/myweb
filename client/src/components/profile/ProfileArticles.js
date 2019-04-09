@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {
-  Card,
-  CardActions,
   CardContent,
   Typography,
   Grid,
@@ -9,8 +7,7 @@ import {
   Button,
   Chip
 } from "@material-ui/core";
-import { withStyles, createMuiTheme } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
 import { withRouter, Link } from "react-router-dom";
 
 const styles = theme => ({
@@ -58,12 +55,10 @@ const styles = theme => ({
     margin: theme.spacing.unit / 2,
     color: "#EEE",
     backgroundColor: theme.palette.primary.light,
-    backgroundColor: theme.palette.primary.light,
     border: "2px solid",
     padding: "1px 8px",
     fontSize: 16,
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
       backgroundColor: theme.palette.secondary.main
     }
   },
@@ -81,7 +76,6 @@ const styles = theme => ({
     width: 280,
     backgroundColor: theme.palette.primary.main,
     "&:hover": {
-      backgroundColor: theme.palette.secondary.dark,
       backgroundColor: theme.palette.secondary.dark
     }
   }
@@ -157,10 +151,5 @@ class ProfileArticles extends Component {
     );
   }
 }
-
-ProfileArticles.propTypes = {
-  articles: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
-};
 
 export default withRouter(withStyles(styles)(ProfileArticles));

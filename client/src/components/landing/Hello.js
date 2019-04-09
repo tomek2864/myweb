@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import { Typography, Button } from "@material-ui/core/";
-import { Link } from "react-router-dom";
+import { Typography } from "@material-ui/core/";
 
 const styles = theme => ({
   root: {

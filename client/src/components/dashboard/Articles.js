@@ -7,7 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Typography, Button } from "@material-ui/core";
 import Moment from "react-moment";
-import { deleteArticle, getArticleByID } from "../../actions/articleActions";
+import { deleteArticle } from "../../actions/articleActions";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
@@ -27,7 +27,6 @@ class Articles extends Component {
     this.props.deleteArticle(id, this.props.history);
   }
   onEditClick(id) {
-    console.log(id);
     this.props.getArticleByID(id, this.props.history);
   }
   render() {

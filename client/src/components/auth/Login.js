@@ -18,11 +18,7 @@ import {
   Grid
 } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/LockOutlined";
-import {
-  withStyles,
-  MuiThemeProvider,
-  createMuiTheme
-} from "@material-ui/core/styles";
+import { withStyles, createMuiTheme } from "@material-ui/core/styles";
 
 const styles = theme => ({
   root: {
@@ -54,7 +50,6 @@ const styles = theme => ({
     alignItems: "center",
     justify: "center",
     flexDirection: "column",
-    alignItems: "center",
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
       .spacing.unit * 3}px`
   },

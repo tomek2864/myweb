@@ -3,7 +3,6 @@ import React from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
 
 class HeaderStyleDropdown extends React.Component {
   onToggle = event => {

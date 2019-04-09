@@ -20,14 +20,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import { DatePicker } from "material-ui-pickers";
 
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  AtomicBlockUtils,
-  convertToRaw,
-  convertFromRaw
-} from "draft-js";
+import { Editor, EditorState, RichUtils } from "draft-js";
 import BlockStyleToolbar, {
   getBlockStyle
 } from "../blockStylesRichFieldText/BlockStyleToolbar";
@@ -41,16 +34,14 @@ const styles = theme => ({
     maxWidth: 1200,
     marginBottom: 25,
     marginTop: 70,
-    marginLeft: "auto",
-    marginRight: "auto",
+    /* marginLeft: "auto",
+    marginRight: "auto", */
     display: "block", // Fix IE11.
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
 
     [theme.breakpoints.up(1800 + theme.spacing.unit * 3 * 2)]: {
-      width: 1800,
-      marginLeft: "auto",
-      marginRight: "auto"
+      width: 1800
     }
   },
   paper: {

@@ -2,15 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  LinearProgress
-} from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Card, CardContent, LinearProgress } from "@material-ui/core";
 import { getProfiles } from "../../actions/profileActions";
 import ProfileItem from "./ProfileItem";
 

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import ArticleItem from "./ArticleItem";
 
 class ArticlesFeed extends Component {
@@ -13,7 +12,7 @@ class ArticlesFeed extends Component {
   }
 }
 
-ArticlesFeed.PropTypes = {
+ArticlesFeed.propTypes = {
   articles: PropTypes.array.isRequired
 };
 

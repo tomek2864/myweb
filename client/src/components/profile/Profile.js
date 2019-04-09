@@ -1,25 +1,14 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ProfileHeader from "./ProfileHeader";
 import ProfileCreds from "./ProfileCreds";
-import ProfileAbout from "./ProfileAbout";
-import ProfileGithub from "./ProfileGithub";
 import ProfileArticles from "./ProfileArticles";
 import { getArticlesByUserHandle } from "../../actions/articleActions";
 
-import { withStyles, createMuiTheme } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import { getProfileByHandle } from "../../actions/profileActions";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  LinearProgress,
-  Paper
-} from "@material-ui/core";
+import { Card, LinearProgress } from "@material-ui/core";
 
 const styles = theme => ({
   layout: {
@@ -76,7 +65,7 @@ class Profile extends Component {
   render() {
     const { classes } = this.props;
     const { profile, loading } = this.props.profile;
-    const { articles, loading_art } = this.props.article;
+    const { articles } = this.props.article;
     let profileContent;
 
     if (

@@ -5,9 +5,7 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Card,
-  CardActions,
   CardContent,
-  Button,
   Chip,
   LinearProgress,
   Grid,
@@ -42,12 +40,10 @@ const styles = theme => ({
     margin: theme.spacing.unit / 2,
     color: "#EEE",
     backgroundColor: theme.palette.primary.light,
-    backgroundColor: theme.palette.primary.light,
     border: "2px solid",
     padding: "1px 8px",
     fontSize: 16,
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
       backgroundColor: theme.palette.secondary.main
     }
   },
@@ -95,7 +91,7 @@ class UserTags extends Component {
     const { classes } = this.props;
     const { articles, loading_art } = this.props.article;
     let articleContent;
-    //console.log(articles);
+    let imageViewer, youtubeViewer;
     if (articles === null || loading_art) {
       articleContent = <LinearProgress />;
     } else {
@@ -130,11 +126,21 @@ class UserTags extends Component {
               <CardContent className={classes.contentCard}>
                 <div>
                   <Card className={classes.cardGallery}>
-                    {article.photoLinks[0] != "" ? (
+                    {/* {article.photoLinks.original !== "" ? (
                       <ImageGallery items={article.photoLinks} />
                     ) : (
                       {}
-                    )}
+                    )}  */}
+                    {article.photoLinks.map(photo => {
+                      if (photo.original !== "") {
+                        imageViewer = (
+                          <ImageGallery items={article.photoLinks} />
+                        );
+                      } else {
+                        imageViewer = "";
+                      }
+                    })}
+                    {imageViewer}
                   </Card>
                   <Card className={classes.cardGallery} />
                 </div>
@@ -146,11 +152,19 @@ class UserTags extends Component {
             <Grid className={classes.grid} item xs />
             <Grid className={classes.grid} item xs={7}>
               <CardContent className={classes.contentCard}>
-                {article.ytLinks !== undefined && article.ytLinks != "" ? (
+                {/* {article.ytLinks !== undefined && article.ytLinks != "" ? (
                   <YouTube id={article.ytLinks[0].yt} />
                 ) : (
                   {}
-                )}
+                )} */}
+                {article.ytLinks.map(ytLink => {
+                  if (ytLink.yt !== "") {
+                    youtubeViewer = <YouTube id={article.ytLinks[0].yt} />;
+                  } else {
+                    youtubeViewer = "";
+                  }
+                })}
+                {youtubeViewer}
               </CardContent>
             </Grid>
             <Grid className={classes.grid} item xs />

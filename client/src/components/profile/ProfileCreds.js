@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {
-  Card,
-  CardActions,
   CardContent,
   Typography,
   Grid,
@@ -9,7 +7,7 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
-import { withStyles, createMuiTheme } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Moment from "react-moment";
 
@@ -67,7 +65,6 @@ class ProfileCreds extends Component {
   render() {
     const { classes } = this.props;
     const { expanded } = this.state;
-    const { profileCreds } = this.props;
     const { experience, education } = this.props;
 
     const expItems = experience.map(exp => (

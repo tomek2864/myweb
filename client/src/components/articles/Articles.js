@@ -3,16 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ArticleForm from "./ArticlesForm";
 import ArticlesFeed from "./ArticlesFeed";
-import { withStyles, createMuiTheme } from "@material-ui/core/styles";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  LinearProgress,
-  Paper
-} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import { Card, CardContent, LinearProgress } from "@material-ui/core";
 import { getArticle } from "../../actions/articleActions";
 
 const styles = {

@@ -1,0 +1,38 @@
+git push -f origin master
+
+git remote add origin https://github.com/tomek2864/myweb.git
+
+git commit -m "JWT generation"
+
+
+
+
+// REACT
+
+npm i -g create-react-app
+
+npm i -g npm
+
+Client:
+
+create-react-app client // to nie dziala, wpisz to nizej:
+npx create-react-app client
+
+potem dodaje proxy w package.json folderu client
+
+z poziomu servera backend instaluje:
+ npm i concurrently
+
+
+ "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  
+ teraz juz tylko npm run dev
+
+
+ https://github.com/chingyawhao/material-ui-next-pickers

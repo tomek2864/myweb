@@ -15,22 +15,8 @@ import nxp from "../../img/loga/nxp.png";
 import qt from "../../img/loga/qt.png";
 import react from "../../img/loga/react.png";
 import rpi from "../../img/loga/rpi.png";
-import { withRouter, Link } from "react-router-dom";
-import {
-  Grid,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-  Button,
-  GridList,
-  GridListTile,
-  CardMedia,
-  CardActionArea,
-  Slide,
-  Grow,
-  Paper
-} from "@material-ui/core";
+import { withRouter } from "react-router-dom";
+import { Grid, Grow, Paper } from "@material-ui/core";
 import posed from "react-pose";
 
 const BoxElectronic = posed.div({
@@ -307,7 +293,11 @@ class Projects extends Component {
                       funkcjonalnosci istniejacych, czesto uszkodzonych
                       urzadzen.{" "}
                       <div className={classes.imagePosition}>
-                        <img className={classes.imageInfo} src={eagle} />
+                        <img
+                          className={classes.imageInfo}
+                          src={eagle}
+                          alt="eagle"
+                        />
                       </div>
                     </div>
                   </Grow>
@@ -339,8 +329,16 @@ class Projects extends Component {
                       projekty schematow elektrycznych. Dobor aparatury
                       elektrycznej, urzadzen wykonawczych, napedow, czujnikow.
                       <div className={classes.imagePosition}>
-                        <img className={classes.imageInfo} src={beckhoff} />
-                        <img className={classes.imageInfo} src={indusoft} />
+                        <img
+                          className={classes.imageInfo}
+                          src={beckhoff}
+                          alt="bechhoff"
+                        />
+                        <img
+                          className={classes.imageInfo}
+                          src={indusoft}
+                          alt="indusoft"
+                        />
                       </div>
                     </div>
                   </Grow>
@@ -374,10 +372,26 @@ class Projects extends Component {
                       w JavaScript z wykorzystaniem standardu ECMAScript 6.
                       Grafiki przygotowuje w Photoshopie.
                       <div className={classes.imagePosition}>
-                        <img className={classes.imageInfo} src={es6} />
-                        <img className={classes.imageInfo} src={mongodb} />
-                        <img className={classes.imageInfo} src={react} />
-                        <img className={classes.imageInfo} src={nodejs} />
+                        <img
+                          className={classes.imageInfo}
+                          src={es6}
+                          alt="es6"
+                        />
+                        <img
+                          className={classes.imageInfo}
+                          src={mongodb}
+                          alt="mongodb"
+                        />
+                        <img
+                          className={classes.imageInfo}
+                          src={react}
+                          alt="react"
+                        />
+                        <img
+                          className={classes.imageInfo}
+                          src={nodejs}
+                          alt="nodejs"
+                        />
                       </div>
                     </div>
                   </Grow>
@@ -411,9 +425,17 @@ class Projects extends Component {
                       serwerowe z wykorzystaniem NodeJS.
                       <div className={classes.imagePosition}>
                         <img className={classes.imageInfo} src={atmel} />
-                        <img className={classes.imageInfo} src={nxp} />
-                        <img className={classes.imageInfo} src={rpi} />
-                        <img className={classes.imageInfo} src={qt} />
+                        <img
+                          className={classes.imageInfo}
+                          src={nxp}
+                          alt="nxp"
+                        />
+                        <img
+                          className={classes.imageInfo}
+                          src={rpi}
+                          alt="rpi"
+                        />
+                        <img className={classes.imageInfo} src={qt} alt="qt" />
                       </div>
                     </div>
                   </Grow>
@@ -448,7 +470,11 @@ class Projects extends Component {
                       meblarskiego. Pelnily one role slava, zarzadzanego przez
                       nadrzedny sterownik PLC.
                       <div className={classes.imagePosition}>
-                        <img className={classes.imageInfo} src={kuka} />
+                        <img
+                          className={classes.imageInfo}
+                          src={kuka}
+                          alt="kuka"
+                        />
                       </div>
                     </div>
                   </Grow>

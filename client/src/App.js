@@ -29,11 +29,6 @@ import Article from "./components/articles/Article";
 import EditArticle from "./components/articles/EditArticle";
 
 import UserTags from "./components/articles/UserTags";
-import NotFound from "./components/NotFound/NotFound";
-import ScrollableAnchor from "react-scrollable-anchor";
-import { configureAnchors } from "react-scrollable-anchor";
-
-import ScrollToTop from "./components/common/ScrollToTop";
 
 //Sprawdzanie czy token jest w localstorage
 if (localStorage.jwtToken) {

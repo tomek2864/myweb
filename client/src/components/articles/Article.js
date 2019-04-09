@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withStyles, createMuiTheme } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import {
   Card,
-  CardActions,
   CardContent,
-  Button,
   Chip,
   LinearProgress,
   Grid,
@@ -68,12 +66,10 @@ const styles = theme => ({
     margin: theme.spacing.unit / 2,
     color: "#EEE",
     backgroundColor: theme.palette.primary.light,
-    backgroundColor: theme.palette.primary.light,
     border: "2px solid",
     padding: "1px 8px",
     fontSize: 16,
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
       backgroundColor: theme.palette.secondary.main
     }
   }

@@ -8,10 +8,10 @@ class BlockStyleButton extends React.Component {
   };
 
   render() {
-    let className = "RichEditor-styleButton";
+    /* let className = "RichEditor-styleButton";
     if (this.props.active) {
       className += " RichEditor-activeButton";
-    }
+    } */
 
     return <Button onClick={this.onToggle}>{this.props.label}</Button>;
   }

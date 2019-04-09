@@ -1,32 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import classnames from "classnames";
 
 import Moment from "react-moment";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  Card,
-  Grid,
-  CardContent,
-  Button,
-  Typography,
-  LinearProgress,
-  Chip,
-  Paper
-} from "@material-ui/core";
+import { Card, CardContent, Typography, Chip } from "@material-ui/core";
 
-import { stateFromHTML } from "draft-js-import-html";
 //import { unstable_Box as Box } from "@material-ui/core/Box";
-
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  AtomicBlockUtils,
-  convertToRaw,
-  convertFromRaw
-} from "draft-js";
 
 const styles = theme => ({
   card: {
@@ -99,12 +79,12 @@ class ArticleItem extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.article.text);
+    //console.log(this.props.article.text);
     //const editorState = convertFromRaw(this.props.article.text);
   }
 
   render() {
-    const { classes, article, auth } = this.props;
+    const { classes, article } = this.props;
     // Skill List
     const tags = article.tags.map((tag, index) => (
       <Chip
@@ -145,7 +125,7 @@ class ArticleItem extends Component {
   }
 }
 
-ArticleItem.PropTypes = {
+ArticleItem.propTypes = {
   article: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 };

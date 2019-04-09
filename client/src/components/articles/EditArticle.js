@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -30,11 +29,8 @@ import {
   EditorState,
   RichUtils,
   AtomicBlockUtils,
-  convertToRaw,
-  convertFromRaw,
   ContentState,
-  convertFromHTML,
-  convertToHTML
+  convertFromHTML
 } from "draft-js";
 import BlockStyleToolbar, {
   getBlockStyle
@@ -43,9 +39,8 @@ import BlockStyleToolbar, {
 import { mediaBlockRenderer } from "../blockStylesRichFieldText/entities/mediaBlockRenderer";
 
 import { stateToHTML } from "draft-js-export-html";
-import createStyles from "draft-js-custom-styles";
 import isEmpty from "../../validation/is-empty";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const chooseTags = [
   "Agile",
@@ -114,7 +109,7 @@ const chooseTags = [
   "Electronics",
   "Electrics",
   "Automotive",
-  "Robots",
+  "Robotics",
   "KUKA",
   "Industry",
   "Qt",
@@ -134,7 +129,8 @@ const chooseTags = [
   "Green Energy",
   "Express",
   "C#",
-  "OOP"
+  "OOP",
+  "Other"
 ];
 
 const ITEM_HEIGHT = 48;
@@ -655,7 +651,7 @@ class EditArticle extends Component {
           <Grid container>
             <Grid className={classes.grid} item xs />
             <Grid className={classes.grid} item xs={8}>
-              {this.state.ytLinks.length == 1 ? (
+              {this.state.ytLinks.length === 1 ? (
                 " "
               ) : (
                 <Button

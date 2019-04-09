@@ -1,17 +1,6 @@
 import React, { Component } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import PropTypes from "prop-types";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-  Grid,
-  Link,
-  Button,
-  Paper
-} from "@material-ui/core";
-import { withStyles, createMuiTheme } from "@material-ui/core/styles";
+import { CardContent, Typography, Grid, Button } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";

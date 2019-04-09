@@ -15,6 +15,10 @@ const ProfileSchema = new Schema({
   company: {
     type: String
   },
+  email: {
+    type: String,
+    required: true
+  },
   website: {
     type: String
   },
@@ -28,12 +32,10 @@ const ProfileSchema = new Schema({
   skills: [
     {
       main: {
-        type: String,
-        required: true
+        type: String
       },
       skills: {
-        type: String,
-        required: true
+        type: String
       }
     }
   ],

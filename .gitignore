@@ -1,3 +1,5 @@
 /node_modules
 package-lock.json
-/config
+/config/key_dev.js
+/config/notatki
+/config/key_prod.js

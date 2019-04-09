@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addArticle } from "../../actions/articleActions";
@@ -19,14 +18,7 @@ import {
   Paper
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  AtomicBlockUtils,
-  convertToRaw,
-  convertFromRaw
-} from "draft-js";
+import { Editor, EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
 import BlockStyleToolbar, {
   getBlockStyle
 } from "../blockStylesRichFieldText/BlockStyleToolbar";
@@ -34,7 +26,6 @@ import BlockStyleToolbar, {
 import { mediaBlockRenderer } from "../blockStylesRichFieldText/entities/mediaBlockRenderer";
 
 import { stateToHTML } from "draft-js-export-html";
-import createStyles from "draft-js-custom-styles";
 
 const chooseTags = [
   "Agile",
@@ -103,7 +94,7 @@ const chooseTags = [
   "Electronics",
   "Electrics",
   "Automotive",
-  "Robots",
+  "Robotics",
   "KUKA",
   "Industry",
   "Qt",
@@ -123,7 +114,8 @@ const chooseTags = [
   "Green Energy",
   "Express",
   "C#",
-  "OOP"
+  "OOP",
+  "Other"
 ];
 
 const ITEM_HEIGHT = 48;
@@ -557,7 +549,7 @@ class ArticlesForm extends Component {
         <Grid container>
           <Grid className={classes.grid} item xs />
           <Grid className={classes.grid} item xs={8}>
-            {this.state.ytLinks.length == 1 ? (
+            {this.state.ytLinks.length === 1 ? (
               " "
             ) : (
               <Button

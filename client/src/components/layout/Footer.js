@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Paper, Card, Tab, AppBar, Typography } from "@material-ui/core/";
+import { AppBar, Typography } from "@material-ui/core/";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({

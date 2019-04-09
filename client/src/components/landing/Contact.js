@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { Typography, Button } from "@material-ui/core/";
+import { Typography } from "@material-ui/core/";
 import { Paper } from "@material-ui/core";
 import posed from "react-pose";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -80,7 +80,7 @@ class Contact extends Component {
 
   render() {
     const { classes } = this.props;
-    const email = "tomek2864@gmail.com";
+    //const email = "tomek2864@gmail.com";
     return (
       <section id="contact">
         <Paper className={classes.root} elevation={1}>
