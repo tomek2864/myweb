@@ -8,7 +8,7 @@ I have implemented my portfolio site, which was made in Node.js on the server si
 
 ## Authors
 
-* **Tomasz Sobczak** - [PurpleBooth](https://github.com/tomek2864)
+Tomasz Sobczak(https://github.com/tomek2864)
 
 ## License
 
