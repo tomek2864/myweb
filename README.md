@@ -1,6 +1,6 @@
-# Myweb is my portfolio site https://tsobczak.pl
+# Myweb
 
-One Paragraph of project description goes here
+Myweb is my portfolio site https://tsobczak.pl
 
 ## Deployment
 
